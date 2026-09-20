@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Configuration - DN42 Wiki</title>
+    <meta name="description" content="Forwarder setup Configuration of common resolver softwares to forward DNS queries for.dn42 (and reverse DNS) IPv4 and IPv6 anycast services. You can use any...">
+    <meta property="og:description" content="Forwarder setup Configuration of common resolver softwares to forward DNS queries for.dn42 (and reverse DNS) IPv4 and IPv6 anycast services. You can use any...">
+    <meta property="og:title" content="Configuration - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/dns/Configuration/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">Configuration</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#forwarder-setup" href="#forwarder-setup">Forwarder setup</a></li>
+            
+            <li data-level="2"><a data-section="#note-on-icvpn-zones" href="#note-on-icvpn-zones">Note on ICVPN Zones</a></li>
+            
+            <li data-level="2"><a data-section="#bind" href="#bind">BIND</a></li>
+            
+            <li data-level="2"><a data-section="#dnsmasq" href="#dnsmasq">dnsmasq</a></li>
+            
+            <li data-level="2"><a data-section="#powerdns-recursor" href="#powerdns-recursor">PowerDNS recursor</a></li>
+            
+            <li data-level="2"><a data-section="#maradns" href="#maradns">MaraDNS</a></li>
+            
+            <li data-level="2"><a data-section="#unbound" href="#unbound">Unbound</a></li>
+            
+            <li data-level="2"><a data-section="#junos-srx-12-1x46" href="#junos-srx-12-1x46">JunOS (SRX 12.1X46)</a></li>
+            
+            <li data-level="2"><a data-section="#ms-dns" href="#ms-dns">MS DNS</a></li>
+            
+            <li data-level="2"><a data-section="#systemd-resolved" href="#systemd-resolved">systemd-resolved</a></li>
+            
+            <li data-level="2"><a data-section="#smartdns" href="#smartdns">smartDNS</a></li>
+            
+            <li data-level="1"><a data-section="#resolver-setup" href="#resolver-setup">Resolver setup</a></li>
+            
+            <li data-level="2"><a data-section="#dnssec" href="#dnssec">Dnssec</a></li>
+            
+            <li data-level="3"><a data-section="#dn42-ds-record" href="#dn42-ds-record">DN42 DS record</a></li>
+            
+            <li data-level="3"><a data-section="#non-dn42-ds-record" href="#non-dn42-ds-record">Non DN42 DS record</a></li>
+            
+            <li data-level="2"><a data-section="#unbound-1" href="#unbound-1">Unbound</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#dns">dns</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">Configuration</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="forwarder-setup">Forwarder setup</h1>
+<p>Configuration of common resolver softwares to forward DNS queries for <code>.dn42</code> (and reverse DNS) IPv4 and IPv6 anycast services.</p>
+<p>You can use any *.recursive-servers.dn42 (where * is a letter) for resolving .dn42 domains. The current list is available at the <a href="https://git.dn42.dev/dn42/registry/src/master/data/dns/recursive-servers.dn42">DN42 registry</a> or through querying SRV records of recursive-servers.dn42:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">drill -D SRV _dns._udp.recursive-servers.dn42. @172.20.0.53
+</code></pre></div>
+<p>Two independent anycast services are also provided:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a0.recursive-servers.dn42</td>
+<td>172.20.0.53</td>
+<td>fd42:d42:d42:54::1</td>
+</tr>
+<tr>
+<td>a3.recursive-servers.dn42</td>
+<td>172.23.0.53</td>
+<td>fd42:d42:d42:53::1</td>
+</tr>
+</tbody>
+</table>
+<p>All the examples here list 172.20.0.53/fd42:d42:d42:54::1, but users are encouraged to configure
+multiple services from *.recursive-servers.dn42 for redundancy.</p>
+<h2 id="note-on-icvpn-zones">Note on ICVPN Zones</h2>
+<p>DN42 is <a href="/Interconnections">interconnected</a> with the Inter City VPN or in short &ldquo;ICVPN&rdquo;. The registry of the ICVPN includes all the DNS information such as the Top level domains (TLDs) used inside ICVPN and the reverse DNS for the IP ranges of the ICVPN. Additionally, it includes the TLDs of some other networks that are interconnected with dn42 and share some of the IP space of ICVPN. The ICVPN <a href="https://github.com/freifunk/icvpn-scripts#dns-mkdns">repository</a> includes a handy script to automatically generate all the required zones.</p>
+<h2 id="bind">BIND</h2>
+<p>If you already run a local DNS server, you can tell it to query the dn42 anycast servers for the relevant domains
+by adding the following to /etc/bind/named.conf.local</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">zone</span> <span class="z-s">&#34;dn42&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+<span class="z-k">zone</span> <span class="z-s">&#34;20.172.in-addr.arpa&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+<span class="z-k">zone</span> <span class="z-s">&#34;21.172.in-addr.arpa&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+<span class="z-k">zone</span> <span class="z-s">&#34;22.172.in-addr.arpa&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+<span class="z-k">zone</span> <span class="z-s">&#34;23.172.in-addr.arpa&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+<span class="z-k">zone</span> <span class="z-s">&#34;10.in-addr.arpa&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+<span class="z-k">zone</span> <span class="z-s">&#34;d.f.ip6.arpa&#34;</span> <span class="z-p">{</span>
+  <span class="z-kn">type</span> <span class="z-s">forward</span><span class="z-p">;</span>
+  <span class="z-kn">forwarders</span> <span class="z-p">{</span> <span class="z-kn">172.20.0.53</span><span class="z-p">;</span> <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span> <span class="z-p">}</span>;
+<span class="z-p">}</span>;
+
+<span class="z-c1"># for reverse dns to work the following option must be set:
+</span><span class="z-c1"></span><span class="z-k">options</span> <span class="z-p">{</span>
+  <span class="z-c1"># [...]
+</span><span class="z-c1"></span>
+  <span class="z-c1"># disable the integrated handling of RFC1918 and non-assigned IPv6 space reverse dns
+</span><span class="z-c1"></span>  <span class="z-kn">empty-zones-enable</span> <span class="z-s">no</span><span class="z-p">;</span>
+
+  <span class="z-c1"># [...]
+</span><span class="z-c1"></span><span class="z-p">}</span>;
+</code></pre></div>
+<p><strong>Note</strong>: With DNSSEC enabled, bind might refuse to accept query results from the dn42 zone: <code>validating dn42/SOA: got insecure response; parent indicates it should be secure</code>.</p>
+<p>To disable DNSSEC validation only for certain TLDs include the following in the options section:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">options</span> <span class="z-p">{</span>
+  <span class="z-c1"># [...]
+</span><span class="z-c1"></span>
+  <span class="z-kn">validate-except</span> <span class="z-p">{</span>
+    <span class="z-kn">&#34;dn42&#34;</span><span class="z-p">;</span>
+    <span class="z-kn">&#34;20.172.in-addr.arpa&#34;</span><span class="z-p">;</span>
+    <span class="z-kn">&#34;21.172.in-addr.arpa&#34;</span><span class="z-p">;</span>
+    <span class="z-kn">&#34;22.172.in-addr.arpa&#34;</span><span class="z-p">;</span>
+    <span class="z-kn">&#34;23.172.in-addr.arpa&#34;</span><span class="z-p">;</span>
+    <span class="z-kn">&#34;10.in-addr.arpa&#34;</span><span class="z-p">;</span>
+    <span class="z-kn">&#34;d.f.ip6.arpa&#34;</span><span class="z-p">;</span>
+  <span class="z-p">}</span>;
+
+  <span class="z-c1"># [...]
+</span><span class="z-c1"></span><span class="z-p">}</span>;
+</code></pre></div>
+<h2 id="dnsmasq">dnsmasq</h2>
+<p>If you are running dnsmasq under openwrt, you just have to add</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">config</span> <span class="z-s">dnsmasq</span>
+        <span class="z-s">option</span> <span class="z-s">boguspriv</span> <span class="z-s">&#39;0&#39;</span>
+        <span class="z-s">option</span> <span class="z-s">rebind_protection</span> <span class="z-s">&#39;1&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">rebind_domain</span> <span class="z-s">&#39;dn42&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/dn42/172.20.0.53&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/20.172.in-addr.arpa/172.20.0.53&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/21.172.in-addr.arpa/172.20.0.53&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/22.172.in-addr.arpa/172.20.0.53&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/23.172.in-addr.arpa/172.20.0.53&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/10.in-addr.arpa/172.20.0.53&#39;</span>
+        <span class="z-s">list</span> <span class="z-s">server</span> <span class="z-s">&#39;/d.f.ip6.arpa/fd42:d42:d42:54::1&#39;</span>
+
+</code></pre></div>
+<p>to <code>/etc/config/dhcp</code> and run <code>/etc/init.d/dnsmasq restart</code>. After that you are able to resolve <code>.dn42</code>
+with the anycast DNS-Server, while your normal requests go to your standard DNS-resolver.</p>
+<p>Attention: If you go with the default config you&rsquo;ll have to disable &ldquo;boguspriv&rdquo; in the first dnsmasq config section.</p>
+<p>For normal dnsmasq use</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">server=/dn42/172.20.0.53</span>
+<span class="z-s">server=/20.172.in-addr.arpa/172.20.0.53</span>
+<span class="z-s">server=/21.172.in-addr.arpa/172.20.0.53</span>
+<span class="z-s">server=/22.172.in-addr.arpa/172.20.0.53</span>
+<span class="z-s">server=/23.172.in-addr.arpa/172.20.0.53</span>
+<span class="z-s">server=/10.in-addr.arpa/172.20.0.53</span>
+<span class="z-s">server=/d.f.ip6.arpa/fd42:d42:d42:54::1</span>
+</code></pre></div>
+<p>in <code>dnsmasq.conf</code>.</p>
+<h2 id="powerdns-recursor">PowerDNS recursor</h2>
+<p>Old-style config for /etc/powerdns/recursor.conf (Debian and CentOS):</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">dont-query=127.0.0.0/8,</span> <span class="z-mi">192</span><span class="z-s">.168.0.0/16,</span> <span class="z-p">::</span><span class="z-mi">1</span><span class="z-s">/128,</span> <span class="z-s">fe80::/10</span>
+<span class="z-s">forward-zones-recurse=dn42=172.20.0.53</span>
+<span class="z-s">forward-zones-recurse+=20.172.in-addr.arpa=172.20.0.53</span>
+<span class="z-s">forward-zones-recurse+=21.172.in-addr.arpa=172.20.0.53</span>
+<span class="z-s">forward-zones-recurse+=22.172.in-addr.arpa=172.20.0.53</span>
+<span class="z-s">forward-zones-recurse+=23.172.in-addr.arpa=172.20.0.53</span>
+<span class="z-s">forward-zones-recurse+=10.in-addr.arpa=172.20.0.53</span>
+<span class="z-s">forward-zones-recurse+=d.f.ip6.arpa=172.20.0.53</span>
+</code></pre></div>
+<p>New-style (YAML) config:</p>
+<div class="code-block" data-lang="yaml"><span class="code-lang-label" aria-hidden="true">yaml</span><pre tabindex="0" class="z-chroma z-code language-yaml" data-lang="yaml"><code class="language-yaml" data-lang="yaml"><span class="z-nt">recursor</span><span class="z-p">:</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">config_dir</span><span class="z-p">:</span><span class="z-w"> </span><span class="z-l">/etc/powerdns  </span><span class="z-w"> </span><span class="z-c"># as per default config</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">forward_zones_recurse</span><span class="z-p">:</span><span class="z-w">
+</span><span class="z-w">      </span>- <span class="z-nt">zone</span><span class="z-p">:</span><span class="z-w"> </span><span class="z-l">dn42</span><span class="z-w">
+</span><span class="z-w">        </span><span class="z-nt">forwarders</span><span class="z-p">:</span><span class="z-w">
+</span><span class="z-w">          </span><span class="z-c"># try primary delegation servers first, then anycast recursors, then other recursors</span><span class="z-w">
+</span><span class="z-w">          </span><span class="z-c"># remove or reorder the servers as desired; just using the anycast recursors should work too</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:4242:2601:ac53::1&#39;</span><span class="z-w">              </span><span class="z-c"># b.delegation-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd00:913e:130::400&#39;</span><span class="z-w">                  </span><span class="z-c"># d.delegation-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:4242:2189::1&#39;</span><span class="z-w">                   </span><span class="z-c"># i.delegation-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:5d71:219:0:216:3eff:fe1e:22d6&#39;</span><span class="z-w">  </span><span class="z-c"># j.delegation-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fdcf:8538:9ad5:1111::2&#39;</span><span class="z-w">              </span><span class="z-c"># k.delegation-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd86:bad:11b7:53::1&#39;</span><span class="z-w">                 </span><span class="z-c"># h.delegation-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:d42:d42:53::1&#39;</span><span class="z-w">                  </span><span class="z-c"># a0.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:d42:d42:54::1&#39;</span><span class="z-w">                  </span><span class="z-c"># a3.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd00:913e:130::1000&#39;</span><span class="z-w">                 </span><span class="z-c"># d.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd86:bad:11b7:53::2&#39;</span><span class="z-w">                 </span><span class="z-c"># h.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fdcf:8538:9ad5:1111::1&#39;</span><span class="z-w">              </span><span class="z-c"># k.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fdbc:f9dc:67ad:2547::53&#39;</span><span class="z-w">             </span><span class="z-c"># t.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:4242:2189::53&#39;</span><span class="z-w">                  </span><span class="z-c"># i.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:5d71:219:0:216:3eff:fee8:c215&#39;</span><span class="z-w">  </span><span class="z-c"># j.recursive-servers.dn42</span><span class="z-w">
+</span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:4242:2601:ac53::53&#39;</span><span class="z-w">             </span><span class="z-c"># b.recursive-servers.dn42</span><span class="z-w">
+</span></code></pre></div>
+<h2 id="maradns">MaraDNS</h2>
+<p>Put this in your mararc:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">ipv4_alias[&#34;dn42_root&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;172.20.0.53&#34;</span>
+<span class="z-s">root_servers[&#34;dn42.&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;dn42_root&#34;</span>
+<span class="z-s">root_servers[&#34;20.172.in-addr.arpa.&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;dn42_root&#34;</span>
+<span class="z-s">root_servers[&#34;21.172.in-addr.arpa.&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;dn42_root&#34;</span>
+<span class="z-s">root_servers[&#34;22.172.in-addr.arpa.&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;dn42_root&#34;</span>
+<span class="z-s">root_servers[&#34;23.172.in-addr.arpa.&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;dn42_root&#34;</span>
+<span class="z-s">root_servers[&#34;10.in-addr.arpa.&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;dn42_root&#34;</span>
+</code></pre></div>
+<h2 id="unbound">Unbound</h2>
+<p>Make sure to disable <code>auto-trust-anchor-file</code> and manually configure <code>trust-anchor-file</code> to
+point to a file with DNSKEY records for dn42.</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">server:</span>
+      <span class="z-s">local-zone:</span> <span class="z-s">&#34;20.172.in-addr.arpa.&#34;</span> <span class="z-s">nodefault</span>
+      <span class="z-s">local-zone:</span> <span class="z-s">&#34;21.172.in-addr.arpa.&#34;</span> <span class="z-s">nodefault</span>
+      <span class="z-s">local-zone:</span> <span class="z-s">&#34;22.172.in-addr.arpa.&#34;</span> <span class="z-s">nodefault</span>
+      <span class="z-s">local-zone:</span> <span class="z-s">&#34;23.172.in-addr.arpa.&#34;</span> <span class="z-s">nodefault</span>
+      <span class="z-s">local-zone:</span> <span class="z-s">&#34;10.in-addr.arpa.&#34;</span> <span class="z-s">nodefault</span>
+      <span class="z-s">local-zone:</span> <span class="z-s">&#34;d.f.ip6.arpa.&#34;</span> <span class="z-s">nodefault</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;dn42&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;20.172.in-addr.arpa&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;21.172.in-addr.arpa&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;22.172.in-addr.arpa&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;23.172.in-addr.arpa&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;10.in-addr.arpa&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+
+<span class="z-s">forward-zone:</span>
+      <span class="z-s">name:</span> <span class="z-s">&#34;d.f.ip6.arpa&#34;</span>
+      <span class="z-s">forward-addr:</span> <span class="z-s">fd42:d42:d42:54::1</span>
+      <span class="z-s">forward-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.0.53</span>
+</code></pre></div>
+<h2 id="junos-srx-12-1x46">JunOS (SRX 12.1X46)</h2>
+<p>Should also work in 12.1X44 and 12.1X45. After making the changes below you may need to run:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">restart named-service
+</code></pre></div>
+<p>Config (vlan.0 is presumed to be your LAN/Trust interface)</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">system</span> <span class="z-p">{</span>
+   <span class="z-kn">services</span> <span class="z-p">{</span>
+      <span class="z-kn">dns</span> <span class="z-p">{</span>
+         <span class="z-kn">dns-proxy</span> <span class="z-p">{</span>
+            <span class="z-kn">interface</span> <span class="z-p">{</span>
+               <span class="z-kn">vlan.0</span><span class="z-p">;</span>
+            <span class="z-p">}</span>
+        <span class="z-kn">default-domain</span> <span class="z-s">dn42</span> <span class="z-p">{</span>
+           <span class="z-kn">forwarders</span> <span class="z-p">{</span>
+              <span class="z-kn">172.20.0.53</span><span class="z-p">;</span>
+	      <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span>
+           <span class="z-p">}</span>
+        <span class="z-p">}</span>
+        <span class="z-kn">default-domain</span> <span class="z-mi">20</span><span class="z-s">.172.in-addr.arpa</span> <span class="z-p">{</span>
+               <span class="z-kn">forwarders</span> <span class="z-p">{</span>
+                  <span class="z-kn">172.20.0.53</span><span class="z-p">;</span>
+		  <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span>
+               <span class="z-p">}</span>
+            <span class="z-p">}</span>
+        <span class="z-kn">default-domain</span> <span class="z-mi">21</span><span class="z-s">.172.in-addr.arpa</span> <span class="z-p">{</span>
+               <span class="z-kn">forwarders</span> <span class="z-p">{</span>
+                  <span class="z-kn">172.20.0.53</span><span class="z-p">;</span>
+		  <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span>
+               <span class="z-p">}</span>
+            <span class="z-p">}</span>
+        <span class="z-kn">default-domain</span> <span class="z-mi">22</span><span class="z-s">.172.in-addr.arpa</span> <span class="z-p">{</span>
+               <span class="z-kn">forwarders</span> <span class="z-p">{</span>
+                  <span class="z-kn">172.20.0.53</span><span class="z-p">;</span>
+		  <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span>
+               <span class="z-p">}</span>
+            <span class="z-p">}</span>
+            <span class="z-kn">default-domain</span> <span class="z-mi">23</span><span class="z-s">.172.in-addr.arpa</span> <span class="z-p">{</span>
+               <span class="z-kn">forwarders</span> <span class="z-p">{</span>
+                  <span class="z-kn">172.20.0.53</span><span class="z-p">;</span>
+                  <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span>
+               <span class="z-p">}</span>
+            <span class="z-p">}</span>
+            <span class="z-kn">default-domain</span> <span class="z-mi">10</span><span class="z-s">.in-addr.arpa</span> <span class="z-p">{</span>
+               <span class="z-kn">forwarders</span> <span class="z-p">{</span>
+                  <span class="z-kn">172.20.0.53</span><span class="z-p">;</span>
+                  <span class="z-kn">fd42:d42:d42:54::1</span><span class="z-p">;</span>
+               <span class="z-p">}</span>
+            <span class="z-p">}</span>
+         <span class="z-p">}</span>
+      <span class="z-p">}</span>
+   <span class="z-p">}</span>
+<span class="z-p">}</span>
+</code></pre></div>
+<h2 id="ms-dns">MS DNS</h2>
+<p>Add a &ldquo;Conditional Forward&rdquo; (de: &ldquo;Bedingte Weiterleitung&rdquo;) for each of &ldquo;dn42&rdquo;, &ldquo;20.172.in-addr.arpa&rdquo;, &ldquo;21.172.in-addr.arpa&rdquo;, &ldquo;22.172.in-addr.arpa&rdquo;, &ldquo;23.172.in-addr.arpa&rdquo;, &ldquo;10.in-addr.arpa&rdquo; using 172.20.0.53 as forwarder. Ignore the error message that the server is not authoritative.</p>
+<h2 id="systemd-resolved">systemd-resolved</h2>
+<p>If you are using a systemd-resolved version later than v258, you can set up a <a href="https://www.freedesktop.org/software/systemd/man/latest/systemd.dns-delegate.html">DNS Server Delegation</a>, to delegate dn42 domain resolution to the anycast servers:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text"># /etc/systemd/dns-delegate.d/dn42.dns-delegate
+[Delegate]
+# configure dn42 anycast servers
+DNS=fd42:d42:d42:54::1
+DNS=172.23.0.53
+DNS=fd42:d42:d42:53::1
+DNS=172.20.0.53
+
+# configure all relevant dn42 domains as route-only domains
+Domains=~dn42
+Domains=~20.172.in-addr.arpa
+Domains=~21.172.in-addr.arpa
+Domains=~22.172.in-addr.arpa
+Domains=~23.172.in-addr.arpa
+Domains=~10.in-addr.arpa
+Domains=~d.f.ip6.arpa
+</code></pre></div>
+<p>If you are using a systemd-networkd and systemd-resolved version later than v240, you can set up split DNS by adding the dn42 anycast servers to an interface:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">[Match]
+Name=dummy0
+
+[Network]
+ # don't try to resolve normal internet domains with theses resolvers
+DNSDefaultRoute=false
+# configure dn42 anycast servers
+DNS=fd42:d42:d42:54::1
+DNS=172.23.0.53
+DNS=fd42:d42:d42:53::1
+DNS=172.20.0.53
+
+# configure all relevant dn42 domains as route-only domains
+Domains=~dn42
+Domains=~20.172.in-addr.arpa
+Domains=~21.172.in-addr.arpa
+Domains=~22.172.in-addr.arpa
+Domains=~23.172.in-addr.arpa
+Domains=~10.in-addr.arpa
+Domains=~d.f.ip6.arpa
+</code></pre></div>
+<h2 id="smartdns">smartDNS</h2>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text"># Use -exclude-default-group to exclude dn42 DNS for non-dn42 domains
+server fd42:d42:d42:53::1 -exclude-default-group -group dn42
+server fd42:d42:d42:54::1 -exclude-default-group -group dn42
+server 172.23.0.53 -exclude-default-group -group dn42
+server 172.20.0.53 -exclude-default-group -group dn42
+
+# dn42
+nameserver /dn42/dn42
+nameserver /20.172.in-addr.arpa/dn42
+nameserver /21.172.in-addr.arpa/dn42
+nameserver /22.172.in-addr.arpa/dn42
+nameserver /23.172.in-addr.arpa/dn42
+nameserver /10.in-addr.arpa/dn42
+nameserver /d.f.ip6.arpa/dn42
+
+# neonetwork
+nameserver /neo/dn42
+
+# chaosvpn
+nameserver /hack/dn42
+
+# crxn
+nameserver /crxn/dn42
+</code></pre></div>
+<h1 id="resolver-setup">Resolver setup</h1>
+<p>Configuration of common resolver softwares to do full recursion DNS queries for <code>.dn42</code> (and reverse DNS) IPv4 and IPv6 anycast services.</p>
+<p>You can use any *.delegation-servers.dn42 (where * is a letter) as an authoritative server for .dn42 TLD. The current list is available at the <a href="https://git.dn42.dev/dn42/registry/src/master/data/dns/delegation-servers.dn42">DN42 registry</a> or through querying NS records of dn42.:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">dig dn42. NS @172.20.0.53
+</code></pre></div>
+<p>Current list of delegation servers (as of 2025-11-18):</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>b.delegation-servers.dn42</td>
+<td>172.20.129.1</td>
+<td>fd42:4242:2601:ac53::1</td>
+</tr>
+<tr>
+<td>d.delegation-servers.dn42</td>
+<td>172.20.132.105</td>
+<td>fd00:913e:130::400</td>
+</tr>
+<tr>
+<td>i.delegation-servers.dn42</td>
+<td>172.23.91.1</td>
+<td>fd42:4242:2189::1</td>
+</tr>
+<tr>
+<td>j.delegation-servers.dn42</td>
+<td>172.20.1.254</td>
+<td>fd42:5d71:219:0:216:3eff:fe1e:22d6</td>
+</tr>
+<tr>
+<td>k.delegation-servers.dn42</td>
+<td>172.20.14.34</td>
+<td>fdcf:8538:9ad5:1111::2</td>
+</tr>
+<tr>
+<td>h.delegation-servers.dn42</td>
+<td>172.22.108.54</td>
+<td>fd86:bad:11b7:53::1</td>
+</tr>
+</tbody>
+</table>
+<p>All the examples here list 172.20.129.1/fd42:4242:2601:ac53::1, but users are encouraged to configure
+multiple services from *.delegation-servers.dn42 for redundancy.</p>
+<h2 id="dnssec">Dnssec</h2>
+<p>All delegation servers have DNSSEC support and all records are signed.
+For more information about DNSSEC visit the <a href="/services/dns/Architecture#dnssec">dns architecture#dnssec</a> page.</p>
+<p>Below is a list of links to the DS record for TLD and reverse zone.
+To configure the key file, extract the value of ds-rdata and format it as follows.
+You must add all ds-rdata to the key file for DNSSEC to work.
+NB: each ds-rdata or DS record should contain 4 numbers.</p>
+<p>This is an example for dn42. and (fake) ds-rdata of 1 2 3 456</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">dn42.</span>	<span class="z-mi">86400</span>	<span class="z-s">IN</span>	<span class="z-s">DS</span>	<span class="z-mi">1</span> <span class="z-mi">2</span> <span class="z-mi">3</span> <span class="z-mi">456</span>
+</code></pre></div>
+<p>This is an example for 172.20.0.0/16 and (fake) ds-rdata of 1 2 3 456</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">20.172.in-addr.arpa.</span>	<span class="z-mi">86400</span>	<span class="z-s">IN</span>	<span class="z-s">DS</span>	<span class="z-mi">1</span> <span class="z-mi">2</span> <span class="z-mi">3</span> <span class="z-mi">456</span>
+</code></pre></div>
+<p>This is an example for fd00::/8 and (fake) ds-rdata of 1 2 3 456</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">d.f.ip6.arpa.</span>	<span class="z-mi">86400</span>	<span class="z-s">IN</span>	<span class="z-s">DS</span>	<span class="z-mi">1</span> <span class="z-mi">2</span> <span class="z-mi">3</span> <span class="z-mi">456</span>
+</code></pre></div>
+<h3 id="dn42-ds-record">DN42 DS record</h3>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/dns/dn42">dn42. TLD</a></p>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inetnum/172.20.0.0_16">172.20.0.0/16 range</a></p>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inetnum/172.21.0.0_16">172.21.0.0/16 range</a></p>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inetnum/172.22.0.0_16">172.22.0.0/16 range</a></p>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inetnum/172.23.0.0_16">172.23.0.0/16 range</a></p>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inet6num/fd00::_8">fd00::/8 range</a></p>
+<h3 id="non-dn42-ds-record">Non DN42 DS record</h3>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inetnum/172.31.0.0_16">172.31.0.0/16 (chaosvpn) range</a></p>
+<p><a href="https://git.dn42.dev/dn42/registry/src/branch/master/data/inetnum/10.0.0.0_8">10.0.0.0/8 (Freifunk) range</a></p>
+<h2 id="unbound-1">Unbound</h2>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">trust-anchor-file:</span> <span class="z-s">&lt;path</span> <span class="z-s">to</span> <span class="z-s">key</span> <span class="z-s">file&gt;</span>
+
+<span class="z-s">server:</span>
+<span class="z-s">local-zone:</span> <span class="z-s">&#34;dn42&#34;</span> <span class="z-s">typetransparent</span>
+<span class="z-s">local-zone:</span> <span class="z-s">&#34;20.172.in-addr.arpa&#34;</span> <span class="z-s">typetransparent</span>
+<span class="z-s">local-zone:</span> <span class="z-s">&#34;21.172.in-addr.arpa&#34;</span> <span class="z-s">typetransparent</span>
+<span class="z-s">local-zone:</span> <span class="z-s">&#34;22.172.in-addr.arpa&#34;</span> <span class="z-s">typetransparent</span>
+<span class="z-s">local-zone:</span> <span class="z-s">&#34;23.172.in-addr.arpa&#34;</span> <span class="z-s">typetransparent</span>
+<span class="z-s">local-zone:</span> <span class="z-s">&#34;d.f.ip6.arpa&#34;</span> <span class="z-s">typetransparent</span>
+
+<span class="z-s">private-domain:</span> <span class="z-s">&#34;dn42&#34;</span>
+<span class="z-s">private-domain:</span> <span class="z-s">&#34;20.172.in-addr.arpa&#34;</span>
+<span class="z-s">private-domain:</span> <span class="z-s">&#34;21.172.in-addr.arpa&#34;</span>
+<span class="z-s">private-domain:</span> <span class="z-s">&#34;22.172.in-addr.arpa&#34;</span>
+<span class="z-s">private-domain:</span> <span class="z-s">&#34;23.172.in-addr.arpa&#34;</span>
+<span class="z-s">private-domain:</span> <span class="z-s">&#34;d.f.ip6.arpa&#34;</span>
+
+<span class="z-s">stub-zone:</span>
+	<span class="z-s">name:</span> <span class="z-s">&#34;dn42&#34;</span>
+	<span class="z-s">stub-addr:</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4242</span><span class="z-p">:</span><span class="z-mi">2601</span><span class="z-p">:</span><span class="z-s">ac53::1</span>
+	<span class="z-s">stub-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.129.1</span>
+
+<span class="z-s">stub-zone:</span>
+	<span class="z-s">name:</span> <span class="z-s">&#34;20.172.in-addr.arpa&#34;</span>
+	<span class="z-s">stub-addr:</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4242</span><span class="z-p">:</span><span class="z-mi">2601</span><span class="z-p">:</span><span class="z-s">ac53::1</span>
+	<span class="z-s">stub-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.129.1</span>
+
+<span class="z-s">stub-zone:</span>
+	<span class="z-s">name:</span> <span class="z-s">&#34;21.172.in-addr.arpa&#34;</span>
+	<span class="z-s">stub-addr:</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4242</span><span class="z-p">:</span><span class="z-mi">2601</span><span class="z-p">:</span><span class="z-s">ac53::1</span>
+	<span class="z-s">stub-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.129.1</span>
+
+<span class="z-s">stub-zone:</span>
+	<span class="z-s">name:</span> <span class="z-s">&#34;22.172.in-addr.arpa&#34;</span>
+	<span class="z-s">stub-addr:</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4242</span><span class="z-p">:</span><span class="z-mi">2601</span><span class="z-p">:</span><span class="z-s">ac53::1</span>
+	<span class="z-s">stub-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.129.1</span>
+
+<span class="z-s">stub-zone:</span>
+	<span class="z-s">name:</span> <span class="z-s">&#34;23.172.in-addr.arpa&#34;</span>
+	<span class="z-s">stub-addr:</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4242</span><span class="z-p">:</span><span class="z-mi">2601</span><span class="z-p">:</span><span class="z-s">ac53::1</span>
+	<span class="z-s">stub-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.129.1</span>
+
+<span class="z-s">stub-zone:</span>
+	<span class="z-s">name:</span> <span class="z-s">&#34;d.f.ip6.arpa&#34;</span>
+	<span class="z-s">stub-addr:</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4242</span><span class="z-p">:</span><span class="z-mi">2601</span><span class="z-p">:</span><span class="z-s">ac53::1</span>
+	<span class="z-s">stub-addr:</span> <span class="z-mi">172</span><span class="z-s">.20.129.1</span>
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>mpls bird2 - DN42 Wiki</title>
+    <meta name="description" content="Original Article: https://blog.sherpherd.net/2024/02/11/RunYourMPLSNetworkWithBIRD_ en.html Intro Now, most tutorials about running MPLS on Linux are based on...">
+    <meta property="og:description" content="Original Article: https://blog.sherpherd.net/2024/02/11/RunYourMPLSNetworkWithBIRD_ en.html Intro Now, most tutorials about running MPLS on Linux are based on...">
+    <meta property="og:title" content="mpls bird2 - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/mpls-bird2/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">mpls bird2</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#intro" href="#intro">Intro</a></li>
+            
+            <li data-level="1"><a data-section="#prerequisites" href="#prerequisites">Prerequisites</a></li>
+            
+            <li data-level="1"><a data-section="#table-of-contents" href="#table-of-contents">Table of Contents</a></li>
+            
+            <li data-level="1"><a data-section="#section-1-lab-topo" href="#section-1-lab-topo">1 Lab Topo</a></li>
+            
+            <li data-level="2"><a data-section="#section-1-1-node-specs" href="#section-1-1-node-specs">1.1 Node Specs</a></li>
+            
+            <li data-level="1"><a data-section="#section-2-preliminary-work" href="#section-2-preliminary-work">2 Preliminary Work</a></li>
+            
+            <li data-level="2"><a data-section="#section-2-1-enable-mpls-kernel-module" href="#section-2-1-enable-mpls-kernel-module">2.1 Enable MPLS Kernel Module</a></li>
+            
+            <li data-level="2"><a data-section="#section-2-2-kernel-parameter-adjustment" href="#section-2-2-kernel-parameter-adjustment">2.2 Kernel Parameter Adjustment</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-2-1-enable-mpls-input-on-mpls-port" href="#section-2-2-1-enable-mpls-input-on-mpls-port">2.2.1 Enable MPLS Input on MPLS Port</a></li>
+            
+            <li data-level="2"><a data-section="#section-2-3-create-vrf-and-assign-vrf-for-port" href="#section-2-3-create-vrf-and-assign-vrf-for-port">2.3 Create VRF and assign VRF for port</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-3-1-adjust-client-faced-port-mtu-to-avoid-fragmentation" href="#section-2-3-1-adjust-client-faced-port-mtu-to-avoid-fragmentation">2.3.1 Adjust Client-faced Port MTU to Avoid Fragmentation</a></li>
+            
+            <li data-level="2"><a data-section="#section-2-4-ip-address-and-static-route-configuration" href="#section-2-4-ip-address-and-static-route-configuration">2.4 IP Address and Static Route Configuration</a></li>
+            
+            <li data-level="2"><a data-section="#section-2-5-installing-bird" href="#section-2-5-installing-bird">2.5 Installing BIRD</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-5-1-install-compiling-and-building-dependencies" href="#section-2-5-1-install-compiling-and-building-dependencies">2.5.1 Install Compiling and Building Dependencies</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-5-2-clone-bird-2-14-repo" href="#section-2-5-2-clone-bird-2-14-repo">2.5.2 Clone BIRD 2.14 Repo</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-5-3-build-software-package-of-bird-2-14" href="#section-2-5-3-build-software-package-of-bird-2-14">2.5.3 Build Software Package of BIRD 2.14</a></li>
+            
+            <li data-level="1"><a data-section="#section-3-bird-configuration" href="#section-3-bird-configuration">3 BIRD Configuration</a></li>
+            
+            <li data-level="2"><a data-section="#section-3-1-basic-setup" href="#section-3-1-basic-setup">3.1 Basic Setup</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-1-1-router-id" href="#section-3-1-1-router-id">3.1.1 Router ID</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-1-2-adding-mpls-domain-and-tables" href="#section-3-1-2-adding-mpls-domain-and-tables">3.1.2 Adding MPLS Domain and Tables</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-1-3-adding-mpls-and-vrf-related-protocol-and-configuration" href="#section-3-1-3-adding-mpls-and-vrf-related-protocol-and-configuration">3.1.3 Adding MPLS and VRF Related Protocol and Configuration</a></li>
+            
+            <li data-level="2"><a data-section="#section-3-2-bgp-configuration" href="#section-3-2-bgp-configuration">3.2 BGP Configuration</a></li>
+            
+            <li data-level="2"><a data-section="#section-3-3-setup-binding-between-mpls-l3vpn-and-vrf-instance" href="#section-3-3-setup-binding-between-mpls-l3vpn-and-vrf-instance">3.3 Setup Binding between MPLS L3VPN and VRF Instance</a></li>
+            
+            <li data-level="2"><a data-section="#section-3-4-complete-bird-configuration-file" href="#section-3-4-complete-bird-configuration-file">3.4 Complete BIRD Configuration File</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-4-1-r1" href="#section-3-4-1-r1">3.4.1 R1</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-4-2-r2" href="#section-3-4-2-r2">3.4.2 R2</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-4-3-r3" href="#section-3-4-3-r3">3.4.3 R3</a></li>
+            
+            <li data-level="1"><a data-section="#section-4-verification" href="#section-4-verification">4 Verification</a></li>
+            
+            <li data-level="2"><a data-section="#section-4-1-check-vpnv4-table" href="#section-4-1-check-vpnv4-table">4.1 Check VPNv4 Table</a></li>
+            
+            <li data-level="2"><a data-section="#section-4-2-check-default-ipv4-table" href="#section-4-2-check-default-ipv4-table">4.2 Check Default IPv4 Table</a></li>
+            
+            <li data-level="2"><a data-section="#section-4-3-check-vrf-ipv4-table" href="#section-4-3-check-vrf-ipv4-table">4.3 Check VRF IPv4 Table</a></li>
+            
+            <li data-level="2"><a data-section="#section-4-4-check-connectivity-between-pc1-and-pc2" href="#section-4-4-check-connectivity-between-pc1-and-pc2">4.4 Check connectivity between PC1 and PC2</a></li>
+            
+            <li data-level="1"><a data-section="#section-5-reference" href="#section-5-reference">5 Reference</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">mpls bird2</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>Original Article: <a href="https://blog.sherpherd.net/2024/02/11/RunYourMPLSNetworkWithBIRD_en.html">https://blog.sherpherd.net/2024/02/11/RunYourMPLSNetworkWithBIRD_en.html</a></p>
+<h1 id="intro">Intro</h1>
+<p>Now, most tutorials about running MPLS on Linux are based on FRR. Because in a long time, FRR and its predecessor Quagga are the only choices who provide industry standard MPLS  related protocol (LDP, BGP-LU, BGP IPv4/IPv6 MPLS L3VPN, etc.) implementation, by the time, most of other routing software don&rsquo;t even have availiable MPLS support.</p>
+<p>The most popular routing software among DN42 users, BIRD, has added availiable MPLS support in its newest version (2.14), now BIRD has MPLS-aware, labeled route producing routing protocol, too. (No LDP still though) <a href="#c1"><sup>[1]</sup></a></p>
+<p>The newest BIRD 2.0 User Guide has added MPLS function related chapter<a href="#c2"><sup>[2]</sup></a>, this is an excerpt:</p>
+<blockquote>
+<p>In BIRD, the whole process generally works this way: A MPLS-aware routing protocol (say BGP) receives
+routing information including remote label. It produces a route with attribute mpls policy (p. 30) specifying
+desired MPLS label policy (p. 18). Such route then passes the import filter (which could modify the MPLS
+label policy or perhaps assign a static label) and when it is accepted, a local MPLS label is selected (according
+to the label policy) and attached to the route, producing labeled route. When a new MPLS label is allocated,
+the MPLS-aware protocol automatically produces corresponding MPLS route. When all labeled routes that
+use specific local MPLS label are retracted, the corresponding MPLS route is retracted too. <br>
+There are three important concepts for MPLS in BIRD: MPLS domains, MPLS tables and MPLS channels.
+MPLS domain represents an independent label space, all MPLS-aware protocols are associated with some MPLS domain. It is responsible for label management, handling label allocation requests from MPLS-aware protocols. MPLS table is just a routing table for MPLS routes. Routers usually have one MPLS domain and one MPLS table, with Kernel protocol to export MPLS routes into kernel FIB. <br>
+MPLS channels make protocols MPLS-aware, they are responsible for keeping track of active FECs (and corresponding allocated labels), selecting FECs / local labels for labeled routes, and maintaining correspondence between labeled routes and MPLS routes.</p>
+</blockquote>
+<p>As mentioned above, the current BGP implementation of BIRD is MPLS-awared, can be used to assign and distribute MPLS labeled route.</p>
+<p>In this article, I will make use of official BIRD document to show readers how to construct a simple MPLS VPN network running with BIRD.</p>
+<h1 id="prerequisites">Prerequisites</h1>
+<ul>
+<li>Unless specific configuration, your node must running completely independent kernel (dedicated server, KVM virtualization, etc.), so that you can enable MPLS kernel module.</li>
+<li>If you using Vultr VPS, due to unknown reason, Vultr integrated system image has some trouble with MPLS, please reinstall your system with official ISO after deployment.</li>
+</ul>
+<h1 id="table-of-contents">Table of Contents</h1>
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#1-lab-topo">1 Lab Topo</a>
+<ul>
+<li><a href="#1-1-node-specs">1.1 Node Specs</a></li>
+</ul>
+</li>
+<li><a href="#2-preliminary-work">2 Preliminary Work</a>
+<ul>
+<li><a href="#2-1-enable-mpls-kernel-module">2.1 Enable MPLS Kernel Module</a></li>
+<li><a href="#2-2-kernel-parameter-adjustment">2.2 Kernel Parameter Adjustment</a>
+<ul>
+<li><a href="#2-2-1-enable-mpls-input-on-mpls-port">2.2.1 Enable MPLS Input on MPLS Port</a></li>
+</ul>
+</li>
+<li><a href="#2-3-create-vrf-and-assign-vrf-for-port">2.3 Create VRF and assign VRF for port</a>
+<ul>
+<li><a href="#2-3-1-adjust-client-faced-port-mtu-to-avoid-fragmentation">2.3.1 Adjust Client-faced Port MTU to Avoid Fragmentation</a></li>
+</ul>
+</li>
+<li><a href="#2-4-ip-address-and-static-route-configuration">2.4 IP Address and Static Route Configuration</a></li>
+<li><a href="#2-5-installing-bird">2.5 Installing BIRD</a>
+<ul>
+<li><a href="#2-5-1-install-compiling-and-building-dependencies">2.5.1 Install Compiling and Building Dependencies</a></li>
+<li><a href="#2-5-2-clone-bird-2-14-repo">2.5.2 Clone BIRD 2.14 Repo</a></li>
+<li><a href="#2-5-3-build-software-package-of-bird-2-14">2.5.3 Build Software Package of BIRD 2.14</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3-bird-configuration">3 BIRD Configuration</a>
+<ul>
+<li><a href="#3-1-basic-setup">3.1 Basic Setup</a>
+<ul>
+<li><a href="#3-1-1-router-id">3.1.1 Router ID</a></li>
+<li><a href="#3-1-2-adding-mpls-domain-and-tables">3.1.2 Adding MPLS Domain and Tables</a></li>
+<li><a href="#3-1-3-adding-mpls-and-vrf-related-protocol-and-configuration">3.1.3 Adding MPLS and VRF Related Protocol and Configuration</a></li>
+</ul>
+</li>
+<li><a href="#3-2-bgp-configuration">3.2 BGP Configuration</a></li>
+<li><a href="#3-3-setup-binding-between-mpls-l3vpn-and-vrf-instance">3.3 Setup Binding between MPLS L3VPN and VRF Instance</a></li>
+<li><a href="#3-4-complete-bird-configuration-file">3.4 Complete BIRD Configuration File</a>
+<ul>
+<li><a href="#3-4-1-r1">3.4.1 R1</a></li>
+<li><a href="#3-4-2-r2">3.4.2 R2</a></li>
+<li><a href="#3-4-3-r3">3.4.3 R3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-verification">4 Verification</a>
+<ul>
+<li><a href="#4-1-check-vpnv4-table">4.1 Check VPNv4 Table</a></li>
+<li><a href="#4-2-check-default-ipv4-table">4.2 Check Default IPv4 Table</a></li>
+<li><a href="#4-3-check-vrf-ipv4-table">4.3 Check VRF IPv4 Table</a></li>
+<li><a href="#4-4-check-connectivity-between-pc1-and-pc2">4.4 Check connectivity between PC1 and PC2</a></li>
+</ul>
+</li>
+<li><a href="#5-reference">5 Reference</a></li>
+</ul>
+<h1 id="section-1-lab-topo">1 Lab Topo</h1>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">
+                 ----------------------------------------------------------
+--------         |    --------            --------            --------    |         --------
+|      |  eth0 ens20  |      | ens19 ens19|      | ens20 ens19|      |  ens20 eth0  |      |
+| PC1  | O==========O |  R1  |O==========O|  R3  |O==========O|  R2  | O==========O | PC2  |
+|      |         |    |      |            |      |            |      |    |         |      |
+--------         |    --------            --------            --------    |         --------
+                 |                                                        |
+                 |         Confederation ASN: 100                         |
+                 |                    R1 ASN: 64512                       |
+                 |                    R2 ASN: 64513                       |
+                 |                    R3 ASN: 64514                       |
+                 |                        RT: 100:500                     |
+                 |                     R1 RT: 203.0.113.1:500             |
+                 |                     R2 RT: 203.0.113.2:500             |
+                 |                                                        |
+                 ----------------------------------------------------------
+                 |                    Address Assignment                  |
+                 ----------------------------------------------------------
+                 |                                                        |
+                 |                  eth0@PC1: 192.168.1.2/24              |
+                 |                  ens20@R1: 192.168.1.1/24              |
+                 |                                (vrf blue)              |
+                 |                     lo@R1: 203.0.113.1/32              |
+                 |                  ens19@R1: 203.0.113.1/32              |
+                 |                     lo@R3: 203.0.113.3/32              |
+                 |                  ens19@R3: 203.0.113.3/32              |
+                 |                  ens20@R3: 203.0.113.3/32              |
+                 |                     lo@R2: 203.0.113.2/32              |
+                 |                  ens19@R2: 203.0.113.2/32              |
+                 |                  ens20@R2: 192.168.2.1/24              |
+                 |                                (vrf blue)              |
+                 |                  eth0@PC2: 192.168.2.2/24              |
+                 |                                                        |
+                 ----------------------------------------------------------
+
+</code></pre></div>
+<h2 id="section-1-1-node-specs">1.1 Node Specs</h2>
+<p>PC1, R1, R2 and PC2 all running Debian 12. R1 and R2 both installed newest version BIRD by the time I finished this, the BIRD 2.14.</p>
+<p><strong>Notice: Remember to add third port for R1, R2 and R3 to make them able to access Internet for downloading BIRD software package or compiling dependencies</strong></p>
+<h1 id="section-2-preliminary-work">2 Preliminary Work</h1>
+<h2 id="section-2-1-enable-mpls-kernel-module">2.1 Enable MPLS Kernel Module</h2>
+<p>Run these command on R1 and R2 with root permission:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">modprobe mpls_router
+modprobe mpls_iptunnel
+modprobe mpls_gso
+</code></pre></div>
+<h2 id="section-2-2-kernel-parameter-adjustment">2.2 Kernel Parameter Adjustment</h2>
+<p>Run these command on R1, R2 and R3 with root permission to adjust parameters related to IP routing and MPLS, make them able to work<a href="#c3"><sup>[3]</sup></a>:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">cat &gt;/etc/sysctl.d/90-mpls-router.conf &lt;&lt;EOF
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+net.ipv4.conf.all.rp_filter=0
+net.mpls.platform_labels=1048575
+net.ipv4.tcp_l3mdev_accept=1
+net.ipv4.udp_l3mdev_accept=1
+net.mpls.conf.lo.input=1
+EOF
+sysctl -p /etc/sysctl.d/90-mpls-router.conf
+</code></pre></div>
+<h3 id="section-2-2-1-enable-mpls-input-on-mpls-port">2.2.1 Enable MPLS Input on MPLS Port</h3>
+<p>Every port transits MPLS traffic need to enable MPLS input, run these command on R1 and R2 with root permission to enable MPLS input for their port ens19:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">sysctl -w net.mpls.conf.ens19.input=1
+</code></pre></div>
+<p>So do on R3:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">sysctl -w net.mpls.conf.ens19.input=1
+sysctl -w net.mpls.conf.ens20.input=1
+</code></pre></div>
+<p><strong>Notice: Every MPLS traffic transiting port need this configuration</strong></p>
+<h2 id="section-2-3-create-vrf-and-assign-vrf-for-port">2.3 Create VRF and assign VRF for port</h2>
+<p>Run these command on R1 and R2 with root permission to create a VRF interface named &ldquo;blue&rdquo;:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip link add blue type vrf table 500
+ip link set blue up
+</code></pre></div>
+<p>Run these command on R1 and R2 with root permission to assign ens20 to VRF blue then enable it:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip link set ens20 master blue up
+</code></pre></div>
+<h3 id="section-2-3-1-adjust-client-faced-port-mtu-to-avoid-fragmentation">2.3.1 Adjust Client-faced Port MTU to Avoid Fragmentation</h3>
+<p>In practice, increasing MTU of core network link is always harder than decreasing client-faced port MTU, and using MPLS incur additional packet header overhead (4 bytes per label), this made large packet may get fragmented when entering MPLS network. To avoid this, we need to approviately decrease the MTU of client-faced port.</p>
+<p>Run these command on PC1 and PC2 with root permission to adjust MTU of eth0 then enable it:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip link set eth0 mtu 1492 up
+</code></pre></div>
+<p>Run these command on R1 and R2 with root permission to adjust MTU of ens20:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip link set ens20 mtu 1492
+</code></pre></div>
+<h2 id="section-2-4-ip-address-and-static-route-configuration">2.4 IP Address and Static Route Configuration</h2>
+<p>Run command with root permission on nodes below to done this.
+R1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip addr add 203.0.113.1/32 dev lo
+ip addr add 203.0.113.1/32 dev ens19 peer 203.0.113.3/32
+ip addr add 192.168.1.1/24 dev ens20
+</code></pre></div>
+<p>R2:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip addr add 203.0.113.2/32 dev lo
+ip addr add 203.0.113.2/32 dev ens19 peer 203.0.113.3/32
+ip addr add 192.168.2.1/24 dev ens20
+</code></pre></div>
+<p>R3:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip addr add 203.0.113.3/32 dev lo
+ip addr add 203.0.113.3/32 dev ens19 peer 203.0.113.1/32
+ip addr add 203.0.113.3/32 dev ens20 peer 203.0.113.2/32
+</code></pre></div>
+<p>PC1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip addr add 192.168.1.2/24 dev eth0
+ip route add 192.168.2.0/24 via 192.168.1.1
+</code></pre></div>
+<p>PC1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip addr add 192.168.2.2/24 dev eth0
+ip route add 192.168.1.0/24 via 192.168.2.1
+</code></pre></div>
+<h2 id="section-2-5-installing-bird">2.5 Installing BIRD</h2>
+<p>The compile installed BIRD is incomplete, it lacks system service file, docs, etc.</p>
+<p>If you want complete BIRD, you have to build software package then install from it.</p>
+<p>If you don&rsquo;t want build yourself, you can download them here (deb package):</p>
+<p><a href="https://drive.google.com/drive/folders/1DUaFJgZGsEXI-RlreNxCG9mnERiAkIVB?usp=drive_link">https://drive.google.com/drive/folders/1DUaFJgZGsEXI-RlreNxCG9mnERiAkIVB?usp=drive_link</a></p>
+<p>If hints dependency miss, follow the hint to install missed dependency.</p>
+<p>If you want to build it yourself, please read the rest of this chapter.</p>
+<p>Prepare a compile node running Debian 12, no need of high spec, mine got 4 cores and 4 gigs of RAM, then do as follow.</p>
+<h3 id="section-2-5-1-install-compiling-and-building-dependencies">2.5.1 Install Compiling and Building Dependencies</h3>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">apt install -y git linuxdoc-tools autoconf build-essential libssh-dev libreadline-dev libncurses-dev flex bison checkinstall debhelper docbook-xsl libssh-gcrypt-dev quilt xsltproc linuxdoc-tools-latex texlive-latex-extra
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">pipx install apkg
+</code></pre></div>
+<h3 id="section-2-5-2-clone-bird-2-14-repo">2.5.2 Clone BIRD 2.14 Repo</h3>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">git clone --branch v2.14 https://gitlab.nic.cz/labs/bird.git
+</code></pre></div>
+<h3 id="section-2-5-3-build-software-package-of-bird-2-14">2.5.3 Build Software Package of BIRD 2.14</h3>
+<p>Enter &ldquo;bird&rdquo; then run command below:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">apkg build
+</code></pre></div>
+<p>Once finished, apkg gives hint like this:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">built 3 packages in: pkg/pkgs/debian-12/bird2_2.14.1707409394.0e1fbaa5-cznic.1
+</code></pre></div>
+<p>The built software package is located in the location the hint mentioned, make use of it.</p>
+<h1 id="section-3-bird-configuration">3 BIRD Configuration</h1>
+<p>Currently BIRD don&rsquo;t have implementation of distributing MPLS labeled route through IGP topo, so we use BGP-LU to do that.</p>
+<h2 id="section-3-1-basic-setup">3.1 Basic Setup</h2>
+<h3 id="section-3-1-1-router-id">3.1.1 Router ID</h3>
+<p>Having a static Router ID is always not a bad thing.</p>
+<p>R1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">router id 203.0.113.1;
+</code></pre></div>
+<p>So do on R2 and R3.</p>
+<h3 id="section-3-1-2-adding-mpls-domain-and-tables">3.1.2 Adding MPLS Domain and Tables</h3>
+<p>Use R1 as example, so do on other nodes:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">mpls domain mpls_dom;
+
+mpls table bgp_mpls_table;
+
+vpn4 table bgp_vpn4;
+
+ipv4 table vrf_blue4; # This one is no need on R3
+</code></pre></div>
+<h3 id="section-3-1-3-adding-mpls-and-vrf-related-protocol-and-configuration">3.1.3 Adding MPLS and VRF Related Protocol and Configuration</h3>
+<p>Use R1 as example:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">protocol kernel krt_mpls {
+	mpls {
+		table bgp_mpls_table;
+		export all;
+	};
+}
+
+protocol kernel vrf_blue_4 { # No need for R3, since it doesn't run any VRF instance
+	vrf &quot;blue&quot;;
+	ipv4 {
+		table vrf_blue4;
+		export all;
+		import all;
+	};
+	kernel table 500;
+}
+
+protocol static {
+	ipv4;
+	route 203.0.113.1/32 reject; # Inject direct route through static, for advertising it in BGP
+}
+
+protocol static {                # Same, no need for R3
+	ipv4 { table vrf_blue4; };
+	route 192.168.1.0/24 reject;
+}
+</code></pre></div>
+<h2 id="section-3-2-bgp-configuration">3.2 BGP Configuration</h2>
+<p>Use R1 as example:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">protocol bgp r3 {
+	local 203.0.113.1 as 64512;
+	neighbor 203.0.113.3 as 64514;
+	confederation 100;
+	confederation member;
+	ipv4 mpls { # Enable IPv4 Labeled Unicast channel, to enable MPLS reachability between MPLS nodes
+		import all;
+		export all;
+	};
+	vpn4 mpls { # Enable VPNv4 channel, carring IPv4 VPN route
+		table bgp_vpn4;
+		import all;
+		export all;
+	};
+	mpls {
+		label policy aggregate;
+	};
+}
+</code></pre></div>
+<h2 id="section-3-3-setup-binding-between-mpls-l3vpn-and-vrf-instance">3.3 Setup Binding between MPLS L3VPN and VRF Instance</h2>
+<p>No need for R3, it doesn&rsquo;t run any VRF instance.</p>
+<p>Use R1 as example:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">protocol l3vpn vpn_blue4 {
+	vrf &quot;blue&quot;;
+	ipv4 { table vrf_blue4; }; # # Binding VRF Table
+	vpn4 { table bgp_vpn4; }; # Binding VPNv4 Table
+	mpls { label policy vrf; };
+
+	rd 203.0.113.1:500;
+	import target [(rt,100,500)]; # Define RT the desired route import from binded VPNv4 to VRF have
+	export target [(rt,100,500)]; # Define RT the route export from VRF to binded VPNv4 will be attached
+}
+</code></pre></div>
+<h2 id="section-3-4-complete-bird-configuration-file">3.4 Complete BIRD Configuration File</h2>
+<h3 id="section-3-4-1-r1">3.4.1 R1</h3>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">log syslog all;
+
+router id 203.0.113.1;
+
+mpls domain mpls_dom;
+
+mpls table bgp_mpls_table;
+
+vpn4 table bgp_vpn4;
+
+ipv4 table vrf_blue4;
+
+protocol device {
+
+}
+
+protocol direct {
+	disabled; # Disable by default
+	ipv4;			# Connect to default IPv4 table
+	ipv6;			# ... and to default IPv6 table
+}
+
+protocol kernel {
+	ipv4 {			# Connect protocol to IPv4 table by channel
+	      export all;	# Export to protocol. default is export none
+	      import all;
+	};
+}
+
+protocol kernel {
+	ipv6 { export all; };
+}
+
+protocol kernel krt_mpls {
+	mpls {
+		table bgp_mpls_table;
+		export all;
+	};
+}
+
+protocol kernel vrf_blue_4 {
+	vrf &quot;blue&quot;;
+	ipv4 {
+		table vrf_blue4;
+		export all;
+		import all;
+	};
+	kernel table 500;
+}
+
+protocol static {
+	ipv4;			# Again, IPv4 channel with default options
+	route 203.0.113.1/32 reject;
+}
+
+protocol static {
+	ipv4 { table vrf_blue4; };
+	route 192.168.1.0/24 reject;
+}
+
+protocol bgp r3 {
+	local 203.0.113.1 as 64512;
+	neighbor 203.0.113.3 as 64514;
+	confederation 100;
+	confederation member;
+	ipv4 mpls {
+		import all;
+		export all;
+	};
+	vpn4 mpls {
+		table bgp_vpn4;
+		import all;
+		export all;
+	};
+	mpls {
+		label policy aggregate;
+	};
+}
+
+protocol l3vpn vpn_blue4 {
+	vrf &quot;blue&quot;;
+	ipv4 { table vrf_blue4; };
+	vpn4 { table bgp_vpn4; };
+	mpls { label policy vrf; };
+
+	rd 203.0.113.1:500;
+	import target [(rt,100,500)];
+	export target [(rt,100,500)];
+}
+
+</code></pre></div>
+<h3 id="section-3-4-2-r2">3.4.2 R2</h3>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">router id 203.0.113.2;
+
+log syslog all;
+
+mpls domain mpls_dom;
+
+mpls table bgp_mpls_table;
+
+vpn4 table bgp_vpn4;
+
+ipv4 table vrf_blue4;
+
+protocol device {
+}
+
+protocol direct {
+	disabled; # Disable by default
+	ipv4;			# Connect to default IPv4 table
+	ipv6;			# ... and to default IPv6 table
+}
+
+protocol kernel krt_mpls {
+        mpls {
+                table bgp_mpls_table;
+                export all;
+        };
+}
+
+protocol kernel vrf_blue_4 {
+        vrf &quot;blue&quot;;
+        ipv4 {
+                table vrf_blue4;
+                export all;
+                import all;
+        };
+        kernel table 500;
+}
+
+protocol kernel {
+	ipv4 {			# Connect protocol to IPv4 table by channel
+	      export all;	# Export to protocol. default is export none
+	};
+}
+
+protocol kernel {
+	ipv6 { export all; };
+}
+
+protocol static {
+	ipv4;			# Again, IPv4 channel with default options
+	route 203.0.113.2/32 reject;
+}
+
+protocol static {
+	ipv4 { table vrf_blue4; };
+	route 192.168.2.0/24 reject;
+}
+
+protocol bgp r3 {
+        local 203.0.113.2 as 64513;
+        neighbor 203.0.113.3 as 64514;
+        confederation 100;
+        confederation member;
+        ipv4 mpls {
+                import all;
+                export all;
+        };
+        vpn4 mpls {
+                table bgp_vpn4;
+                import all;
+                export all;
+        };
+        mpls {
+                label policy aggregate;
+        };
+}
+
+protocol l3vpn vpn_blue4 {
+        vrf &quot;blue&quot;;
+        ipv4 { table vrf_blue4; };
+        vpn4 { table bgp_vpn4; };
+        mpls { label policy vrf; };
+
+        rd 203.0.113.2:500;
+        import target [(rt,100,500)];
+        export target [(rt,100,500)];
+}
+
+</code></pre></div>
+<h3 id="section-3-4-3-r3">3.4.3 R3</h3>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">log syslog all;
+
+router id 203.0.113.3;
+
+mpls domain mpls_dom;
+
+mpls table bgp_mpls_table;
+
+vpn4 table bgp_vpn4;
+
+protocol device {
+}
+
+protocol direct {
+	disabled;		# Disable by default
+	ipv4;			# Connect to default IPv4 table
+	ipv6;			# ... and to default IPv6 table
+}
+
+protocol kernel {
+	ipv4 {			# Connect protocol to IPv4 table by channel
+	      export all;	# Export to protocol. default is export none
+	};
+}
+
+protocol kernel {
+	ipv6 { export all; };
+}
+
+protocol kernel krt_mpls {
+	mpls {
+		table bgp_mpls_table;
+		export all;
+	};
+};
+
+protocol static {
+	ipv4;			# Again, IPv4 channel with default options
+
+}
+
+protocol bgp r1 {
+        local 203.0.113.3 as 64514;
+        neighbor 203.0.113.1 as 64512;
+        confederation 100;
+        confederation member;
+        ipv4 mpls {
+		next hop self;
+                import all;
+                export all;
+        };
+        vpn4 mpls {
+		next hop self;
+                table bgp_vpn4;
+                import all;
+                export all;
+        };
+        mpls {
+                label policy aggregate;
+        };
+}
+
+protocol bgp r2 {
+        local 203.0.113.3 as 64514;
+        neighbor 203.0.113.2 as 64513;
+        confederation 100;
+        confederation member;
+        ipv4 mpls {
+		next hop self;
+                import all;
+                export all;
+        };
+        vpn4 mpls {
+		next hop self;
+                table bgp_vpn4;
+                import all;
+                export all;
+        };
+        mpls {
+                label policy aggregate;
+        };
+}
+
+</code></pre></div>
+<h1 id="section-4-verification">4 Verification</h1>
+<h2 id="section-4-1-check-vpnv4-table">4.1 Check VPNv4 Table</h2>
+<p>R1：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">bird&gt; show route table bgp_vpn4
+Table bgp_vpn4:
+203.0.113.2:500 192.168.2.0/24 mpls 1001 unicast [r3 23:20:55.236] * (100) [AS64513i]
+        via 203.0.113.3 on ens19 mpls 1002
+203.0.113.1:500 192.168.1.0/24 mpls 1002 unicast [vpn_blue4 22:58:48.918] * (120/0)
+        dev blue
+bird&gt;
+</code></pre></div>
+<p>R2：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">bird&gt; show route table bgp_vpn4
+Table bgp_vpn4:
+203.0.113.2:500 192.168.2.0/24 mpls 1001 unicast [vpn_blue4 23:20:55.219] * (120/0)
+        dev blue
+203.0.113.1:500 192.168.1.0/24 mpls 1002 unicast [r3 22:58:56.352] * (100) [AS64512i]
+        via 203.0.113.3 on ens19 mpls 1003
+bird&gt;
+</code></pre></div>
+<h2 id="section-4-2-check-default-ipv4-table">4.2 Check Default IPv4 Table</h2>
+<p>R1：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">bird&gt; show route table master4
+Table master4:
+203.0.113.2/32 mpls 1000 unicast [r3 22:58:56.355] * (100) [AS64513i]
+        via 203.0.113.3 on ens19 mpls 1000
+203.0.113.1/32       unreachable [static1 22:33:27.446] * (200)
+bird&gt;
+</code></pre></div>
+<p>R2：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">bird&gt; show route table master4
+Table master4:
+203.0.113.2/32       unreachable [static1 22:32:38.874] * (200)
+203.0.113.1/32 mpls 1000 unicast [r3 22:58:56.352] * (100) [AS64512i]
+        via 203.0.113.3 on ens19 mpls 1001
+bird&gt;
+</code></pre></div>
+<h2 id="section-4-3-check-vrf-ipv4-table">4.3 Check VRF IPv4 Table</h2>
+<p>R1：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">bird&gt; show route table vrf_blue4
+Table vrf_blue4:
+192.168.1.0/24       unreachable [static2 22:58:48.918] * (200)
+192.168.2.0/24       unicast [vpn_blue4 23:20:55.236] * (80/0)
+        via 203.0.113.3 on ens19 mpls 1002
+bird&gt;
+</code></pre></div>
+<p>R2：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">bird&gt; show route table vrf_blue4
+Table vrf_blue4:
+192.168.1.0/24       unicast [vpn_blue4 23:20:55.219] * (80/0)
+        via 203.0.113.3 on ens19 mpls 1003
+192.168.2.0/24       unreachable [static2 22:54:38.777] * (200)
+bird&gt;
+</code></pre></div>
+<h2 id="section-4-4-check-connectivity-between-pc1-and-pc2">4.4 Check connectivity between PC1 and PC2</h2>
+<p>PC1：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">root@pc1:~# ping -c 4 192.168.2.2
+PING 192.168.2.2 (192.168.2.2) 56(84) bytes of data.
+64 bytes from 192.168.2.2: icmp_seq=1 ttl=61 time=5.53 ms
+64 bytes from 192.168.2.2: icmp_seq=2 ttl=61 time=5.03 ms
+64 bytes from 192.168.2.2: icmp_seq=3 ttl=61 time=3.73 ms
+64 bytes from 192.168.2.2: icmp_seq=4 ttl=61 time=5.97 ms
+
+--- 192.168.2.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 3.729/5.063/5.965/0.838 ms
+root@pc1:~# traceroute 192.168.2.2
+traceroute to 192.168.2.2 (192.168.2.2), 30 hops max, 60 byte packets
+ 1  192.168.1.1 (192.168.1.1)  5.787 ms  6.165 ms *
+ 2  * * *
+ 3  * * *
+ 4  192.168.2.2 (192.168.2.2)  36.865 ms  37.489 ms  44.775 ms
+root@pc1:~#
+</code></pre></div>
+<p>PC2：</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">root@pc2:~# ping -c 4 192.168.1.2
+PING 192.168.1.2 (192.168.1.2) 56(84) bytes of data.
+64 bytes from 192.168.1.2: icmp_seq=1 ttl=61 time=21.7 ms
+64 bytes from 192.168.1.2: icmp_seq=2 ttl=61 time=4.35 ms
+64 bytes from 192.168.1.2: icmp_seq=3 ttl=61 time=13.6 ms
+64 bytes from 192.168.1.2: icmp_seq=4 ttl=61 time=4.67 ms
+
+--- 192.168.1.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3007ms
+rtt min/avg/max/mdev = 4.352/11.098/21.731/7.181 ms
+root@pc2:~# traceroute 192.168.1.2
+traceroute to 192.168.1.2 (192.168.1.2), 30 hops max, 60 byte packets
+ 1  192.168.2.1 (192.168.2.1)  17.272 ms  17.125 ms  17.175 ms
+ 2  * * *
+ 3  * * *
+ 4  192.168.1.2 (192.168.1.2)  27.517 ms  27.945 ms  32.354 ms
+root@pc2:~#
+</code></pre></div>
+<h1 id="section-5-reference">5 Reference</h1>
+<p><span id="c1">1. BIRD Team. (2023, October 7). <em>News Archive</em>. bird.network.cz. <a href="https://bird.network.cz/?o_news/">https://bird.network.cz/?o_news/</a></span></p>
+<p><span id="c2">2. BIRD Team. (2023, October 7). BIRD 2.0 User’s Guide. <em>MPLS</em>, 9-10. <a href="https://bird.network.cz/download/bird-doc-2.14.tar.gz">https://bird.network.cz/download/bird-doc-2.14.tar.gz</a></span></p>
+<p><span id="c3">3. James Swineson. (2020, February 22). <em>Use Linux as an MPLS Router</em>. blog.swineson.me. <a href="https://blog.swineson.me/en/use-linux-as-an-mpls-router/">https://blog.swineson.me/en/use-linux-as-an-mpls-router/</a></span></p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

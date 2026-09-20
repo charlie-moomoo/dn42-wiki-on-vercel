@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>modern style - DN42 Wiki</title>
+    <meta name="description" content="This page is a scratchpad for a fully modernised (2026) config running on the latest version of RouterOS (7.22.1). It will use wireguard, BGP with Multihop...">
+    <meta property="og:description" content="This page is a scratchpad for a fully modernised (2026) config running on the latest version of RouterOS (7.22.1). It will use wireguard, BGP with Multihop...">
+    <meta property="og:title" content="modern style - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/mikrotik/modern-style/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">modern style</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#wireguard-tunnel-setup" href="#wireguard-tunnel-setup">Wireguard tunnel setup</a></li>
+            
+            <li data-level="2"><a data-section="#create-the-interface" href="#create-the-interface">Create the interface</a></li>
+            
+            <li data-level="2"><a data-section="#exchange-connection-parameters" href="#exchange-connection-parameters">Exchange connection parameters</a></li>
+            
+            <li data-level="2"><a data-section="#add-the-wireguard-peer" href="#add-the-wireguard-peer">Add the Wireguard peer</a></li>
+            
+            <li data-level="2"><a data-section="#add-an-ip-address-to-your-end-of-the-tunnel" href="#add-an-ip-address-to-your-end-of-the-tunnel">Add an IP address to your end of the tunnel</a></li>
+            
+            <li data-level="2"><a data-section="#test-connectivity" href="#test-connectivity">Test connectivity</a></li>
+            
+            <li data-level="1"><a data-section="#setup-bgp" href="#setup-bgp">Setup BGP</a></li>
+            
+            <li data-level="2"><a data-section="#instance" href="#instance">Instance</a></li>
+            
+            <li data-level="2"><a data-section="#route-filters" href="#route-filters">Route filters</a></li>
+            
+            <li data-level="2"><a data-section="#connection-template" href="#connection-template">Connection template</a></li>
+            
+            <li data-level="2"><a data-section="#add-a-peer-connection" href="#add-a-peer-connection">Add a peer connection</a></li>
+            
+            <li data-level="2"><a data-section="#preferred-source-address" href="#preferred-source-address">Preferred Source Address</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#mikrotik">mikrotik</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">modern style</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>This page is a scratchpad for a fully modernised (2026) config running on the latest version of RouterOS (7.22.1). It will use wireguard, BGP with Multihop and Extended Nexthop, and link-local addressing for address space efficiency.</p>
+<h1 id="wireguard-tunnel-setup">Wireguard tunnel setup</h1>
+<p>Wireguard seems to be the most popular option for peering now, so we&rsquo;ll use that. The first step is to setup a Wireguard interface for a tunnel. You need to setup a dedicated Wireguard interface for each peer because the Wireguard daemon uses the (static, equal for all peers) <code>allowed-address</code> list and not the OS routing table to decide which peer to send packets to.</p>
+<p>For the sake of this example we&rsquo;ll pretend we&rsquo;re peering with Kioubit, one of the most-connected and easiest to connect-with systems on DN42.</p>
+<h2 id="create-the-interface">Create the interface</h2>
+<p>We have to do this first so we can gather the connection details, which will be used to setup the peering.</p>
+<p>The standard port for Wireguard listeners is 51820, but you can use anything you like. An MTU of 1420 is recommended to avoid fragmentation and firewall issues.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/interface wireguard
+add name=DN42-KIOUBIT listen-port=51820 mtu=1420
+</code></pre></div>
+<p>Without any extra parameters, it&rsquo;ll automatically generate a new private and public key for you. Grab the public key, you&rsquo;ll need that to setup your peering connection.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/interface/wireguard/print where name=&quot;DN42-KIOUBIT&quot;
+
+[furinkan@helian] &gt; /interface/wireguard/print where name=&quot;DN42-KIOUBIT&quot;       
+ 0  R name=&quot;DN42-KIOUBIT&quot; mtu=1420 listen-port=51820 public-key=&quot;mGRGoKPl6fRffzUovFp/8AoOtHjCrWeEMN9/9NsVp2Q=&quot;
+</code></pre></div>
+<h2 id="exchange-connection-parameters">Exchange connection parameters</h2>
+<p>If connecting to a system with a self-serve automatic peering interface, now is the time to use it.</p>
+<p>You will need:</p>
+<ul>
+<li>Your AS number</li>
+<li>Your public IP address that they can connect to</li>
+<li>Your listening port for Wireguard, eg. 51820 as above</li>
+<li>Your public key for your Wireguard interface</li>
+<li>An IPv4 address for your local end of the tunnel, this is often an address in your DN42 address allocation, but can also be any private-range address like 192.168.x.x; however this may be optional if you use&hellip;</li>
+<li>An IPv6 address for your local end of the tunnel. Unlike IPv4, it&rsquo;s possible to use a pure link-local address, like <code>fe80::1234</code></li>
+<li>To know if your BGP daemon supports the Multihop and Extended Next Hop capabilities</li>
+</ul>
+<p>You will receive:</p>
+<ul>
+<li>Their AS number</li>
+<li>Their public IP address and port to use for the wireguard connection</li>
+<li>Their Wireguard public key</li>
+<li>The IPv4 and/or IPv6 address for the remote end of the tunnel</li>
+</ul>
+<h2 id="add-the-wireguard-peer">Add the Wireguard peer</h2>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/interface wireguard peers
+add name=DN42-KIOUBIT interface=DN42-KIOUBIT endpoint-address=&lt;THEIR_PUBLIC_ADDRESS&gt; endpoint-port=&lt;THEIR_WIREGUARD_PORT&gt; public-key=&quot;&lt;THEIR_WIREGUARD_PUBLIC_KEY&gt;&quot; allowed-address=fd00::/8,fe80::/10,172.20.0.0/14
+</code></pre></div>
+<p>At this point the tunnel should come up on its own, assuming the other end is already configured. However, it&rsquo;s not useful yet without an IP address attached to it.</p>
+<h2 id="add-an-ip-address-to-your-end-of-the-tunnel">Add an IP address to your end of the tunnel</h2>
+<p>Once the tunnel is established you will need an address at each end of the link for routing to work. In this Kioubit example we only need an IPv6 address, because we can route IPv4 traffic between IPv6 BGP peers.</p>
+<p>Kioubit is using fe80::ade0 on the remote end of the tunnel. We also chose a link-local address for our end of the tunnel, it&rsquo;s <code>fe80::</code> plus the last four digits of our AS number. You&rsquo;ll notice that the remote address does not need to be adjacent at all - this is the beauty of IPv6 link-local addressing.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ipv6 address
+add address=fe80::2762/128 interface=DN42-KIOUBIT advertise=no
+</code></pre></div>
+<p><strong>⚠ Note: as of 7.23.2, there seems to be a bug when reusing the same link-local address on multiple tunnels. TCP seems to work fine, but RouterOS will route all responses to ICMP pings through the first tunnel which has that link-local address assigned!</strong></p>
+<p>If you&rsquo;re using an IPv4 address, you can attach it to the loopback interface. This allows the address to be reused for multiple peering connections, without being &ldquo;owned&rdquo; by any of the wireguard interfaces.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip/address
+add address=172.31.254.254 interface=lo
+</code></pre></div>
+<h2 id="test-connectivity">Test connectivity</h2>
+<p>You should be able to ping the remote end of the tunnel now. If so, packets can make it there and back, correctly routed. Notice that we&rsquo;re appending the interface name to the IP address. This is necessary for IPv6 link-local addresses because the system doesn&rsquo;t know which interface to send the pings out of.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">[furinkan@helian] &gt; ping fe80::ade0%DN42-KIOUBIT
+  SEQ HOST                                     SIZE TTL TIME       STATUS
+    0 fe80::ade0                                 56  64 133ms383us echo reply
+    1 fe80::ade0                                 56  64 136ms229us echo reply
+    sent=2 received=2 packet-loss=0% min-rtt=133ms383us avg-rtt=134ms806us max-rtt=136ms229us
+</code></pre></div>
+<p>If you&rsquo;re using IPv4 inside the tunnel, it&rsquo;ll look something like this:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">[furinkan@helian] &gt; ping 172.20.53.105%DN42-KIOUBIT
+  SEQ HOST                                     SIZE TTL TIME       STATUS
+    0 172.20.53.105                              56  64 133ms544us
+    1 172.20.53.105                              56  64 131ms672us
+    2 172.20.53.105                              56  64 133ms521us
+    sent=3 received=3 packet-loss=0% min-rtt=131ms672us avg-rtt=132ms912us max-rtt=133ms544us
+</code></pre></div>
+<p>Notice that we specified the egress interface again, you don&rsquo;t normally do this with IPv4 addresses. The router doesn&rsquo;t know how to get to the destination because it doesn&rsquo;t belong to a known subnet - it doesn&rsquo;t have a route!</p>
+<p>We&rsquo;ll add a static route to fix this:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip route
+add dst-address=172.20.53.105/32 gateway=DN42-KIOUBIT
+
+[furinkan@helian] &gt; ping 172.20.53.105
+  SEQ HOST                                     SIZE TTL TIME       STATUS
+    0 172.20.53.105                              56  64 131ms152us
+    1 172.20.53.105                              56  64 131ms128us
+    sent=2 received=2 packet-loss=0% min-rtt=131ms128us avg-rtt=131ms140us max-rtt=131ms152us
+</code></pre></div>
+<p>That&rsquo;s better. Now we&rsquo;re ready for some BGP peering.</p>
+<h1 id="setup-bgp">Setup BGP</h1>
+<p>We&rsquo;ll create an instance for DN42, some basic route filters for security, a template to hold common DN42 peering settings, then finally the actual peering connection.</p>
+<h2 id="instance">Instance</h2>
+<p>An important part of the routing protocols is your router&rsquo;s ID, a 32-bit value usually written like an IPv4 address. It&rsquo;s common convention to use your router&rsquo;s IP address as the router ID, so we&rsquo;ll do that here too. I&rsquo;ve picked the highest IP address in our IPv4 allocation as the router&rsquo;s IP, which we&rsquo;ll also use as the router&rsquo;s ID.</p>
+<p>This gives a text label to our router ID:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing id
+add id=172.22.124.62 name=my-DN42-router select-dynamic-id=&quot;&quot;
+</code></pre></div>
+<p>Create the BGP instance, which will identify itself with your AS number:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp instance
+add as=424242&lt;YOUR_ASN&gt; name=DN42 router-id=my-DN42-router
+</code></pre></div>
+<h2 id="route-filters">Route filters</h2>
+<p>Filters are necessary to prevent other people from hijacking our routing table. A malicious peer could send routes that override your default route to public internet services like Google, government services, your online banking, etc.</p>
+<p>These rules are reasonably tight, you can tighten or relax them as desired. <a href="/Interconnections">Interconnected networks&rsquo;</a> IPv4 ranges are included as well, if you don&rsquo;t want then you can ignore that rule.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing filter rule
+add chain=dn42-in comment=&quot;reject prefixes clashing with home network&quot; disabled=no rule=&quot;if (dst in 192.168.0.0/16 &amp;&amp; dst-len &gt;= 16) { reject }&quot;
+add chain=dn42-in comment=&quot;reject v4 auto-addressing prefixes&quot; rule=&quot;if (dst in 169.254.0.0/16 &amp;&amp; dst-len &gt;= 16) { reject }&quot;
+add chain=dn42-in comment=&quot;accept DN42 v4 prefixes&quot; disabled=no rule=&quot;if (dst in 172.20.0.0/14) { accept }&quot;
+add chain=dn42-in comment=&quot;accept DN42 interconnected network v4 prefixes&quot; disabled=no rule=&quot;if (dst in 10.0.0.0/8) { accept }&quot;
+add chain=dn42-in comment=&quot;accept DN42 and interconnected v6 prefixes&quot; disabled=no rule=&quot;if (dst in fd00::/8) { accept }&quot;
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing filter rule
+add chain=dn42-out comment=&quot;don't advertise our home network&quot; rule=&quot;if (dst in 192.168.0.0/16 &amp;&amp; dst-len &gt;= 16) { reject }&quot;
+add chain=dn42-out comment=&quot;don't advertise v4 auto-addressing prefixes&quot; rule=&quot;if (dst in 169.254.0.0/16 &amp;&amp; dst-len &gt;= 16) { reject }&quot;
+add chain=dn42-out comment=&quot;tag my prefixes with community&quot; disabled=no rule=&quot;if ( dst in 172.20.0.0/14 &amp;&amp; bgp-communities-empty ) { append bgp-communities DN42-communities; }&quot;
+add chain=dn42-out comment=&quot;advertise DN42 v4 prefixes&quot; disabled=no rule=&quot;if (dst in 172.20.0.0/14) { accept }&quot;
+add chain=dn42-out comment=&quot;advertise DN42 interconnected network v4 prefixes&quot; disabled=no rule=&quot;if (dst in 10.0.0.0/8) { accept }&quot;
+add chain=dn42-out comment=&quot;tag my IPv6 prefixes with community&quot; disabled=no rule=&quot;if ( dst in fd00::/8 &amp;&amp; bgp-communities-empty ) { append bgp-communities DN42-communities; }&quot;
+add chain=dn42-out comment=&quot;advertise DN42 and interconnected v6 prefixes&quot; disabled=no rule=&quot;if (dst in fd00::/8) { accept }&quot;
+</code></pre></div>
+<h2 id="connection-template">Connection template</h2>
+<p>Create a template with the common BGP settings used for DN42:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp template
+add afi=ip,ipv6 as=424242&lt;YOUR_ASN&gt; input.filter=dn42-in multihop=yes name=DN42-thighhighs output.filter-chain=dn42-out .redistribute=connected,bgp routing-table=main
+</code></pre></div>
+<p>Create an address list containing your DN42 subnet allocation:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ipv6 firewall address-list
+add address=YOUR_ALLOCATED_SUBNET/MASK list=DN42_allocated_v6
+</code></pre></div>
+<h2 id="add-a-peer-connection">Add a peer connection</h2>
+<p>For each tunnel, you need to add a BGP connection to the respective peer&rsquo;s BGP server, and bind it to the respective link-local addresses:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp connection
+add afi=ipv6 as=424242&lt;YOUR_ASN&gt; disabled=no input.filter=dn42-in instance=DN42 local.address=fe80::2762%DN42-KIOUBIT .role=ebgp multihop=yes name=iedon output.filter-chain=\
+    dn42-out .network=DN42_allocated_v6 .redistribute=connected,static,bgp remote.address=&lt;THEIR_IPV6_PEER_ADDRESS&gt;%DN42-KIOUBIT/128 .as=424242&lt;THEIR_ASN&gt; templates=DN42-thighhighs
+</code></pre></div>
+<h2 id="preferred-source-address">Preferred Source Address</h2>
+<p>By default, the router&rsquo;s own outgoing traffic will use the respective tunnel&rsquo;s address, which is link-local and so won&rsquo;t get routed. You can give your router an address from your allocation by assigning it to an existing interface or by creating an empty bridge. Then you need to <strong>replace the <code>accept</code> filter</strong> in the <code>dn42-in</code> filter in order to set the the preferred address for all routes:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/interface/bridge
+add name=dn42-dummy
+/ipv6/address
+add address=&lt;YOUR_ALLOCATED_SUBNET&gt;::1/64 advertise=no interface=dn42-dummy
+/routing/filter/rule
+add chain=dn42-in comment=&quot;set source address and accept&quot; rule=\
+    &quot;if (dst in fd00::/8) { set pref-src &lt;YOUR_ALLOCATED_SUBNET&gt;::1; accept }&quot;
+</code></pre></div>
+<p>However, this will <em>not</em> affect ICMP errors generated by the router on Wireguard tunnels (those errors that make it show up in a traceroute). To fix traceroute, you also <strong>need to add the ULA address to each tunnel</strong>:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ipv6/address
+add address=&lt;YOUR_ALLOCATED_SUBNET&gt;::1/128 advertise=no interface=DN42-KIOUBIT
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

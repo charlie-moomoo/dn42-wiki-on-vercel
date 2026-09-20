@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>VyOSExample - DN42 Wiki</title>
+    <meta name="description" content="IPsec with public key authentication on VyOS/EdgeOS Setup Generate an RSA keypair Exchange public keys with your peer Display the public key. Send the key...">
+    <meta property="og:description" content="IPsec with public key authentication on VyOS/EdgeOS Setup Generate an RSA keypair Exchange public keys with your peer Display the public key. Send the key...">
+    <meta property="og:title" content="VyOSExample - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/IPsecWithPublicKeys/VyOSExample/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">VyOSExample</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#ipsec-with-public-key-authentication-on-vyosedgeos" href="#ipsec-with-public-key-authentication-on-vyosedgeos">IPsec with public key authentication on VyOS/EdgeOS</a></li>
+            
+            <li data-level="2"><a data-section="#setup" href="#setup">Setup</a></li>
+            
+            <li data-level="3"><a data-section="#generate-an-rsa-keypair" href="#generate-an-rsa-keypair">Generate an RSA keypair</a></li>
+            
+            <li data-level="3"><a data-section="#exchange-public-keys-with-your-peer" href="#exchange-public-keys-with-your-peer">Exchange public keys with your peer</a></li>
+            
+            <li data-level="2"><a data-section="#configuration" href="#configuration">Configuration</a></li>
+            
+            <li data-level="3"><a data-section="#configure-the-phase-1-ike-parameters" href="#configure-the-phase-1-ike-parameters">Configure the phase 1 IKE parameters</a></li>
+            
+            <li data-level="2"><a data-section="#full-greipsec-example" href="#full-greipsec-example">Full GRE/IPsec example</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#ipsecwithpublickeys">IPsecWithPublicKeys</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">VyOSExample</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="ipsec-with-public-key-authentication-on-vyosedgeos">IPsec with public key authentication on VyOS/EdgeOS</h1>
+<h2 id="setup">Setup</h2>
+<h3 id="generate-an-rsa-keypair">Generate an RSA keypair</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">ubnt@ubnt:~$ generate vpn rsa-key bits <span class="z-m">4096</span> random /dev/urandom
+Generating rsa-key to /config/ipsec.d/rsa-keys/localhost.key
+
+Your new <span class="z-nb">local</span> RSA key has been generated
+The public portion of the key is:
+
+0sAQPNdF370ZEbN+kZUJQ10qnBlZujrg39ujfk20ILTjELksOIdJw/4jiU1MfpqFDKuB/XxERwJQp2POsFyV/n76jAgxIYBfFYfuaBcIH1rdNQtDhCnkmWzlueRXGEsz0Af79n8TKyQ9otzNhJ2cPE1CWCJbKqbIUN3piviLgGlItWNeya+Tl3Oj3ZfEVwr1QOvUAw32+m4L8T9jf1vqSlOTHpRpxxPWBrLEzstk0FOcZISji2JBpDOCU8Kpyyf74JM+LxsOIHwmS15b6iFZR3U9KZLqbbd0dSy/cM8P4XjrwM5UMyRDjrLqvuA/K/33BgtnxdQR3e9DJoYH3Qr8eRgSkR+jHyq06LvgHkHbMvrEjUnc3n8bg+YfR4oyJpIWsKjfIXmN1Q51KzxAPIAww+YSYUYtamSsQsspVAtMIQqR4e0r1In1qyoSn8VCPlksNMWpqYHbSjDo5HJYoSwxf2epzMtCvhenn0OuiH0xlgzziA+wBi6txksTMvJYcPJYnBVR2NIBjkWftOfmkY+rKMozViGjyd6kB7C8lqd8W7Ha5Ds2WxIY22DM3HcYH/zTp9z2xbuMOsbIgib/Y12Kh0wHyCz0lzFvs+d6CZwinyIXNKB/Vo4iiwT5luL5mGqf3pZx4zB+30GYSs/6MaELRF9BxD7tfqYCkOLXUtxyZ4Pdl2sw<span class="z-o">==</span>
+</code></pre></div>
+<h3 id="exchange-public-keys-with-your-peer">Exchange public keys with your peer</h3>
+<ol>
+<li>Display the public key. Send the key data portion to your peer.</li>
+</ol>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">ubnt@ubnt:~$ show vpn ike rsa-keys
+
+Local public key <span class="z-o">(</span>/config/ipsec.d/rsa-keys/localhost.key<span class="z-o">)</span>:
+
+0sAQPNdF370ZEbN+kZUJQ10qnBlZujrg39ujfk20ILTjELksOIdJw/4jiU1MfpqFDKuB/XxERwJQp2POsFyV/n76jAgxIYBfFYfuaBcIH1rdNQtDhCnkmWzlueRXGEsz0Af79n8TKyQ9otzNhJ2cPE1CWCJbKqbIUN3piviLgGlItWNeya+Tl3Oj3ZfEVwr1QOvUAw32+m4L8T9jf1vqSlOTHpRpxxPWBrLEzstk0FOcZISji2JBpDOCU8Kpyyf74JM+LxsOIHwmS15b6iFZR3U9KZLqbbd0dSy/cM8P4XjrwM5UMyRDjrLqvuA/K/33BgtnxdQR3e9DJoYH3Qr8eRgSkR+jHyq06LvgHkHbMvrEjUnc3n8bg+YfR4oyJpIWsKjfIXmN1Q51KzxAPIAww+YSYUYtamSsQsspVAtMIQqR4e0r1In1qyoSn8VCPlksNMWpqYHbSjDo5HJYoSwxf2epzMtCvhenn0OuiH0xlgzziA+wBi6txksTMvJYcPJYnBVR2NIBjkWftOfmkY+rKMozViGjyd6kB7C8lqd8W7Ha5Ds2WxIY22DM3HcYH/zTp9z2xbuMOsbIgib/Y12Kh0wHyCz0lzFvs+d6CZwinyIXNKB/Vo4iiwT5luL5mGqf3pZx4zB+30GYSs/6MaELRF9BxD7tfqYCkOLXUtxyZ4Pdl2sw<span class="z-o">==</span>
+</code></pre></div>
+<ol start="2">
+<li>Convert your peer&rsquo;s public key to the Base64 RFC 3110 format using the <a href="https://dn42.us/git/user/ryan/pubkey-converter.git/plain/pubkey-converter.pl" title="Public key conversion script">pubkey-converter</a> script, if necessary.</li>
+</ol>
+<h2 id="configuration">Configuration</h2>
+<h3 id="configure-the-phase-1-ike-parameters">Configure the phase 1 IKE parameters</h3>
+<p>In this example, we&rsquo;ll use the following settings:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Key</th>
+<th style="text-align:left">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Encryption</td>
+<td style="text-align:left">AES-128</td>
+</tr>
+<tr>
+<td style="text-align:left">Hash</td>
+<td style="text-align:left">HMAC-SHA1</td>
+</tr>
+<tr>
+<td style="text-align:left">DH Group</td>
+<td style="text-align:left">5 (modp1536)</td>
+</tr>
+<tr>
+<td style="text-align:left">Lifetime</td>
+<td style="text-align:left">28800 seconds</td>
+</tr>
+<tr>
+<td style="text-align:left">Peer address</td>
+<td style="text-align:left">192.0.2.2</td>
+</tr>
+<tr>
+<td style="text-align:left">Local address</td>
+<td style="text-align:left">192.0.2.1</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Add your peer&rsquo;s public key</li>
+</ol>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">vyos@vyos:~$ configure
+<span class="z-o">[</span>edit<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> vpn rsa-keys rsa-key-name my-peer rsa-key 0sAwEAAb4ETtKRLxcFNty56regsR61pq7hQl3NnjwABL16wZXGynKxZlj11VbdqcNwaTaqHZLV4Xfy867nImSs0DD9Cko5LzWwyM1Ih4SB+rIjfmBt7nRUrilnYvfWAONG1CLTI2tXnM/miNqiY+PxlCiMPr1KrTJWBWOknqqhhL2dOBfp3Ryx1yRxDACFG4wgpwmndJOnmefnV6qZXWiOdoIsBsBqQKiDY0g2uI+S3KxK27JL3KZWcA2ehhvtxmq4vwcMXplYeedei3EEmWxtddAZCApXor9bkVoVp2io+a0D1ALevYMD5SIygu55Q888n5puYNry/cUjX20/F/YK+J9u2UExWewN4AIt/jMNm7nJNWpuFHfLX1V/igHrdGzoEM0E/i+nGz9CWTVTLoFUmkTjpt31FPmomSVEI7MbNXG7cpa+X55PWd1apheR52XJZPZfCnMf1DjilYbLMRG05RK8zI3QlX3UXHira0dq4OBZ+Aow+dGp+jLmwjgdBDnkQdVu0iP6bp+5/oz6mWvDQ65EVECAIXKR5zIsiKn9ZU18H+lp4xWMjiSw3Y+87Y5KeQPmX73Ygolow6VvtCBvX8CS4Plszn3i0Qp8184eLEWIY314Z8Z+HwBAjUv3MkqI93leokAjMbt23ttaJbWlWgG47BAJOEcWlMFkDNcZtOngUrzF
+</code></pre></div>
+<ol start="2">
+<li>Configure an ISAKMP policy</li>
+</ol>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-o">[</span>edit<span class="z-o">]</span>
+vyos@vyos# edit vpn ipsec ike-group FOO
+<span class="z-o">[</span>edit vpn ipsec ike-group FOO<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> lifetime <span class="z-m">28800</span>
+<span class="z-o">[</span>edit vpn ipsec ike-group FOO<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> proposal <span class="z-m">1</span> encryption aes128
+<span class="z-o">[</span>edit vpn ipsec ike-group FOO<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> proposal <span class="z-m">1</span> <span class="z-nb">hash</span> sha1
+<span class="z-o">[</span>edit vpn ipsec ike-group FOO<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> proposal <span class="z-m">1</span> dh-group <span class="z-m">5</span>
+<span class="z-o">[</span>edit vpn ipsec ike-group FOO<span class="z-o">]</span>
+vyos@vyos# commit
+</code></pre></div>
+<ol start="3">
+<li>Set your peer definition to use the public key</li>
+</ol>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-o">[</span>edit vpn ipsec ike-group FOO<span class="z-o">]</span>
+vyos@vyos# up
+<span class="z-o">[</span>edit vpn ipsec<span class="z-o">]</span>
+vyos@vyos# edit site-to-site peer 192.0.2.2
+<span class="z-o">[</span>edit vpn ipsec site-to-site peer 192.0.2.2<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> authentication mode rsa
+<span class="z-o">[</span>edit vpn ipsec site-to-site peer 192.0.2.2<span class="z-o">]</span>
+vyos@vyos# <span class="z-nb">set</span> authentication rsa-key-name my-peer
+</code></pre></div>
+<ol start="4">
+<li>All done! Configure the phase 2 parameters as you otherwise would.</li>
+</ol>
+<h2 id="full-greipsec-example">Full GRE/IPsec example</h2>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">interfaces</span> <span class="z-p">{</span>
+    <span class="z-kn">ethernet</span> <span class="z-s">eth0</span> <span class="z-p">{</span>
+        <span class="z-kn">address</span> <span class="z-mi">192</span><span class="z-s">.0.2.1/30</span>
+        <span class="z-s">description</span> <span class="z-s">WAN</span>
+        <span class="z-s">duplex</span> <span class="z-s">auto</span>
+        <span class="z-s">speed</span> <span class="z-s">auto</span>
+    <span class="z-err">}</span>
+    <span class="z-s">tunnel</span> <span class="z-s">tun0</span> <span class="z-p">{</span>
+        <span class="z-kn">address</span> <span class="z-mi">10</span><span class="z-s">.1.2.0/31</span>
+        <span class="z-s">encapsulation</span> <span class="z-s">gre</span>
+        <span class="z-s">local-ip</span> <span class="z-mi">192</span><span class="z-s">.0.2.1</span>
+        <span class="z-s">mtu</span> <span class="z-mi">1400</span>
+        <span class="z-s">multicast</span> <span class="z-s">disable</span>
+        <span class="z-s">remote-ip</span> <span class="z-mi">192</span><span class="z-s">.0.2.2</span>
+        <span class="z-s">ttl</span> <span class="z-mi">255</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+<span class="z-s">vpn</span> <span class="z-p">{</span>
+    <span class="z-kn">ipsec</span> <span class="z-p">{</span>
+        <span class="z-kn">esp-group</span> <span class="z-s">BAR</span> <span class="z-p">{</span>
+            <span class="z-kn">compression</span> <span class="z-s">disable</span>
+            <span class="z-s">lifetime</span> <span class="z-mi">3600</span>
+            <span class="z-s">mode</span> <span class="z-s">transport</span>
+            <span class="z-s">pfs</span> <span class="z-s">dh-group5</span>
+            <span class="z-s">proposal</span> <span class="z-mi">1</span> <span class="z-p">{</span>
+                <span class="z-kn">encryption</span> <span class="z-s">aes128</span>
+                <span class="z-s">hash</span> <span class="z-s">sha1</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">ike-group</span> <span class="z-s">FOO</span> <span class="z-p">{</span>
+            <span class="z-kn">lifetime</span> <span class="z-mi">28800</span>
+            <span class="z-s">proposal</span> <span class="z-mi">1</span> <span class="z-p">{</span>
+                <span class="z-kn">dh-group</span> <span class="z-mi">5</span>
+                <span class="z-s">encryption</span> <span class="z-s">aes128</span>
+                <span class="z-s">hash</span> <span class="z-s">sha1</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">ipsec-interfaces</span> <span class="z-p">{</span>
+            <span class="z-kn">interface</span> <span class="z-s">eth0</span>
+        <span class="z-err">}</span>
+        <span class="z-s">site-to-site</span> <span class="z-p">{</span>
+            <span class="z-kn">peer</span> <span class="z-mi">192</span><span class="z-s">.0.2.2</span> <span class="z-p">{</span>
+                <span class="z-kn">authentication</span> <span class="z-p">{</span>
+                    <span class="z-kn">mode</span> <span class="z-s">rsa</span>
+                    <span class="z-s">rsa-key-name</span> <span class="z-s">my-peer</span>
+                <span class="z-err">}</span>
+                <span class="z-s">connection-type</span> <span class="z-s">initiate</span>
+                <span class="z-s">default-esp-group</span> <span class="z-s">BAR</span>
+                <span class="z-s">ike-group</span> <span class="z-s">FOO</span>
+                <span class="z-s">local-ip</span> <span class="z-mi">192</span><span class="z-s">.0.2.1</span>
+                <span class="z-s">tunnel</span> <span class="z-mi">0</span> <span class="z-p">{</span>
+                    <span class="z-kn">protocol</span> <span class="z-s">gre</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">rsa-keys</span> <span class="z-p">{</span>
+        <span class="z-kn">rsa-key-name</span> <span class="z-s">my-peer</span> <span class="z-p">{</span>
+            <span class="z-kn">rsa-key</span> <span class="z-s">0sAwEAAbsbRoUcgdm4A4Nm+PLxWcW+zFis7pkaJ0MkGVzM7VC8nmngkM+W2zqZyQ4NUTBKKfGOUc4Ogi6gyhlzUnHdag9tDERIX+BwlDO6G4arod9z9KqmJuX4AOYVjH5QlAPz7NDMAezVekGoVLPGdOAMPD6NN54ihLRH6V3if8AGoJRpiajhcgQipjeQnhH4QhsYK4XSjayGT1onQwA8nhy5kt4ofyqSale4Fl4166S9tCn4RKwtlJDjR6VIrg6op6Ip8+ke2vjEHPJHj6qVsxfRgOk2d8pY8oPVt8ayc5F1z+lqJ7R0fADfN+AQSaBqOMmg5dHDFYWwgYkU5egdVKS7Oko6uNuUWsZ0VEnRoPZ4syJEUbiF5wGfaVBaaVLZYUlRLQCffB4JKzp+JesVToCX6JYRfb4JYQWFCDeQfrqRZHM4r13h8MOWPn9cqXcP47RKJjzNp6595biUotmCbMHyy/uveMWxK6vDzPQRkywqMMJE2qOyACmbMnSce9KlYhvma82Vd+z/9/U9NEy0s5MaYNDn+q+KYT5My3NSv52F6sLVGrKxTk79tzUejZcoukJv+gf51Epam4kVHzPIal/khsfjZn6YCU2j5+qcdRmzF+SG5c2WicvEU2Gc4ratfYNEPxU5oArzHIhIz6x2nAF+szcx/x8GEyXPNHnxEboJB7ox</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Certificate Authority - DN42 Wiki</title>
+    <meta name="description" content="SSL Certificate Authority internal.dn42 is signed by an internally maintained CA that is only allowed to sign *.dn42 domains. The CA is maintained by. If you...">
+    <meta property="og:description" content="SSL Certificate Authority internal.dn42 is signed by an internally maintained CA that is only allowed to sign *.dn42 domains. The CA is maintained by. If you...">
+    <meta property="og:title" content="Certificate Authority - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/ca/Certificate-Authority/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">Certificate Authority</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#ssl-certificate-authority" href="#ssl-certificate-authority">SSL Certificate Authority</a></li>
+            
+            <li data-level="2"><a data-section="#obtaining-certificates" href="#obtaining-certificates">Obtaining certificates</a></li>
+            
+            <li data-level="2"><a data-section="#testing-constraints" href="#testing-constraints">Testing constraints</a></li>
+            
+            <li data-level="2"><a data-section="#importing-the-certificate" href="#importing-the-certificate">Importing the certificate</a></li>
+            
+            <li data-level="3"><a data-section="#programming-languages" href="#programming-languages">Programming Languages</a></li>
+            
+            <li data-level="3"><a data-section="#archlinux" href="#archlinux">Archlinux</a></li>
+            
+            <li data-level="3"><a data-section="#debianubuntu" href="#debianubuntu">Debian/Ubuntu</a></li>
+            
+            <li data-level="4"><a data-section="#unofficial-debian-package" href="#unofficial-debian-package">Unofficial Debian Package</a></li>
+            
+            <li data-level="4"><a data-section="#manual-installation" href="#manual-installation">Manual Installation</a></li>
+            
+            <li data-level="3"><a data-section="#almalinuxrockylinuxprobably-anything-rhel" href="#almalinuxrockylinuxprobably-anything-rhel">AlmaLinux/RockyLinux/Probably anything RHEL</a></li>
+            
+            <li data-level="2"><a data-section="#pki-store" href="#pki-store">PKI Store</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#ca">ca</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">Certificate Authority</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="ssl-certificate-authority">SSL Certificate Authority</h1>
+<p>internal.dn42 is signed by an internally maintained CA that is only allowed to sign *.dn42 domains. The CA is maintained by <a href="mailto:xuu@dn42.us">xuu@dn42.us</a>.</p>
+<p>If you are required to specify a license to clarify redistribution, then it <a href="https://groups.io/g/dn42/message/844">can be considered</a> as <a href="https://creativecommons.org/public-domain/cc0/">CC0</a>.</p>
+<p>The CA certificate (<a href="https://ca.dn42/crt/root-ca.crt">dn42</a>, <a href="https://ca.dn42.us/crt/root-ca.crt">iana</a>):</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 137808117760 (0x2016010000)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=XD, O=dn42, OU=dn42 Certificate Authority, CN=dn42 Root Authority CA
+        Validity
+            Not Before: Jan 16 00:12:04 2016 GMT
+            Not After : Dec 31 23:59:59 2030 GMT
+        Subject: C=XD, O=dn42, OU=dn42 Certificate Authority, CN=dn42 Root Authority CA
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:c1:19:10:de:01:86:11:f1:82:0c:b0:d4:e5:ff:
+                    9a:c8:e3:aa:f4:00:08:82:c0:cf:7f:05:7a:21:97:
+                    c1:b5:8b:a3:d1:54:ee:fa:04:0f:77:d5:5c:98:4b:
+                    d9:88:18:c1:17:10:92:e5:24:fa:ef:61:eb:5d:7b:
+                    11:e5:be:ba:89:f2:60:c9:3b:82:05:3a:74:54:60:
+                    23:66:1a:d8:cd:28:7b:f1:ea:55:25:9a:8c:04:a0:
+                    ff:9d:48:54:4c:9d:bc:2d:a0:df:71:ae:64:47:0d:
+                    e7:75:05:f4:c5:02:2a:d2:0c:be:a3:63:54:62:2b:
+                    ad:29:eb:6a:08:a4:5e:a8:eb:f1:52:14:4e:d1:5d:
+                    41:2f:d3:19:ba:e4:82:36:7a:d1:a3:f2:84:f6:07:
+                    b2:f6:0c:30:db:db:76:ee:e9:14:05:c7:8f:75:b7:
+                    3f:d5:d5:35:56:d0:92:44:df:26:1e:00:fa:ae:cb:
+                    7a:c9:50:67:5d:69:f8:f9:fd:25:a7:1d:db:40:b1:
+                    42:bc:45:57:e1:c9:1c:42:ba:69:80:1e:ea:25:99:
+                    12:9f:6f:23:a3:d2:2e:4a:cd:15:e4:7c:49:f9:d1:
+                    c0:f0:19:0c:15:50:ce:a6:51:bb:aa:16:b2:82:ec:
+                    f4:61:44:8c:1c:dd:65:60:04:77:b0:4d:99:67:17:
+                    fb:09
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Certificate Sign, CRL Sign
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Subject Key Identifier: 
+                54:76:88:B2:C0:B5:30:D0:FC:4F:C9:6D:3B:F9:8C:55:11:AC:15:15
+            X509v3 Authority Key Identifier: 
+                keyid:54:76:88:B2:C0:B5:30:D0:FC:4F:C9:6D:3B:F9:8C:55:11:AC:15:15
+
+            X509v3 Name Constraints: 
+                Permitted:
+                  DNS:.dn42
+                  IP:172.20.0.0/255.252.0.0
+                  IP:FD42:0:0:0:0:0:0:0/FFFF:0:0:0:0:0:0:0
+
+    Signature Algorithm: sha256WithRSAEncryption
+         5c:a4:3b:41:a0:81:69:e2:71:99:4d:75:4b:5a:20:0d:2a:d9:
+         ec:ea:bc:8d:4f:b0:6c:f3:2e:41:1a:a0:75:f3:de:7e:3a:e0:
+         a7:b9:db:cd:f5:16:e4:6a:cb:e7:cc:2a:8f:ee:7f:14:0a:a5:
+         b5:f9:66:48:81:e5:68:1e:0c:a6:a3:3c:a7:2b:e3:95:cf:e3:
+         63:15:0d:16:09:63:d9:66:31:3b:42:2e:7c:1a:e5:28:8e:5e:
+         3d:9e:28:99:48:e9:47:86:11:e2:04:29:60:2b:96:95:99:ae:
+         3f:ab:ff:3f:45:ab:7e:07:45:4e:4d:0b:18:40:3d:3b:02:9c:
+         4e:a9:0f:a5:c2:3f:4a:30:77:ae:66:5c:b3:8d:b2:41:6b:e2:
+         98:01:7d:e0:6b:52:70:4d:3d:b8:a9:48:f5:02:d2:d9:40:66:
+         b6:5e:44:25:11:55:ac:31:02:d7:67:72:6a:6a:bc:74:34:5f:
+         75:dc:9a:4f:83:28:40:e0:2a:dc:3f:41:43:5a:47:07:2b:b7:
+         a7:3f:d0:15:a2:42:d7:30:22:f2:f6:e4:b4:f6:3b:38:ca:6b:
+         4c:e7:3c:a4:70:cb:de:af:0a:14:ff:23:25:ca:04:cd:9e:49:
+         c3:4b:e4:0a:b5:0b:84:b5:ef:b4:5b:63:07:47:63:cd:5c:50:
+         0b:42:0a:a9
+-----BEGIN CERTIFICATE-----
+MIID8DCCAtigAwIBAgIFIBYBAAAwDQYJKoZIhvcNAQELBQAwYjELMAkGA1UEBhMC
+WEQxDTALBgNVBAoMBGRuNDIxIzAhBgNVBAsMGmRuNDIgQ2VydGlmaWNhdGUgQXV0
+aG9yaXR5MR8wHQYDVQQDDBZkbjQyIFJvb3QgQXV0aG9yaXR5IENBMCAXDTE2MDEx
+NjAwMTIwNFoYDzIwMzAxMjMxMjM1OTU5WjBiMQswCQYDVQQGEwJYRDENMAsGA1UE
+CgwEZG40MjEjMCEGA1UECwwaZG40MiBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxHzAd
+BgNVBAMMFmRuNDIgUm9vdCBBdXRob3JpdHkgQ0EwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQDBGRDeAYYR8YIMsNTl/5rI46r0AAiCwM9/BXohl8G1i6PR
+VO76BA931VyYS9mIGMEXEJLlJPrvYetdexHlvrqJ8mDJO4IFOnRUYCNmGtjNKHvx
+6lUlmowEoP+dSFRMnbwtoN9xrmRHDed1BfTFAirSDL6jY1RiK60p62oIpF6o6/FS
+FE7RXUEv0xm65II2etGj8oT2B7L2DDDb23bu6RQFx491tz/V1TVW0JJE3yYeAPqu
+y3rJUGddafj5/SWnHdtAsUK8RVfhyRxCummAHuolmRKfbyOj0i5KzRXkfEn50cDw
+GQwVUM6mUbuqFrKC7PRhRIwc3WVgBHewTZlnF/sJAgMBAAGjgaowgacwDgYDVR0P
+AQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFR2iLLAtTDQ/E/J
+bTv5jFURrBUVMB8GA1UdIwQYMBaAFFR2iLLAtTDQ/E/JbTv5jFURrBUVMEQGA1Ud
+HgQ9MDugOTAHggUuZG40MjAKhwisFAAA//wAADAihyD9QgAAAAAAAAAAAAAAAAAA
+//8AAAAAAAAAAAAAAAAAADANBgkqhkiG9w0BAQsFAAOCAQEAXKQ7QaCBaeJxmU11
+S1ogDSrZ7Oq8jU+wbPMuQRqgdfPefjrgp7nbzfUW5GrL58wqj+5/FAqltflmSIHl
+aB4MpqM8pyvjlc/jYxUNFglj2WYxO0IufBrlKI5ePZ4omUjpR4YR4gQpYCuWlZmu
+P6v/P0WrfgdFTk0LGEA9OwKcTqkPpcI/SjB3rmZcs42yQWvimAF94GtScE09uKlI
+9QLS2UBmtl5EJRFVrDEC12dyamq8dDRfddyaT4MoQOAq3D9BQ1pHByu3pz/QFaJC
+1zAi8vbktPY7OMprTOc8pHDL3q8KFP8jJcoEzZ5Jw0vkCrULhLXvtFtjB0djzVxQ
+C0IKqQ==
+-----END CERTIFICATE-----
+</code></pre></div>
+<h2 id="obtaining-certificates">Obtaining certificates</h2>
+<ul>
+<li>ca.dn42 <a href="/services/ca/Automatic-CA">client process</a>.</li>
+<li>Burble maintains an <a href="https://burble.dn42/services/acme/">ACME server</a> (with accompanying CA), compatible with any LetsEncrypt client like Certbot, Dehydrated or Caddy.</li>
+<li>Kioubit maintains a <a href="https://dn42.g-load.eu/about/certificate-authority/">certificate authority</a> with certificates obtainable via a simple script or completely <a href="https://dn42.g-load.eu/about/certificate-authority/oneclick/">using only the browser</a>.</li>
+</ul>
+<h2 id="testing-constraints">Testing constraints</h2>
+<p>The name constraints can be verified for example by using openssl:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">openssl x509 -in dn42.crt -text -noout
+</code></pre></div>
+<p>which will show among other things:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">    X509v3 Name Constraints: 
+      Permitted:
+        DNS:.dn42
+</code></pre></div>
+<h2 id="importing-the-certificate">Importing the certificate</h2>
+<ul>
+<li>cacert have a comprehensive FAQ on how to import your own root certificates in <a href="http://wiki.cacert.org/FAQ/BrowserClients">browsers</a> and <a href="http://wiki.cacert.org/FAQ/ImportRootCert">other software</a></li>
+</ul>
+<h3 id="programming-languages">Programming Languages</h3>
+<ul>
+<li>Rust: crate <a href="https://crates.io/crates/dn42-root-ca/"><code>dn42-root-ca</code></a> (works like <code>webpki-roots</code>)</li>
+</ul>
+<h3 id="archlinux">Archlinux</h3>
+<p>Install <code>ca-certificates-dn42</code> from <a href="https://aur.archlinux.org/packages/ca-certificates-dn42/">AUR</a></p>
+<h3 id="debianubuntu">Debian/Ubuntu</h3>
+<h4 id="unofficial-debian-package">Unofficial Debian Package</h4>
+<div class="code-block" data-lang="bash"><span class="code-lang-label" aria-hidden="true">bash</span><pre tabindex="0" class="z-chroma z-code language-bash" data-lang="bash"><code class="language-bash" data-lang="bash">wget https://ca.dn42.us/ca-dn42_20161122.0_all.deb
+<span class="z-c1"># If you&#39;re on a dn42-only network:</span>
+<span class="z-c1"># wget --no-check-certificate https://ca.dn42/ca-dn42_20161122.0_all.deb</span>
+sudo dpkg -i ca-dn42_20161122.0_all.deb
+sudo dpkg-reconfigure ca-certificates
+</code></pre></div>
+<p>You will be asked which certificates you would like to enabled. By default, the dn42 root certifcate (dn42/root-ca.crt) is not enabled, be sure to enable it. This package is waiting for inclusion in Debian (Debian bug <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=845351">#845351</a>).</p>
+<h4 id="manual-installation">Manual Installation</h4>
+<div class="code-block" data-lang="bash"><span class="code-lang-label" aria-hidden="true">bash</span><pre tabindex="0" class="z-chroma z-code language-bash" data-lang="bash"><code class="language-bash" data-lang="bash">$ mkdir /usr/share/ca-certificates/extra
+$ cat &gt; /usr/share/ca-certificates/extra/dn42.crt <span class="z-s">&lt;&lt;EOF
+</span><span class="z-s">-----BEGIN CERTIFICATE-----
+</span><span class="z-s">MIID8DCCAtigAwIBAgIFIBYBAAAwDQYJKoZIhvcNAQELBQAwYjELMAkGA1UEBhMC
+</span><span class="z-s">WEQxDTALBgNVBAoMBGRuNDIxIzAhBgNVBAsMGmRuNDIgQ2VydGlmaWNhdGUgQXV0
+</span><span class="z-s">aG9yaXR5MR8wHQYDVQQDDBZkbjQyIFJvb3QgQXV0aG9yaXR5IENBMCAXDTE2MDEx
+</span><span class="z-s">NjAwMTIwNFoYDzIwMzAxMjMxMjM1OTU5WjBiMQswCQYDVQQGEwJYRDENMAsGA1UE
+</span><span class="z-s">CgwEZG40MjEjMCEGA1UECwwaZG40MiBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkxHzAd
+</span><span class="z-s">BgNVBAMMFmRuNDIgUm9vdCBBdXRob3JpdHkgQ0EwggEiMA0GCSqGSIb3DQEBAQUA
+</span><span class="z-s">A4IBDwAwggEKAoIBAQDBGRDeAYYR8YIMsNTl/5rI46r0AAiCwM9/BXohl8G1i6PR
+</span><span class="z-s">VO76BA931VyYS9mIGMEXEJLlJPrvYetdexHlvrqJ8mDJO4IFOnRUYCNmGtjNKHvx
+</span><span class="z-s">6lUlmowEoP+dSFRMnbwtoN9xrmRHDed1BfTFAirSDL6jY1RiK60p62oIpF6o6/FS
+</span><span class="z-s">FE7RXUEv0xm65II2etGj8oT2B7L2DDDb23bu6RQFx491tz/V1TVW0JJE3yYeAPqu
+</span><span class="z-s">y3rJUGddafj5/SWnHdtAsUK8RVfhyRxCummAHuolmRKfbyOj0i5KzRXkfEn50cDw
+</span><span class="z-s">GQwVUM6mUbuqFrKC7PRhRIwc3WVgBHewTZlnF/sJAgMBAAGjgaowgacwDgYDVR0P
+</span><span class="z-s">AQH/BAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFFR2iLLAtTDQ/E/J
+</span><span class="z-s">bTv5jFURrBUVMB8GA1UdIwQYMBaAFFR2iLLAtTDQ/E/JbTv5jFURrBUVMEQGA1Ud
+</span><span class="z-s">HgQ9MDugOTAHggUuZG40MjAKhwisFAAA//wAADAihyD9QgAAAAAAAAAAAAAAAAAA
+</span><span class="z-s">//8AAAAAAAAAAAAAAAAAADANBgkqhkiG9w0BAQsFAAOCAQEAXKQ7QaCBaeJxmU11
+</span><span class="z-s">S1ogDSrZ7Oq8jU+wbPMuQRqgdfPefjrgp7nbzfUW5GrL58wqj+5/FAqltflmSIHl
+</span><span class="z-s">aB4MpqM8pyvjlc/jYxUNFglj2WYxO0IufBrlKI5ePZ4omUjpR4YR4gQpYCuWlZmu
+</span><span class="z-s">P6v/P0WrfgdFTk0LGEA9OwKcTqkPpcI/SjB3rmZcs42yQWvimAF94GtScE09uKlI
+</span><span class="z-s">9QLS2UBmtl5EJRFVrDEC12dyamq8dDRfddyaT4MoQOAq3D9BQ1pHByu3pz/QFaJC
+</span><span class="z-s">1zAi8vbktPY7OMprTOc8pHDL3q8KFP8jJcoEzZ5Jw0vkCrULhLXvtFtjB0djzVxQ
+</span><span class="z-s">C0IKqQ==
+</span><span class="z-s">-----END CERTIFICATE-----
+</span><span class="z-s">EOF</span>
+$ <span class="z-nb">echo</span> <span class="z-s2">&#34;extra/dn42.crt&#34;</span> &gt;&gt; /etc/ca-certificates.conf
+$ update-ca-certificates
+</code></pre></div>
+<h3 id="almalinuxrockylinuxprobably-anything-rhel">AlmaLinux/RockyLinux/Probably anything RHEL</h3>
+<div class="code-block" data-lang="bash"><span class="code-lang-label" aria-hidden="true">bash</span><pre tabindex="0" class="z-chroma z-code language-bash" data-lang="bash"><code class="language-bash" data-lang="bash">$ /etc/pki/ca-trust/source/anchors/dn42.crt <span class="z-s">&lt;&lt;EOF
+</span><span class="z-s">-----BEGIN CERTIFICATE-----
+</span><span class="z-s">...
+</span><span class="z-s">-----END CERTIFICATE-----
+</span><span class="z-s">EOF</span>
+$ update-ca-trust
+</code></pre></div>
+<h2 id="pki-store">PKI Store</h2>
+<p>All issued keys and crl information are posted at: <a href="https://ca.dn42/">https://ca.dn42/</a></p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

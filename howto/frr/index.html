@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>frr - DN42 Wiki</title>
+    <meta name="description" content="To quote from: FRRouting (FRR) is a free and open source Internet routing protocol suite for Linux and Unix platforms. It implements BGP, OSPF, RIP, IS-IS,...">
+    <meta property="og:description" content="To quote from: FRRouting (FRR) is a free and open source Internet routing protocol suite for Linux and Unix platforms. It implements BGP, OSPF, RIP, IS-IS,...">
+    <meta property="og:title" content="frr - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/frr/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">frr</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="3"><a data-section="#installation" href="#installation">Installation</a></li>
+            
+            <li data-level="2"><a data-section="#configuration" href="#configuration">Configuration</a></li>
+            
+            <li data-level="3"><a data-section="#daemons" href="#daemons">Daemons</a></li>
+            
+            <li data-level="3"><a data-section="#vty-shell" href="#vty-shell">VTY shell</a></li>
+            
+            <li data-level="3"><a data-section="#zebra" href="#zebra">Zebra</a></li>
+            
+            <li data-level="3"><a data-section="#bgp" href="#bgp">BGP</a></li>
+            
+            <li data-level="3"><a data-section="#complete-configuration-example" href="#complete-configuration-example">Complete configuration example</a></li>
+            
+            <li data-level="2"><a data-section="#further-reading" href="#further-reading">Further reading</a></li>
+            
+            <li data-level="3"><a data-section="#general-things" href="#general-things">General things</a></li>
+            
+            <li data-level="3"><a data-section="#configuration-tipps" href="#configuration-tipps">Configuration tipps</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">frr</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>To quote from <a href="https://frrouting.org/">https://frrouting.org/</a>:</p>
+<blockquote>
+<p>FRRouting (FRR) is a free and open source Internet routing protocol suite for Linux and Unix platforms. It implements BGP, OSPF, RIP, IS-IS, PIM, LDP, BFD, Babel, PBR, OpenFabric and VRRP, with alpha support for EIGRP and NHRP.</p>
+</blockquote>
+<p>It features a similar configuration style to Cisco IOS.</p>
+<h3 id="installation">Installation</h3>
+<p>Install the <code>frr</code> and <code>frr-pythontools</code> package on your favourite Linux/BSD distribution. For BGP RPKI support, also install <code>frr-rpki</code>. <em>Make sure you are using FRR version 8.5 or greater for IPv6 link local peerings.</em></p>
+<ul>
+<li>More installation options: <a href="https://docs.frrouting.org/en/latest/installation.html">https://docs.frrouting.org/en/latest/installation.html</a></li>
+<li>releases: <a href="https://frrouting.org/release/">https://frrouting.org/release/</a></li>
+</ul>
+<p>If your distribution doesn&rsquo;t have the latest FRR version, check the releases page. FRR supplies Debian packages, RPM packages and Snaps.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Important cofiguration files:</p>
+<ul>
+<li><code>/etc/frr/daemons</code>: daemons that will be started</li>
+<li><code>/etc/frr/vtysh.conf</code>: configuration for the VTY shell</li>
+<li><code>/etc/frr/frr.conf</code>: configuration for the daemons</li>
+<li><code>/etc/frr/${DAEMON}.conf</code>: configuration for a single daemon (deprecated)</li>
+</ul>
+<p>It this guide, only BGP will be set up using the shared <code>/etc/frr/frr.conf</code>.</p>
+<h3 id="daemons">Daemons</h3>
+<p>First, setup <code>/etc/frr/daemons</code>. As stated previously. this file specifies which daemons will be started.</p>
+<div class="code-block" data-lang="diff"><span class="code-lang-label" aria-hidden="true">diff</span><pre tabindex="0" class="z-chroma z-code language-diff" data-lang="diff"><code class="language-diff" data-lang="diff"><span class="z-gd">--- /etc/frr/daemons
+</span><span class="z-gd"></span><span class="z-gi">+++ /etc/frr/daemons
+</span><span class="z-gi"></span><span class="z-gu">@@ -14,7 +14,7 @@
+</span><span class="z-gu"></span> #
+ # The watchfrr, zebra and staticd daemons are always started.
+ #
+<span class="z-gd">-bgpd=no
+</span><span class="z-gd"></span><span class="z-gi">+bgpd=yes
+</span><span class="z-gi"></span> ospfd=no
+ ospf6d=no
+ ripd=no
+</code></pre></div>
+<h3 id="vty-shell">VTY shell</h3>
+<p>To use the VTY shell, <code>/etc/frr/vtysh.conf</code> needs to be set up. <em>The <code>hostname</code> and <code>banner motd</code> also need to be entered there manually to be persistant.</em></p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">service integrated-vtysh-config
+</code></pre></div>
+<p>Unprivileged users need to be in the <code>frrvty</code> group to use <code>vtysh</code>.</p>
+<p>The VTY shell can be used to interact with running daemons and configure them. Changes made in the VTY shell can be written to <code>/etc/frr/frr.conf</code> using the <code>write</code> command. To enter configuration mode use the <code>configure</code> command. To get information about the available commands, press <code>?</code>.</p>
+<h3 id="zebra">Zebra</h3>
+<p>Before configuring BGP, a few other things need to be set up. First, create a <a href="https://docs.frrouting.org/en/latest/filter.html#ip-prefix-list">prefix-list</a> for the dn42 prefixes. That will be used to filter out non-dn42 routes to be announced to BGP. For that, open <code>/etc/frr/frr.conf</code> or <code>vtysh</code> in configuration mode and add:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip prefix-list dn42 seq 1 deny 172.22.166.0/24 le 32
+ip prefix-list dn42 seq 1001 permit 172.20.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1002 permit 172.21.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1003 permit 172.22.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1004 permit 172.23.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1100 permit 172.20.0.0/14 ge 21 le 29
+ip prefix-list dn42 seq 2001 permit 10.100.0.0/14 le 32
+ip prefix-list dn42 seq 2002 permit 10.127.0.0/16 le 32
+ip prefix-list dn42 seq 2003 permit 10.0.0.0/8 ge 15 le 24
+ip prefix-list dn42 seq 3001 permit 172.31.0.0/16 le 32
+ip prefix-list dn42 seq 9999 deny 0.0.0.0/0 le 32
+!
+ipv6 prefix-list dn42v6 seq 1001 permit fd00::/8 ge 44 le 64
+ipv6 prefix-list dn42v6 seq 9999 deny ::/0 le 128
+</code></pre></div>
+<p>This prefix list can be created yourself by following the instructions for Quagga in the <code>data/filter.txt</code> and <code>data/filter6.txt</code> files from the registry.</p>
+<p>Next create a <a href="https://docs.frrouting.org/en/latest/routemap.html">route-map</a>, which will be used for doing the actual filtering later.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">route-map dn42 permit 5
+ match ip address prefix-list dn42
+ set src &lt;IPv4 address of the node&gt;
+exit
+!
+route-map dn42v6 permit 5
+ match ipv6 address prefix-list dn42v6
+ set src &lt;IPv6 address of the node&gt;
+exit
+</code></pre></div>
+<h3 id="bgp">BGP</h3>
+<p>With the configuration of the daemons file and Zebra done, BGP can now be configured.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">router bgp &lt;AS of the network&gt;
+ neighbor &lt;IPv4 peer address&gt; remote-as &lt;Peer AS&gt;
+ neighbor &lt;IPv6 peer address&gt; remote-as &lt;Peer AS&gt;
+ ! In case an IPv6 link local address is used to peer
+ neighbor &lt;IPv6 peer address&gt; interface &lt;Peer interface&gt;
+ !
+ address-family ipv4 unicast
+  network &lt;Your IPv4 subnet&gt;
+  neighbor &lt;IPv4 peer address&gt; activate
+  neighbor &lt;IPv4 peer address&gt; route-map dn42 in
+  neighbor &lt;IPv4 peer address&gt; route-map dn42 out
+ exit
+ !
+ address-family ipv6 unicast
+  network &lt;Your IPv6 subnet&gt;
+  neighbor &lt;IPv6 peer address&gt; activate
+  neighbor &lt;IPv6 peer address&gt; route-map dn42v6 in
+  neighbor &lt;IPv6 peer address&gt; route-map dn42v6 out
+ exit
+exit
+</code></pre></div>
+<p><strong>Note</strong>: to advertise your prefixes, you will also have to have the full prefix assigned to an interface on the system.</p>
+<p>With everything configured, the BGP session should come up. In the normal VTY shell mode the status of BGP peerings can be checked using the <code>show bgp summary</code> command.</p>
+<h3 id="complete-configuration-example">Complete configuration example</h3>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">router bgp &lt;Your AS here&gt;
+ neighbor &lt;Peer IPv4&gt; remote-as &lt;Peer AS&gt;
+ neighbor &lt;Peer IPv6&gt; remote-as &lt;Peer AS&gt;
+ ! In case an IPv6 link local address is used to peer
+ neighbor &lt;Peer IPv6&gt; interface &lt;Peer interface&gt;
+ !
+ address-family ipv4 unicast
+  network &lt;Your IPv4 subnet&gt;
+  neighbor &lt;IPv4 peer address&gt; activate
+  neighbor &lt;IPv4 peer address&gt; route-map dn42 in
+  neighbor &lt;IPv4 peer address&gt; route-map dn42 out
+ exit
+ !
+ address-family ipv6 unicast
+  network &lt;Your IPv6 subnet&gt;
+  neighbor &lt;IPv6 peer address&gt; activate
+  neighbor &lt;IPv6 peer address&gt; route-map dn42v6 in
+  neighbor &lt;IPv6 peer address&gt; route-map dn42v6 out
+ exit
+exit
+!
+ip prefix-list dn42 seq 1 deny 172.22.166.0/24 le 32
+ip prefix-list dn42 seq 1001 permit 172.20.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1002 permit 172.21.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1003 permit 172.22.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1004 permit 172.23.0.0/24 ge 28 le 32
+ip prefix-list dn42 seq 1100 permit 172.20.0.0/14 ge 21 le 29
+ip prefix-list dn42 seq 2001 permit 10.100.0.0/14 le 32
+ip prefix-list dn42 seq 2002 permit 10.127.0.0/16 le 32
+ip prefix-list dn42 seq 2003 permit 10.0.0.0/8 ge 15 le 24
+ip prefix-list dn42 seq 3001 permit 172.31.0.0/16 le 32
+ip prefix-list dn42 seq 9999 deny 0.0.0.0/0 le 32
+!
+ipv6 prefix-list dn42v6 seq 1001 permit fd00::/8 ge 44 le 64
+ipv6 prefix-list dn42v6 seq 9999 deny ::/0 le 128
+!
+route-map dn42 permit 5
+ match ip address prefix-list dn42
+ set src &lt;IPv4 address of the node&gt;
+exit
+!
+route-map dn42v6 permit 5
+ match ipv6 address prefix-list dn42v6
+ set src &lt;IPv6 address of the node&gt;
+exit
+</code></pre></div>
+<h2 id="further-reading">Further reading</h2>
+<h3 id="general-things">General things</h3>
+<ul>
+<li>FRR documentation: <a href="https://docs.frrouting.org/en/latest">https://docs.frrouting.org/en/latest</a></li>
+<li>FRR source code: <a href="https://github.com/frrouting/frr">https://github.com/frrouting/frr</a></li>
+</ul>
+<h3 id="configuration-tipps">Configuration tipps</h3>
+<ul>
+<li>Use <a href="https://docs.frrouting.org/en/latest/bgp.html#peer-groups">peer groups</a> (<em>Strongly recommended to limit the work neede to add new peers or change general configuration for may peers.</em>)</li>
+<li><code>tab</code> and <code>?</code> are your best friends in the VTY shell</li>
+<li>Use <code>find REGEX</code> in the VTY shell to find certain commands</li>
+</ul>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

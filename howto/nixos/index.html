@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>nixos - DN42 Wiki</title>
+    <meta name="description" content="NixOS NixOS is a declarative Linux distribution based on the Nix package Manager. In this post I ll explain how I set up dn42 in this environment. I currently...">
+    <meta property="og:description" content="NixOS NixOS is a declarative Linux distribution based on the Nix package Manager. In this post I ll explain how I set up dn42 in this environment. I currently...">
+    <meta property="og:title" content="nixos - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/nixos/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">nixos</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#nixos" href="#nixos">NixOS</a></li>
+            
+            <li data-level="2"><a data-section="#container-disclaimer" href="#container-disclaimer">container disclaimer</a></li>
+            
+            <li data-level="2"><a data-section="#building-the-container" href="#building-the-container">Building the container</a></li>
+            
+            <li data-level="3"><a data-section="#network-setup" href="#network-setup">Network Setup</a></li>
+            
+            <li data-level="4"><a data-section="#ferm-example" href="#ferm-example">Ferm example</a></li>
+            
+            <li data-level="3"><a data-section="#peering-with-wireguard" href="#peering-with-wireguard">Peering with wireguard</a></li>
+            
+            <li data-level="3"><a data-section="#bgp-routing-with-bird2" href="#bgp-routing-with-bird2">BGP Routing with bird2</a></li>
+            
+            <li data-level="4"><a data-section="#roa-updating-script" href="#roa-updating-script">ROA Updating script</a></li>
+            
+            <li data-level="3"><a data-section="#bird-looking-glass" href="#bird-looking-glass">Bird Looking Glass</a></li>
+            
+            <li data-level="3"><a data-section="#services" href="#services">Services</a></li>
+            
+            <li data-level="3"><a data-section="#sample-configuration" href="#sample-configuration">Sample configuration</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">nixos</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="nixos">NixOS</h1>
+<p>NixOS is a declarative Linux distribution based on the Nix package Manager. In this post I&rsquo;ll explain how I set up dn42 in this environment. I currently only peer with wireguard and use bird2. NixOS uses configuration files to manage the system state and has a builtin container module.</p>
+<h2 id="container-disclaimer">container disclaimer</h2>
+<p>I had a spare IPv4 Address so I decided to use a container without a NAT and keep my host &ldquo;clean&rdquo; from dn42 Wireguard Interfaces and IP routes. However it&rsquo;s painful to debug since nixos-rebuild restarts the container on every minor change. So every time you change a firewall rule or debug a DNS setting nixos-rebuild restarts the container before the change takes effect and since BGP is BGP, it can be really frustrating.</p>
+<p>You may also want to have a look at this <a href="https://github.com/NixOS/nixpkgs/issues/43652">Issue</a> and <a href="https://github.com/NixOS/nixpkgs/pull/80169">Pull Request</a></p>
+<p>If you still want to give it a try, here you&rsquo;ll find some inspiration from my setup. You can also use some of these nix expression in a non-container environment.</p>
+<h2 id="building-the-container">Building the container</h2>
+<p>Defining the container environment is the base part of the setup. Beginning with network setup, Private Network disables the passthrough of Host Interfaces into the container and adds a bridged Interface to the host default Interface (e.g. eth0). The localAddress is the container side address and the hostAddress is the one the Host gets. Inside the <code>container.&lt;name&gt;.config</code>, you can basicly import the same nix expression as from the Host and don&rsquo;t need to add some special container parts.</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-n">containers</span><span class="z-o">.</span><span class="z-n">dn42</span> <span class="z-err">=</span> <span class="z-p">{</span>
+    <span class="z-n">hostAddress</span> <span class="z-o">=</span> <span class="z-s2">&#34;192.168.254.1&#34;</span><span class="z-p">;</span> <span class="z-c1"># Transfer Network</span>
+    <span class="z-n">hostAddress6</span> <span class="z-o">=</span> <span class="z-s2">&#34;2001:db08::42&#34;</span><span class="z-p">;</span> <span class="z-c1"># Transfer Network</span>
+    <span class="z-n">localAddress</span> <span class="z-o">=</span> <span class="z-s2">&#34;116.203.1.5&#34;</span><span class="z-p">;</span>
+    <span class="z-n">localAddress6</span> <span class="z-o">=</span> <span class="z-s2">&#34;2a01:4f8:c0c:4f7a::2/128&#34;</span><span class="z-p">;</span>
+    <span class="z-n">privateNetwork</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+    <span class="z-n">autoStart</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+
+    <span class="z-n">config</span> <span class="z-o">=</span> <span class="z-p">{</span> <span class="z-n">config</span><span class="z-o">,</span> <span class="z-n">pkgs</span><span class="z-o">,</span> <span class="z-o">...</span> <span class="z-p">}:</span> <span class="z-p">{</span>
+        <span class="z-n">imports</span> <span class="z-o">=</span> <span class="z-p">[</span>
+            <span class="z-sr">./peers</span> <span class="z-c1"># Folder with a config for every Peer</span>
+            <span class="z-sr">./dns.nix</span> <span class="z-c1"># Bind with the litschi.dn42 zone delegated</span>
+            <span class="z-sr">./bird.nix</span> <span class="z-c1"># Bird config for BGP Routing</span>
+            <span class="z-sr">./networking.nix</span> <span class="z-c1"># Static Network configuration (with firewall)</span>
+            <span class="z-sr">./nginx.nix</span> <span class="z-c1"># nginx config for litschi.dn42</span>
+        <span class="z-p">];</span>
+        <span class="z-n">environment</span><span class="z-o">.</span><span class="z-n">systemPackages</span> <span class="z-o">=</span> <span class="z-k">with</span> <span class="z-n">pkgs</span><span class="z-p">;</span> <span class="z-p">[</span> 
+            <span class="z-c1"># Network debug tools</span>
+            <span class="z-n">dnsutils</span>
+            <span class="z-n">mtr</span>
+            <span class="z-n">tcpdump</span>
+            <span class="z-n">wireguard-tools</span>
+        <span class="z-p">];</span>
+    <span class="z-p">}</span>
+<span class="z-p">}</span>
+</code></pre></div>
+<p>In theory the container should now be starting and you can get shell access  with <code>sudo nixos-container root-login &lt;name&gt; </code>.</p>
+<p>I mounted some host paths into the container for dns zone files and static homepage since the container is the only one providing .dn42 webservers.</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-n">containers</span><span class="z-o">.</span><span class="z-n">dn42</span> <span class="z-err">=</span> <span class="z-p">{</span>
+    <span class="z-n">bindMounts</span> <span class="z-o">=</span> <span class="z-p">{</span>
+        <span class="z-s2">&#34;/var/www/dn42&#34;</span> <span class="z-o">=</span> <span class="z-p">{</span>
+            <span class="z-n">hostPath</span> <span class="z-o">=</span> <span class="z-s2">&#34;/var/www/dn42&#34;</span><span class="z-p">;</span>
+            <span class="z-n">isReadOnly</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+            <span class="z-n">mountPoint</span> <span class="z-o">=</span> <span class="z-s2">&#34;/var/www/dn42&#34;</span><span class="z-p">;</span>
+        <span class="z-p">};</span>
+        <span class="z-s2">&#34;/var/dns/dn42&#34;</span> <span class="z-o">=</span> <span class="z-p">{</span>
+            <span class="z-n">hostPath</span> <span class="z-o">=</span> <span class="z-s2">&#34;/var/dns/dn42&#34;</span><span class="z-p">;</span>
+            <span class="z-n">isReadOnly</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+            <span class="z-n">mountPoint</span> <span class="z-o">=</span> <span class="z-s2">&#34;/var/dns&#34;</span><span class="z-p">;</span>
+        <span class="z-p">};</span>
+    <span class="z-p">};</span>
+<span class="z-p">}</span>
+</code></pre></div>
+<h3 id="network-setup">Network Setup</h3>
+<p>As mentioned above, I got a spare public IPv4 Address, but by adding it as <code>localAddress</code>, the container Part is configured static enough. But to forward traffic between Interfaces the following <code>/proc/sys/net/</code> parameters should be configured:</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-n">boot</span><span class="z-o">.</span><span class="z-n">kernel</span><span class="z-o">.</span><span class="z-n">sysctl</span> <span class="z-err">=</span> <span class="z-p">{</span>
+    <span class="z-s2">&#34;net.ipv4.ip_forward&#34;</span> <span class="z-o">=</span> <span class="z-mi">1</span><span class="z-p">;</span>
+    <span class="z-s2">&#34;net.ipv6.conf.all.forwarding&#34;</span> <span class="z-o">=</span> <span class="z-mi">1</span><span class="z-p">;</span>
+<span class="z-p">};</span>
+</code></pre></div>
+<p>This allows our firewall to configure forwarding between peers and other tunnels. What is allowed to be forwarded can be configured in the firewall. Ferm has only few NixOS Options, but is pretty basic. It&rsquo;s configured with the <code>services.ferm.config</code> option, that contains just a string. Within this string there&rsquo;s standard plain ferm config. Example config is attached below.
+If the dn42 address is not bound at any other Interface, you need to add it to the lo Interface to use it as source IP when routing via peers with dedicated transfer net.</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-n">networking</span><span class="z-o">.</span><span class="z-n">interfaces</span><span class="z-o">.</span><span class="z-n">lo</span> <span class="z-err">=</span> <span class="z-p">{</span>
+    <span class="z-n">ipv4</span><span class="z-o">.</span><span class="z-n">addresses</span> <span class="z-o">=</span> <span class="z-p">[</span>
+        <span class="z-p">{</span>
+            <span class="z-n">address</span> <span class="z-o">=</span> <span class="z-s2">&#34;172.23.73.65&#34;</span><span class="z-p">;</span>
+            <span class="z-n">prefixLength</span> <span class="z-o">=</span> <span class="z-mi">32</span><span class="z-p">;</span>
+        <span class="z-p">}</span>
+    <span class="z-p">];</span>
+    <span class="z-n">ipv6</span><span class="z-o">.</span><span class="z-n">addresses</span> <span class="z-o">=</span> <span class="z-p">[</span>
+        <span class="z-p">{</span>
+            <span class="z-n">address</span> <span class="z-o">=</span> <span class="z-s2">&#34;fd67:24bd:a1ea::1&#34;</span><span class="z-p">;</span>
+            <span class="z-n">prefixLength</span> <span class="z-o">=</span> <span class="z-mi">128</span><span class="z-p">;</span>
+        <span class="z-p">}</span>
+    <span class="z-p">];</span>
+<span class="z-p">};</span>
+</code></pre></div>
+<h4 id="ferm-example">Ferm example</h4>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-n">services</span><span class="z-o">.</span><span class="z-n">ferm</span> <span class="z-err">=</span> <span class="z-p">{</span>
+    <span class="z-n">enable</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+    <span class="z-n">config</span> <span class="z-o">=</span> <span class="z-s1">&#39;&#39;
+</span><span class="z-s1">        domain ip table filter chain INPUT proto icmp ACCEPT;
+</span><span class="z-s1">        domain ip6 table filter chain INPUT proto (ipv6-icmp icmp) ACCEPT;
+</span><span class="z-s1">        domain (ip ip6) table filter {
+</span><span class="z-s1">            chain INPUT {
+</span><span class="z-s1">                policy DROP;
+</span><span class="z-s1">                interface lo ACCEPT;
+</span><span class="z-s1">                interface intern-+ ACCEPT;
+</span><span class="z-s1">                # website
+</span><span class="z-s1">                proto tcp dport (http https) ACCEPT;
+</span><span class="z-s1">                # wireguard
+</span><span class="z-s1">                proto udp dport ( &lt;Wireguard Ports&gt; ) ACCEPT;
+</span><span class="z-s1">                # bgp
+</span><span class="z-s1">                proto tcp dport (179) ACCEPT;
+</span><span class="z-s1">                # dns
+</span><span class="z-s1">                proto (udp tcp) dport domain ACCEPT;
+</span><span class="z-s1">                mod state state (INVALID) DROP;
+</span><span class="z-s1">                mod state state (ESTABLISHED RELATED) ACCEPT;
+</span><span class="z-s1">            }
+</span><span class="z-s1">            chain OUTPUT {
+</span><span class="z-s1">                policy ACCEPT;
+</span><span class="z-s1">            }
+</span><span class="z-s1">            chain FORWARD {
+</span><span class="z-s1">                policy DROP;
+</span><span class="z-s1">                # allow intern routing and dn42 forwarding
+</span><span class="z-s1">                interface dn42-+ outerface dn42-+ ACCEPT;
+</span><span class="z-s1">                interface intern-+ outerface intern-+ ACCEPT;
+</span><span class="z-s1">                interface intern-+ outerface dn42-+ ACCEPT;
+</span><span class="z-s1">                # but dn42 -&gt; intern only with execptions
+</span><span class="z-s1">                interface dn42-+ outerface intern-+ {
+</span><span class="z-s1">                    proto (ipv6-icmp icmp) ACCEPT;
+</span><span class="z-s1">                    proto tcp dport (ssh) ACCEPT; # Allow SSH Access from dn42 to devices behind intern-+ Interfaces
+</span><span class="z-s1">                    mod state state (ESTABLISHED) ACCEPT;
+</span><span class="z-s1">                }
+</span><span class="z-s1">            }
+</span><span class="z-s1">        }
+</span><span class="z-s1">    &#39;&#39;</span><span class="z-p">;</span>
+<span class="z-p">};</span>
+</code></pre></div>
+<h3 id="peering-with-wireguard">Peering with wireguard</h3>
+<p>As explained above, every peer gets a dedicated wireguard Interface and so a dedicated file. In the container config folder there&rsquo;s a peer subfolder and within a folder for dn42- (extern) Peers and intern- configs e.g. my Home Router or mobile devices.</p>
+<p>A sample wireguard config may look like this:</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-p">{</span><span class="z-n">config</span><span class="z-o">,</span> <span class="z-n">pkgs</span><span class="z-o">,</span> <span class="z-o">...</span><span class="z-p">}:</span>
+<span class="z-p">{</span>
+    <span class="z-n">networking</span><span class="z-o">.</span><span class="z-n">wireguard</span><span class="z-o">.</span><span class="z-n">interfaces</span><span class="z-o">.</span><span class="z-n">dn42-peer</span> <span class="z-o">=</span> <span class="z-p">{</span>
+        <span class="z-n">privateKey</span> <span class="z-o">=</span> <span class="z-s2">&#34;&#34;</span><span class="z-p">;</span>
+        <span class="z-n">allowedIPsAsRoutes</span> <span class="z-o">=</span> <span class="z-no">false</span><span class="z-p">;</span>
+        <span class="z-n">listenPort</span> <span class="z-o">=</span> <span class="z-mi">42420</span><span class="z-p">;</span>
+
+        <span class="z-n">peers</span> <span class="z-o">=</span> <span class="z-p">[</span>
+            <span class="z-p">{</span>
+                <span class="z-n">publicKey</span> <span class="z-o">=</span> <span class="z-s2">&#34;&#34;</span><span class="z-p">;</span>
+                <span class="z-n">allowedIPs</span> <span class="z-o">=</span> <span class="z-p">[</span> <span class="z-s2">&#34;0.0.0.0/0&#34;</span> <span class="z-s2">&#34;::/0&#34;</span> <span class="z-p">];</span>
+                <span class="z-n">endpoint</span> <span class="z-o">=</span> <span class="z-s2">&#34;42.42.42.42:42421&#34;</span><span class="z-p">;</span>
+            <span class="z-p">}</span>
+        <span class="z-p">];</span>
+        <span class="z-n">postSetup</span> <span class="z-o">=</span> <span class="z-s1">&#39;&#39;
+</span><span class="z-s1">            </span><span class="z-si">${</span><span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">iproute</span><span class="z-si">}</span><span class="z-s1">/bin/ip addr add 169.254.0.1/32 peer 169.254.0.0/32 dev dn42-peer
+</span><span class="z-s1">            </span><span class="z-si">${</span><span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">iproute</span><span class="z-si">}</span><span class="z-s1">/bin/ip -6 addr add fe80::1220/64 dev dn42-peer
+</span><span class="z-s1">        &#39;&#39;</span><span class="z-p">;</span>
+    <span class="z-p">};</span>
+<span class="z-p">}</span>
+</code></pre></div>
+<p>As seen, the IP configuration is applied via ip-commands in the postSetup. This kinda works but isn&rsquo;t a fancy solution. There&rsquo;s room for improvements e.g. configuring static addresses and routes with networkd.</p>
+<h3 id="bgp-routing-with-bird2">BGP Routing with bird2</h3>
+<p>Like ferm, Bird2 is configured by <code>services.bird2.config</code> containing a string. In there the example bird2 config from <a href="/howto/Bird2">wiki.dn42</a> can be imported. Roa tables can be generated or downloaded from host providing them.</p>
+<h4 id="roa-updating-script">ROA Updating script</h4>
+<p>Sample example to update ROA&rsquo;s :</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-p">{</span> <span class="z-n">pkgs</span><span class="z-o">,</span> <span class="z-n">lib</span><span class="z-o">,</span> <span class="z-o">...</span> <span class="z-p">}:</span>
+<span class="z-k">let</span> <span class="z-n">script</span> <span class="z-o">=</span> <span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">writeShellScriptBin</span> <span class="z-s2">&#34;update-roa&#34;</span> <span class="z-s1">&#39;&#39;
+</span><span class="z-s1">    mkdir -p /etc/bird/
+</span><span class="z-s1">    </span><span class="z-si">${</span><span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">curl</span><span class="z-si">}</span><span class="z-s1">/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42_v6.conf https://dn42.burble.com/roa/dn42_roa_bird2_6.conf
+</span><span class="z-s1">    </span><span class="z-si">${</span><span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">curl</span><span class="z-si">}</span><span class="z-s1">/bin/curl -sfSLR {-o,-z}/etc/bird/roa_dn42.conf https://dn42.burble.com/roa/dn42_roa_bird2_4.conf
+</span><span class="z-s1">    </span><span class="z-si">${</span><span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">bird2</span><span class="z-si">}</span><span class="z-s1">/bin/birdc c 
+</span><span class="z-s1">    </span><span class="z-si">${</span><span class="z-n">pkgs</span><span class="z-o">.</span><span class="z-n">bird2</span><span class="z-si">}</span><span class="z-s1">/bin/birdc reload in all
+</span><span class="z-s1">    &#39;&#39;</span><span class="z-p">;</span>
+<span class="z-k">in</span>
+<span class="z-p">{</span>
+    <span class="z-n">systemd</span><span class="z-o">.</span><span class="z-n">timers</span><span class="z-o">.</span><span class="z-n">dn42-roa</span> <span class="z-o">=</span> <span class="z-p">{</span>
+        <span class="z-n">description</span> <span class="z-o">=</span> <span class="z-s2">&#34;Trigger a ROA table update&#34;</span><span class="z-p">;</span>
+
+        <span class="z-n">timerConfig</span> <span class="z-o">=</span> <span class="z-p">{</span>
+            <span class="z-n">OnBootSec</span> <span class="z-o">=</span> <span class="z-s2">&#34;5m&#34;</span><span class="z-p">;</span>
+            <span class="z-n">OnUnitInactiveSec</span> <span class="z-o">=</span> <span class="z-s2">&#34;1h&#34;</span><span class="z-p">;</span>
+            <span class="z-n">Unit</span> <span class="z-o">=</span> <span class="z-s2">&#34;dn42-roa.service&#34;</span><span class="z-p">;</span>
+        <span class="z-p">};</span>
+
+        <span class="z-n">wantedBy</span> <span class="z-o">=</span> <span class="z-p">[</span> <span class="z-s2">&#34;timers.target&#34;</span> <span class="z-p">];</span>
+        <span class="z-n">before</span> <span class="z-o">=</span> <span class="z-p">[</span> <span class="z-s2">&#34;bird.service&#34;</span> <span class="z-p">];</span>
+    <span class="z-p">};</span>
+
+    <span class="z-n">systemd</span><span class="z-o">.</span><span class="z-n">services</span> <span class="z-o">=</span> <span class="z-p">{</span>
+        <span class="z-n">dn42-roa</span> <span class="z-o">=</span> <span class="z-p">{</span>
+            <span class="z-n">after</span> <span class="z-o">=</span> <span class="z-p">[</span> <span class="z-s2">&#34;network.target&#34;</span> <span class="z-p">];</span>
+            <span class="z-n">description</span> <span class="z-o">=</span> <span class="z-s2">&#34;DN42 ROA Updated&#34;</span><span class="z-p">;</span>
+            <span class="z-n">serviceConfig</span> <span class="z-o">=</span> <span class="z-p">{</span>
+                <span class="z-n">Type</span> <span class="z-o">=</span> <span class="z-s2">&#34;oneshot&#34;</span><span class="z-p">;</span>
+                <span class="z-n">ExecStart</span> <span class="z-o">=</span> <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-n">script</span><span class="z-si">}</span><span class="z-s2">/bin/update-roa&#34;</span><span class="z-p">;</span>
+            <span class="z-p">};</span>
+        <span class="z-p">};</span>
+    <span class="z-p">};</span>
+<span class="z-p">}</span>
+</code></pre></div>
+<h3 id="bird-looking-glass">Bird Looking Glass</h3>
+<p>There is now (thanks to <a href="https://github.com/NixOS/nixpkgs/pull/153481">Tchekda</a>) a direct way to set up a looking glass for bird on Nixos. <a href="https://github.com/NixOS/nixpkgs/blob/3aab5ebd436023ca8343a84804d51cd227dd01dd/nixos/modules/services/networking/bird-lg.nix">Documentation</a> and sample:</p>
+<div class="code-block" data-lang="nix"><span class="code-lang-label" aria-hidden="true">nix</span><pre tabindex="0" class="z-chroma z-code language-nix" data-lang="nix"><code class="language-nix" data-lang="nix"><span class="z-n">bird-lg</span> <span class="z-err">=</span> <span class="z-p">{</span>
+    <span class="z-n">proxy</span> <span class="z-o">=</span> <span class="z-p">{</span>
+        <span class="z-n">enable</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+        <span class="z-n">allowedIPs</span> <span class="z-o">=</span> <span class="z-p">[</span> <span class="z-s2">&#34;172.20.XX.XX&#34;</span> <span class="z-s2">&#34;172.20.XX.YY&#34;</span> <span class="z-p">];</span>
+    <span class="z-p">};</span>
+    <span class="z-n">frontend</span> <span class="z-o">=</span> <span class="z-p">{</span>
+        <span class="z-n">enable</span> <span class="z-o">=</span> <span class="z-no">true</span><span class="z-p">;</span>
+        <span class="z-n">netSpecificMode</span> <span class="z-o">=</span> <span class="z-s2">&#34;dn42&#34;</span><span class="z-p">;</span>
+        <span class="z-n">servers</span> <span class="z-o">=</span> <span class="z-p">[</span> <span class="z-s2">&#34;node1&#34;</span> <span class="z-s2">&#34;node2&#34;</span> <span class="z-p">];</span>
+        <span class="z-n">domain</span> <span class="z-o">=</span> <span class="z-s2">&#34;domain.dn42&#34;</span><span class="z-p">;</span>
+    <span class="z-p">};</span>
+<span class="z-p">};</span>
+</code></pre></div>
+<h3 id="services">Services</h3>
+<p>I also run services like a nameserver for .litschi.dn42 zones and a nginx webserver within this container. Since Host paths for <code>/var/www/dn42</code> and <code>/var/dns/dn42</code> are both bound into the container, zone config and e.g. website can be edited directly from Host without rebuilding the whole container.</p>
+<h3 id="sample-configuration">Sample configuration</h3>
+<p>You can find a sample Wireguard + Bird configuration made by Tchekda ready for dn42 in <a href="https://github.com/Tchekda/nixos-configuration/tree/master/llitt/dn42">this</a> repository.</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

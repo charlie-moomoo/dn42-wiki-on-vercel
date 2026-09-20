@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Getting Started - DN42 Wiki</title>
+    <meta name="description" content="You want to join dn42, but you don t know where to start. This guide gives general guidelines about dn42 and routing in general, but it assumes that you are...">
+    <meta property="og:description" content="You want to join dn42, but you don t know where to start. This guide gives general guidelines about dn42 and routing in general, but it assumes that you are...">
+    <meta property="og:title" content="Getting Started - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/Getting-Started/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">Getting Started</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#requirements" href="#requirements">Requirements</a></li>
+            
+            <li data-level="1"><a data-section="#formalities" href="#formalities">Formalities</a></li>
+            
+            <li data-level="2"><a data-section="#subscribe-to-the-mailing-list" href="#subscribe-to-the-mailing-list">Subscribe to the mailing list</a></li>
+            
+            <li data-level="2"><a data-section="#fill-in-the-registry" href="#fill-in-the-registry">Fill in the registry</a></li>
+            
+            <li data-level="3"><a data-section="#create-a-maintainer-object" href="#create-a-maintainer-object">Create a maintainer object</a></li>
+            
+            <li data-level="3"><a data-section="#create-person-objects" href="#create-person-objects">Create person objects</a></li>
+            
+            <li data-level="3"><a data-section="#guidelines-for-resource-objects" href="#guidelines-for-resource-objects">Guidelines for resource objects</a></li>
+            
+            <li data-level="3"><a data-section="#register-an-as-number" href="#register-an-as-number">Register an AS number</a></li>
+            
+            <li data-level="3"><a data-section="#register-a-network-prefix" href="#register-a-network-prefix">Register a network prefix</a></li>
+            
+            <li data-level="4"><a data-section="#ipv6" href="#ipv6">IPv6</a></li>
+            
+            <li data-level="4"><a data-section="#ipv4-legacy" href="#ipv4-legacy">IPv4 (Legacy)</a></li>
+            
+            <li data-level="4"><a data-section="#create-route-objects" href="#create-route-objects">Create route objects</a></li>
+            
+            <li data-level="4"><a data-section="#dns-and-domain-registration" href="#dns-and-domain-registration">DNS and Domain Registration</a></li>
+            
+            <li data-level="3"><a data-section="#telephony-prefix" href="#telephony-prefix">Telephony Prefix</a></li>
+            
+            <li data-level="1"><a data-section="#get-some-peers" href="#get-some-peers">Get some peers</a></li>
+            
+            <li data-level="2"><a data-section="#establishing-tunnels" href="#establishing-tunnels">Establishing tunnels</a></li>
+            
+            <li data-level="2"><a data-section="#running-a-routing-daemon" href="#running-a-routing-daemon">Running a routing daemon</a></li>
+            
+            <li data-level="2"><a data-section="#configuration-examples" href="#configuration-examples">Configuration Examples</a></li>
+            
+            <li data-level="1"><a data-section="#configure-dns" href="#configure-dns">Configure DNS</a></li>
+            
+            <li data-level="1"><a data-section="#use-and-provide-services" href="#use-and-provide-services">Use and provide services</a></li>
+            
+            <li data-level="3"><a data-section="#router-specific" href="#router-specific">Router-specific</a></li>
+            
+            <li data-level="2"><a data-section="#use-and-provide-services-1" href="#use-and-provide-services-1">Use and provide services</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">Getting Started</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>You want to join dn42, but you don&rsquo;t know where to start. This guide gives general guidelines about dn42 and routing in general, but it assumes that you are knowledgeable with routing.</p>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li>you have at least one router running 24/7. Any Linux or BSD box can be turned into a router. If your home router runs OpenWRT, you might consider using it for dn42.</li>
+<li>your router is able to establish network tunnels over the Internet (Wireguard, GRE, OpenVPN, IPSec, Tinc&hellip;). Beware, your network operator might filter this kind of traffic, e.g. in schools or universities.</li>
+<li>you are generally knowledgeable with networking and routing (i.e. you&rsquo;ve heard about BGP, IGP, forwarding, and you&rsquo;re willing to configure a BGP router such as FRR or Bird)</li>
+</ul>
+<h1 id="formalities">Formalities</h1>
+<p>Don&rsquo;t worry, it&rsquo;s not as tedious as registering with a RIR ;)</p>
+<h2 id="subscribe-to-the-mailing-list">Subscribe to the mailing list</h2>
+<p>This is important, as it allows to stay up-to-date on best practices, new services, security issues&hellip;</p>
+<p>See <a href="/contact#contact_mailing-list">Contact</a> to subscribe.</p>
+<h2 id="fill-in-the-registry">Fill in the registry</h2>
+<p>You must create several objects in the DN42 registry: <a href="https://git.dn42.dev/dn42/registry">https://git.dn42.dev/dn42/registry</a></p>
+<p>The registry is a git repository, objects are created by forking the main repository, making your changes and then submitting a pull request for review. There are detailed instructions in the registry <a href="https://git.dn42.dev/dn42/registry/src/branch/master/README.md">README</a> how to do this. See also the the generic git documentation <a href="https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes">git documentation</a> and guides on <a href="https://help.github.com/en/github/using-git">github</a> for how to use git to work with remote repositories.</p>
+<p>While filling out the objects in the DN42 registry make sure to refer to the <a href="https://explorer.dn42.dev/#/schema">schema</a> to speed up the review process.</p>
+<p>When submitting your pull request, you must squash multiple changes to a single commit, again there are instructions in the <a href="https://git.dn42.dev/dn42/registry/src/branch/master/README.md">README</a> for how to do this.</p>
+<p>Remember to add authentication to your <code>mntner</code> object, and you <strong>must</strong> <a href="/howto/Registry-Authentication">sign your commit</a></p>
+<p>The registry includes a number of scripts to help check your request:</p>
+<ul>
+<li><code>fmt-my-stuff &lt;FOO&gt;-MNT</code>: automatically fixes minor formatting errors</li>
+<li><code>check-my-stuff &lt;FOO&gt;-MNT</code>: validates your objects against the registry schema</li>
+<li><code>check-pol origin/master &lt;FOO&gt;-MNT</code>: checks for policy violations</li>
+<li><code>squash-my-commits</code>: automatically update and squash your local commits</li>
+<li><code>sign-my-commit</code>: sign your commit using a pgp key or standard SSH signing</li>
+</ul>
+<p>The registry maintainers run the checking scripts against each request, so please run these yourself first to check for simple errors.</p>
+<p>Do browse through the registry and look at the <a href="https://git.dn42.dev/dn42/registry/pulls">pull request queue</a> to see examples, understand how the process works and see the types of questions asked by the registry maintainers.</p>
+<p><em>You should not use the gitea web interface to edit files, doing so creates a large number of commits and prevents running of the registry scripts</em></p>
+<hr>
+<p>This example assumes that your name is <code>&lt;FOO&gt;</code>, part of an organisation called <code>&lt;ORG-FOO&gt;</code> (for instance, your hackerspace). <em>Organisation objects are not required if your are registering as an individual</em>. Obviously, these should be replaced by the appropriate values in all examples below.</p>
+<p>We will create several types of objects:</p>
+<ul>
+<li><strong>maintainer</strong> objects, which are authenticated so that only you can edit your own objects</li>
+<li><strong>person</strong> objects, which describe people or organisations and provide contact information</li>
+<li>and <strong>resource</strong> objects (AS number, IP subnet, DNS zone, etc).</li>
+</ul>
+<p>All objects are simple text files in the specific subfolders, but the files do have a particular format. The files should use spaces and not tabs, and the attribute values must start on the 20th column.</p>
+<h3 id="create-a-maintainer-object">Create a maintainer object</h3>
+<p>Create a <code>mntner</code> object in <code>data/mntner/</code> named <code>&lt;FOO&gt;-MNT</code>. It will be used to edit all the objects that are under your responsibility.</p>
+<ul>
+<li>use <code>&lt;FOO&gt;-MNT</code> as <code>mnt-by</code>, otherwise, you won&rsquo;t be able to edit your maintainer object.</li>
+<li>Add an &lsquo;auth&rsquo; attribute so that changes to your objects can be verified.</li>
+</ul>
+<p>The <code>auth</code> attribute is used to verify changes to your object. There is a separate page on <a href="/howto/Registry-Authentication">registry authentication</a> which details what to include in your mntner object, how to sign and verify your commits.</p>
+<p>Common authentication methods are:</p>
+<ul>
+<li>PGP Key: <code>auth: pgp-fingerprint &lt;pgp-fingerprint&gt;</code></li>
+<li>SSH Key: <code>auth: ssh-{rsa,ed25519} &lt;key&gt;</code></li>
+</ul>
+<p>Example: data/mntner/FOO-MNT</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">mntner:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">auth:</span>               <span class="z-s">pgp-fingerprint</span> <span class="z-s">0123456789ABCDEF0123456789ABCDEF01234567</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<h3 id="create-person-objects">Create person objects</h3>
+<p>Create a  <code>person</code> object in <code>data/person/</code> for <strong>yourself</strong> (not your organisation/hackerspace/whatever).</p>
+<ul>
+<li>use something like <code>&lt;FOO&gt;-DN42</code> as <code>nic-hdl</code>, it should end with <code>-DN42</code>.</li>
+<li>the <code>person</code> field is more freeform, you may use your nickname or even real name here.</li>
+<li>provide an email.</li>
+<li>you may provide additional ways of contacting you, using one or more <code>contact</code> field. For instance <code>xmpp:luke@theforce.net</code>, <code>irc:luke42@hackint</code>, <code>twitter: TheGreatLuke</code>.</li>
+<li>you may wish to add other fields, such as <code>pgp-fingerprint</code>, <code>remarks</code>, and so on.</li>
+<li>don&rsquo;t forget to set <code>mnt-by</code> to <code>&lt;FOO&gt;-MNT</code>.</li>
+</ul>
+<p><strong>Data Privacy</strong></p>
+<p>Contact attributes are optional but DN42 is a dynamic network and being able to contact users is really important if there are changes or problems. However, please also be aware that the DN42 registry is a public resource and you must assume that any details provided will be made public and cannot be fully removed. If this is a concern for you, please do not provide bogus contact details; simply provide anonymous details that are specific for use within DN42 or leave them out entirely.</p>
+<p>Example: data/person/FOO-DN42</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">person:</span>             <span class="z-s">John</span> <span class="z-s">Doe</span>
+<span class="z-s">e-mail:</span>             <span class="z-s">john.doe@example.com</span>
+<span class="z-s">nic-hdl:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<hr>
+<p><em>(Optional)</em>
+<strong>Organisations are not required if you are joining dn42 as an individual</strong></p>
+<p>If you intend to register resources for an organisation (e.g. your hackerspace), you must also create an <code>organisation</code> object for your organisation:</p>
+<ul>
+<li><code>organisation</code> is of the form <code>&lt;ORG-FOO&gt;</code>.</li>
+<li><code>org-name</code> should be the name of your organisation.</li>
+<li><code>e-mail</code> should be a contact address for your organisation, or maybe a mailing list (but people should be able to send email without subscribing).</li>
+<li><code>admin-c</code>, <code>tech-c</code>, and <code>abuse-c</code> may point to <code>person</code> objects responsible for the respective role in your organisation.</li>
+<li>you may provide a website (<code>www</code> field).</li>
+<li>don&rsquo;t forget to set <code>mnt-by</code> to <code>&lt;FOO&gt;-MNT</code>, since you&rsquo;re managing this object on behalf of your organisation.</li>
+</ul>
+<p>Example: data/organisation/ORG-EXAMPLE</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">organisation:</span>       <span class="z-s">ORG-FOO</span>
+<span class="z-s">org-name:</span>           <span class="z-s">Foo</span> <span class="z-s">Organisation</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<h3 id="guidelines-for-resource-objects">Guidelines for resource objects</h3>
+<p>From now on, you should use:</p>
+<ul>
+<li><code>admin-c: &lt;FOO&gt;-DN42</code> and <code>tech-c: &lt;FOO&gt;-DN42</code> for your own resources.</li>
+<li><code>admin-c: &lt;FOO&gt;-DN42</code>, <code>tech-c: &lt;FOO&gt;-DN42</code> and <code>org: &lt;ORG-FOO&gt;</code> for the resources of your organisation.</li>
+<li><code>mnt-by: &lt;FOO&gt;-MNT</code> for all objects, so that you can edit them later.</li>
+</ul>
+<p>This applies to AS numbers, network prefixes, routes, DNS records&hellip;</p>
+<p>Please also read the <a href="/Policies">Policies</a> for guidance on acceptable resource requests.</p>
+<h3 id="register-an-as-number">Register an AS number</h3>
+<p>To register an AS number, create an <code>as-name</code> object in <code>data/aut-num/</code>.
+<code>as-name</code> should be a name for your AS.</p>
+<p>Your AS number can be chosen arbitrarily in the dn42 ASN space, see the <a href="https://git.dn42.dev/dn42/registry/src/master/data/as-block">as-block objects</a> in the registry.</p>
+<p><strong>You should allocate your AS number in the 4242420000-4242423999 range</strong></p>
+<p><a href="https://explorer.burble.com/free#/asn">dn42regsrv</a> includes a page for finding free ASN. For a list of currently assigned AS numbers browse the registry data/aut-num/ directory or <a href="https://explorer.burble.com/#/aut-num/">online</a>.</p>
+<p>If you intend to use an ASN outside of the native dn42 ranges, please check that it doesn&rsquo;t clash with the [Freifunk AS-Numbers] (<a href="http://wiki.freifunk.net/AS-Nummern">http://wiki.freifunk.net/AS-Nummern</a>) or other networks (ChaosVPN, etc).</p>
+<p>Internet ASNs may be used, but you must take care to clearly separate Internet and DN42 routes and prevent routes leaking between the networks. For Internet ASNs, the <code>source</code> attribute must be the originating registry and you will be required to prove you are the owner of the ASN.</p>
+<p>If unsure, ask on the mailing list or IRC.</p>
+<p>Example: data/aut-num/AS4242423999</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">aut-num:</span>            <span class="z-s">AS4242423999</span>
+<span class="z-s">as-name:</span>            <span class="z-s">AS-FOO-DN42</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<h3 id="register-a-network-prefix">Register a network prefix</h3>
+<h4 id="ipv6">IPv6</h4>
+<p>Even if you do not currently support IPv6, networks in dn42 are encouraged to be IPv6 first and many services are available only using IPv6.</p>
+<p>To register an IPv6 prefix, you create an <code>inet6num</code> object. dn42 uses the fd00::/8 (<a href="https://tools.ietf.org/html/rfc4193">ULA</a>) range.</p>
+<p>A single /48 allocation is typical, it will provide more than enough room for a global network and there are no compelling reasons for choosing a different size. The smallest announceable prefix length is /64 but registering IP blocks smaller than /48 can often be limiting and restrict what you can do.</p>
+<p>dn42 is interconnected with other networks, like icvpn, which also use the same ULA range so a registration in the dn42 registry can&rsquo;t prevent IPv6 conflicts. A fully random prefix (see <a href="https://tools.ietf.org/html/rfc4193">RFC4193</a>) is recommended; finding a conflict and needing to renumber your network is no fun.</p>
+<p>A few websites can generate random ULA prefixes for you:</p>
+<ul>
+<li><a href="https://explorer.burble.com/free#/6">dn42regsrv</a></li>
+<li><a href="https://simpledns.com/private-ipv6">SimpleDNS</a></li>
+<li><a href="https://www.ultratools.com/tools/rangeGenerator">Ultratools</a></li>
+</ul>
+<p>or a small script is available: <a href="https://git.dn42.dev/registry/repo-utils/src/branch/master/ulagen.py">ulagen.py</a></p>
+<p>example: data/inet6num/fd35:4992:6a6d::_48</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">inet6num:</span>           <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-n">6a6d</span><span class="z-p">:</span><span class="z-mi">0000</span><span class="z-p">:</span><span class="z-n">0000</span><span class="z-p">:</span><span class="z-mi">0000</span><span class="z-p">:</span><span class="z-n">0000</span><span class="z-p">:</span><span class="z-mi">0000</span> <span class="z-s">-</span> <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d:ffff:ffff:ffff:ffff:ffff</span>
+<span class="z-s">cidr:</span>               <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d::/48</span>
+<span class="z-s">netname:</span>            <span class="z-s">FOO-NETWORK</span>
+<span class="z-s">descr:</span>              <span class="z-s">Network</span> <span class="z-s">of</span> <span class="z-s">FOO</span>
+<span class="z-s">country:</span>            <span class="z-s">XD</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">status:</span>             <span class="z-s">ASSIGNED</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<p>The <code>country</code> attribute is optional but, when included, should be an <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO two letter country code</a></p>
+<h4 id="ipv4-legacy">IPv4 (Legacy)</h4>
+<p>If you also want to register an IPv4 network prefix, simply create an <code>inetnum</code> object.</p>
+<p>You may choose your network prefix in one of the currently open netblocks. You can get a list of unassigned subnets on the following site, please mind the allocation guideline below.</p>
+<ul>
+<li><a href="https://explorer.burble.com/free#/4">Free blocks in dn42regsrv</a></li>
+<li><a href="https://dn42.us/peers/free">Open Netblocks</a></li>
+</ul>
+<p>If there are no free subnets of the size you want, you may split a larger block as required.</p>
+<p>Check the registry (data/inetnum) to make sure no-one else has allocated the same prefix. There are some IP ranges that are not open for assignments or are reserved for specific uses, so you should also check that the parent block has an &lsquo;open&rsquo; policy. A quick and simple way to see the block policies is to run <code>grep &quot;^policy&quot; data/inetnum/*</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right">Size</th>
+<th style="text-align:left">IP addresses</th>
+<th style="text-align:left">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">/29</td>
+<td style="text-align:left">8</td>
+<td style="text-align:left">tiny allocation</td>
+</tr>
+<tr>
+<td style="text-align:right">/28</td>
+<td style="text-align:left">16</td>
+<td style="text-align:left">may be suitable for small networks</td>
+</tr>
+<tr>
+<td style="text-align:right"><strong>/27</strong></td>
+<td style="text-align:left">32</td>
+<td style="text-align:left"><strong>default allocation</strong></td>
+</tr>
+<tr>
+<td style="text-align:right">/26</td>
+<td style="text-align:left">64</td>
+<td style="text-align:left">more than enough for the largest networks</td>
+</tr>
+</tbody>
+</table>
+<p>Please <strong>think before you allocate</strong>; the current guideline is to allocate a /27 by default.</p>
+<p>New users will not be allocated an IP block larger than /26.</p>
+<p>dn42 typically uses point-to-point addressing in VPN tunnels making transit networks unnecessary, a single IP address per host or public service will be sufficient and you should consider IPv6 first or NAT for devices that do not directly offer dn42 services. dn42 is not the public internet, but our IPv4-space is valuable too!</p>
+<p><strong>Note:</strong> Reverse DNS works with <em>any</em> prefix length, as long as your <a href="/services/dns/Overview">recursive nameserver</a> supports <a href="https://www.ietf.org/rfc/rfc2317.txt">RFC 2317</a>.</p>
+<p>example: data/inetnum/172.20.150.0_27</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">inetnum:</span>            <span class="z-mi">172</span><span class="z-s">.20.150.0</span> <span class="z-s">-</span> <span class="z-mi">172</span><span class="z-s">.20.150.31</span>
+<span class="z-s">cidr:</span>               <span class="z-mi">172</span><span class="z-s">.20.150.0/27</span>
+<span class="z-s">netname:</span>            <span class="z-s">FOO-NETWORK</span>
+<span class="z-s">descr:</span>              <span class="z-s">Network</span> <span class="z-s">of</span> <span class="z-s">FOO</span>
+<span class="z-s">country:</span>            <span class="z-s">XD</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">status:</span>             <span class="z-s">ASSIGNED</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<h4 id="create-route-objects">Create route objects</h4>
+<p>If you plan to announce your prefixes in dn42, which you probably want in most cases, you will also need to create a <code>route6</code> object for ipv6 prefixes and a <code>route</code> object for ipv4 prefixes. This information is used for Route Origin Authorization (ROA) checks. If you skip this step, your network will probably get filtered by most major peers.  Checking ROA will prevent (accidental) hijacking of other people&rsquo;s prefixes.</p>
+<p>example: data/route6/fd35:4992:6a6d::_48</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">route6:</span>             <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d::/48</span>
+<span class="z-s">origin:</span>             <span class="z-s">AS4242423999</span>
+<span class="z-s">max-length:</span>         <span class="z-mi">48</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<p>example data/route/172.20.150.0_27:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">route:</span>              <span class="z-mi">172</span><span class="z-s">.20.150.0/27</span>
+<span class="z-s">origin:</span>             <span class="z-s">AS4242423999</span>
+<span class="z-s">max-length:</span>         <span class="z-mi">27</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<p><strong>Note</strong>: the &ldquo;max-length&rdquo; should be the same as the prefix length (i.e. 27 for default ipv4 allocation size and 48 for default ipv6 allocation size) except if you have special needs in announcing larger prefixes</p>
+<h4 id="dns-and-domain-registration">DNS and Domain Registration</h4>
+<p><em>(Optional)</em>
+To register a domain name, create a <code>dns</code> object in the data/dns directory.
+Domain names and nserver attributes must be lowercase.</p>
+<p>example: data/dns/foo.dn42</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">domain:</span>             <span class="z-s">foo.dn42</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">nserver:</span>            <span class="z-s">ns1.foo.dn42</span> <span class="z-mi">172</span><span class="z-s">.20.150.1</span>
+<span class="z-s">nserver:</span>            <span class="z-s">ns1.foo.dn42</span> <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-n">6a6d</span><span class="z-p">:</span><span class="z-mi">53</span><span class="z-p">::</span><span class="z-mi">1</span>
+<span class="z-s">nserver:</span>            <span class="z-s">ns2.foo.dn42</span> <span class="z-mi">172</span><span class="z-s">.20.150.2</span>
+<span class="z-s">nserver:</span>            <span class="z-s">ns2.foo.dn42</span> <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-n">6a6d</span><span class="z-p">:</span><span class="z-mi">53</span><span class="z-p">::</span><span class="z-mi">2</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<p>You can also add DNSSEC delegations using <code>ds-rdata</code> attributes to your domain:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">ds-rdata:</span>           <span class="z-mi">61857</span> <span class="z-mi">13</span> <span class="z-mi">2</span> <span class="z-s">bd35e3efe3325d2029fb652e01604a48b677cc2f44226eeabee54b456c67680c</span>
+</code></pre></div>
+<p>For reverse DNS, add <code>nserver</code> attributes to you inet{,6}num objects:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">inet6num:</span>           <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-n">6a6d</span><span class="z-p">:</span><span class="z-mi">0000</span><span class="z-p">:</span><span class="z-n">0000</span><span class="z-p">:</span><span class="z-mi">0000</span><span class="z-p">:</span><span class="z-n">0000</span><span class="z-p">:</span><span class="z-mi">0000</span> <span class="z-s">-</span> <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d:ffff:ffff:ffff:ffff:ffff</span>
+<span class="z-s">cidr:</span>               <span class="z-n">fd35</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d::/48</span>
+<span class="z-s">netname:</span>            <span class="z-s">FOO-NETWORK</span>
+<span class="z-s">descr:</span>              <span class="z-s">Network</span> <span class="z-s">of</span> <span class="z-s">FOO</span>
+<span class="z-s">country:</span>            <span class="z-s">XD</span>
+<span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
+<span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
+<span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
+<span class="z-s">status:</span>             <span class="z-s">ASSIGNED</span>
+<span class="z-s">nserver:</span>            <span class="z-s">ns1.foo.dn42</span>
+<span class="z-s">nserver:</span>            <span class="z-s">ns2.foo.dn42</span>
+<span class="z-s">source:</span>             <span class="z-s">DN42</span>
+</code></pre></div>
+<p>Before you push your commit to the registry, you can verify your configuration and the working of your authoritative server:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">$ ./validate-my-dns.py FOO-MNT
+NOTE:  foo.dn42 doesn't have any ds-rdata specified
+NOTE:  d.6.a.6.2.9.9.4.5.3.d.f.ip6.arpa doesn't have any ds-rdata specified
+
+Summary:
+
+domain name                       | success | dnssec fail | wrong NS | wrong SOA | NXDOMAIN | REFUSED | SERVFAIL | timeout
+----------------------------------|---------|-------------|----------|-----------|----------|---------| -------- | -------
+ foo.dn42                         |       1 |           0 |        0 |         0 |        0 |       0 |        0 |       0
+ d.6.a.6.2.9.9.4.5.3.d.f.ip6.arpa |       1 |           0 |        0 |         0 |        0 |       0 |        0 |       0
+
+</code></pre></div>
+<h3 id="telephony-prefix">Telephony Prefix</h3>
+<p>(Optional) To register a telephony prefix, create a <code>telephony</code> object in the data/telephony directory. telephony attribute must be in full E.164 format (include the &lsquo;+&rsquo; symbol). nserver attribute must be lowercase.</p>
+<p>example: data/telephony/+04240000</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">telephony:          +04240000
+admin-c:            FOO-DN42
+tech-c:             FOO-DN42
+mnt-by:             FOO-MNT
+nserver:            ns1.foo.dn42
+nserver:            ns2.foo.dn42
+source:             DN42
+</code></pre></div>
+<p>Telephony numbers will be queried with ENUM-like domain in <code>tel.dn42</code>, like <code>*.0.0.0.0.4.2.4.0.tel.dn42.</code></p>
+<p>To prevent spoofing via DNS hijacking, it&rsquo;s recommended to add DNSSEC delegations using <code>ds-rdata</code> attributes to your telephony mapping domain:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ds-rdata:           61857 13 2 bd35e3efe3325d2029fb652e01604a48b677cc2f44226eeabee54b456c67680c
+</code></pre></div>
+<h1 id="get-some-peers">Get some peers</h1>
+<p>In dn42, there is no real distinction between peering and transit: in most cases, everybody serves as an upstream provider to all their peers.  Note that if you have very slow connectivity to the Internet, you may want to avoid providing transit between your peers, which can be done by filtering or prepending your ASN. For the sake of sane routing, try to peer with people on the same continent to avoid inefficient routing, &lt;50ms is a good rule of thumb. You can also look into Bird communities if you are using Bird to mark the latency for the <a href="/howto/BGP-communities">link</a>.</p>
+<p>You can use the <a href="https://peerfinder.dn42.dev/">Peer Finder</a> to help you find potential peers close to you.</p>
+<p>You can then contact them on IRC or by email. In case you&rsquo;re really at loss, you can also ask for peers on the mailing list.</p>
+<h2 id="establishing-tunnels">Establishing tunnels</h2>
+<p>Unless your dn42 peers are on the same network, you must establish tunnels. Choose anything you like: Wireguard, OpenVPN, GRE, GRE + IPSec, IPIP, Tinc, &hellip;</p>
+<p>There is some documentation in this wiki, like <a href="/howto/GRE-plus-IPsec">gre-plus-ipsec</a>.</p>
+<h2 id="running-a-routing-daemon">Running a routing daemon</h2>
+<p>You need a BGP daemon to exchange routes with peers. Common choices are BIRD and FRR, but you can use anything: OpenBGPD, XORP, ExaBGP. See the <a href="/FAQ#frequently-asked-questions_what-bgp-daemon-should-i-use">FAQ</a> for guidance.</p>
+<p>You can find <a href="/howto/Bird2">configuration examples for Bird here</a>.</p>
+<h2 id="configuration-examples">Configuration Examples</h2>
+<ul>
+<li>
+<p><a href="/howto/networksettings">Important Network configuration</a></p>
+</li>
+<li>
+<p>VPN/Tunnel:</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec with public key authentication</a></li>
+</ul>
+</li>
+<li>
+<p>BGP:</p>
+<ul>
+<li><a href="/howto/Bird2">Bird</a></li>
+<li><a href="/howto/frr">FRR</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+</ul>
+</li>
+<li>
+<p>Router specific:</p>
+<ul>
+<li><a href="/howto/OpenWRT">dn42 on OpenWRT</a></li>
+<li><a href="/howto/EdgeOS-Config-Example">EdgeOS Configuration</a></li>
+<li><a href="/howto/EdgeOS-GRE-IPsec-Example">EdgeOS GRE/IPsec Example</a></li>
+<li><a href="/howto/BGP-on-Extreme-Summit1i">BGP on Extreme Networks Summit 1i</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="configure-dns">Configure DNS</h1>
+<p>See <a href="/services/dns/Overview">Services DNS</a>.</p>
+<h1 id="use-and-provide-services">Use and provide services</h1>
+<p>See <a href="/internal/Internal-Services">internal</a> for internal services.</p>
+<h3 id="router-specific">Router-specific</h3>
+<ul>
+<li><a href="/howto/OpenWRT">OpenWRT</a></li>
+<li><a href="/howto/EdgeOS-Config-Example">EdgeOS configuration</a></li>
+<li><a href="/howto/EdgeOS-GRE-IPsec-Example">EdgeOS GRE/IPsec</a></li>
+</ul>
+<h2 id="use-and-provide-services-1">Use and provide services</h2>
+<p>See <a href="/internal/Internal-Services">internal services</a> for available services.</p>
+<p>Don&rsquo;t hesitate to provide interesting services, but <em>please</em>, document them on the wiki! Otherwise, nobody will be able to use them as they won&rsquo;t know they exist.</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

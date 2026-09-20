@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>vyos1.4.x - DN42 Wiki</title>
+    <meta name="description" content="VyOS 1.4.x sagitta Running on v1.5.x? Use the doc with v1.5.x commands VyOS is an open source software router. It is feature rich and supports multiple...">
+    <meta property="og:description" content="VyOS 1.4.x sagitta Running on v1.5.x? Use the doc with v1.5.x commands VyOS is an open source software router. It is feature rich and supports multiple...">
+    <meta property="og:title" content="vyos1.4.x - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/vyos1.4.x/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">vyos1.4.x</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#vyos-1-4-x-sagitta" href="#vyos-1-4-x-sagitta">VyOS 1.4.x sagitta</a></li>
+            
+            <li data-level="2"><a data-section="#firewall-baseline" href="#firewall-baseline">Firewall Baseline</a></li>
+            
+            <li data-level="2"><a data-section="#wireguard" href="#wireguard">Wireguard</a></li>
+            
+            <li data-level="3"><a data-section="#setup-keys" href="#setup-keys">Setup Keys</a></li>
+            
+            <li data-level="3"><a data-section="#configure-first-peers-tunnel" href="#configure-first-peers-tunnel">Configure First Peers tunnel</a></li>
+            
+            <li data-level="2"><a data-section="#bgp" href="#bgp">BGP</a></li>
+            
+            <li data-level="3"><a data-section="#initial-router-setup" href="#initial-router-setup">Initial Router Setup</a></li>
+            
+            <li data-level="3"><a data-section="#neighbor-up-with-peers" href="#neighbor-up-with-peers">Neighbor Up With Peers</a></li>
+            
+            <li data-level="4"><a data-section="#option-1-mp-bgp-with-multi-protocol-with-extended-next-hop" href="#option-1-mp-bgp-with-multi-protocol-with-extended-next-hop">Option 1: MP-BGP (with Multi Protocol) - with Extended Next-Hop</a></li>
+            
+            <li data-level="4"><a data-section="#option-2-bgp-no-multi-protocol-no-extended-next-hop" href="#option-2-bgp-no-multi-protocol-no-extended-next-hop">Option 2: BGP (no Multi Protocol) - no Extended Next-Hop</a></li>
+            
+            <li data-level="2"><a data-section="#rpkiroa-checking" href="#rpkiroa-checking">RPKI/ROA Checking</a></li>
+            
+            <li data-level="3"><a data-section="#setup-rpki-caching-server-on-the-vyos-machine" href="#setup-rpki-caching-server-on-the-vyos-machine">Setup RPKI Caching Server on the Vyos machine</a></li>
+            
+            <li data-level="3"><a data-section="#setup-rpki-caching-server-on-a-seperate-server" href="#setup-rpki-caching-server-on-a-seperate-server">Setup RPKI Caching Server on a seperate server</a></li>
+            
+            <li data-level="3"><a data-section="#point-vyos-router-at-rpki-caching-server" href="#point-vyos-router-at-rpki-caching-server">Point VyOS Router at RPKI Caching Server</a></li>
+            
+            <li data-level="3"><a data-section="#create-route-map" href="#create-route-map">Create Route Map</a></li>
+            
+            <li data-level="3"><a data-section="#assign-route-map-to-neighbor" href="#assign-route-map-to-neighbor">Assign Route Map to Neighbor</a></li>
+            
+            <li data-level="2"><a data-section="#example-route-map" href="#example-route-map">Example Route Map</a></li>
+            
+            <li data-level="3"><a data-section="#no-rpkiroa-and-internal-network-falls-into-dn42-range" href="#no-rpkiroa-and-internal-network-falls-into-dn42-range">No RPKI/ROA and Internal Network Falls Into DN42 Range</a></li>
+            
+            <li data-level="1"><a data-section="#add-your-vyos-router-to-the-global-route-collector" href="#add-your-vyos-router-to-the-global-route-collector">Add your VyOS router to the Global Route Collector!</a></li>
+            
+            <li data-level="2"><a data-section="#credits" href="#credits">Credits</a></li>
+            
+            <li data-level="2"><a data-section="#see-also" href="#see-also">See also</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">vyos1.4.x</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="vyos-1-4-x-sagitta">VyOS 1.4.x sagitta</h1>
+<blockquote>
+<p>Running on v1.5.x ? Use the doc with <a href="./vyos1.5.x.md">v1.5.x commands</a></p>
+</blockquote>
+<p>VyOS is an open source software router.  It is feature rich and supports multiple deployment options such as physical hardware (Old PC&rsquo;s) or a VPC/VM.  The developers have a nightly rolling release that includes all the latest features such as Wireguard.</p>
+<p>It can be downloaded here <a href="https://www.vyos.io/rolling-release/">https://www.vyos.io/rolling-release/</a>.</p>
+<h2 id="firewall-baseline">Firewall Baseline</h2>
+<p>We will configure firewall access lists for inbound connections on our peer Wireguard interfaces as well as block all inbound connections to our router with the exception of BGP.  This should be a good baseline firewall ruleset to filter inbound traffic on your network&rsquo;s edge.  Modifications may be needed depending on your specific goals.  If your router has an uplink back to a larger internal network (outside of DN42), an outbound firewall ruleset will need to be applied to that interface.</p>
+<p>By default, VyOS is a <strong>stateless</strong> firewall.  To enable <strong>stateful</strong> packet inspection globally enter the following commands.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> firewall state-policy established action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall state-policy related action <span class="z-s1">&#39;accept&#39;</span>
+</code></pre></div>
+<p>We also need to accept invalids on our network&rsquo;s edge.  However, this should not become common practice elsewhere.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> firewall state-policy invalid action <span class="z-s1">&#39;accept&#39;</span>
+</code></pre></div>
+<p>The below commands create <strong>in</strong> and <strong>local</strong> baseline templates to be applied to all Wireguard interfaces that are facing peers.  In this example, <strong>172.20.20.0/24</strong> and <strong>fd88:9deb:a69e::/48</strong> are your assigned address spaces.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1">#Create Groups v4</span>
+<span class="z-nb">set</span> firewall group network-group Allowed-Transit-v4 network <span class="z-s1">&#39;10.0.0.0/8&#39;</span>
+<span class="z-nb">set</span> firewall group network-group Allowed-Transit-v4 network <span class="z-s1">&#39;172.20.0.0/14&#39;</span>
+<span class="z-nb">set</span> firewall group network-group Allowed-Transit-v4 network <span class="z-s1">&#39;172.31.0.0/16&#39;</span>
+
+<span class="z-nb">set</span> firewall group network-group My-Assigned-Space-v4 network <span class="z-s1">&#39;172.20.20.0/24&#39;</span>
+
+<span class="z-c1">#Create Groups v6</span>
+<span class="z-nb">set</span> firewall group ipv6-network-group Allowed-Transit-v6 network <span class="z-s1">&#39;fd00::/8&#39;</span>
+
+<span class="z-nb">set</span> firewall group ipv6-network-group My-Assigned-Space-v6 network <span class="z-s1">&#39;fd88:9deb:a69e::/48&#39;</span>
+
+
+<span class="z-c1">#Inbound Connections v4</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 default-action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 enable-default-log
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">68</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">68</span> description <span class="z-s1">&#39;Block Traffic to Operator Assigned IP Space&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">68</span> destination group network-group <span class="z-s1">&#39;My-Assigned-Space-v4&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">68</span> log <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">68</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">70</span> action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">70</span> description <span class="z-s1">&#39;Allow Peer Transit&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">70</span> destination group network-group <span class="z-s1">&#39;Allowed-Transit-v4&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">70</span> <span class="z-nb">source</span> group network-group <span class="z-s1">&#39;Allowed-Transit-v4&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">70</span> log <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">99</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">99</span> description <span class="z-s1">&#39;Black Hole&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_In_v4 rule <span class="z-m">99</span> log <span class="z-s1">&#39;enable&#39;</span>
+
+<span class="z-c1">#Inbound Connections v6</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 default-action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 enable-default-log
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">68</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">68</span> description <span class="z-s1">&#39;Block Traffic to Operator Assigned IP Space&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">68</span> destination group network-group <span class="z-s1">&#39;My-Assigned-Space-v6&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">68</span> log <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">70</span> action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">70</span> description <span class="z-s1">&#39;Allow Peer Transit&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">70</span> destination group network-group <span class="z-s1">&#39;Allowed-Transit-v6&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">70</span> log <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">70</span> <span class="z-nb">source</span> group network-group <span class="z-s1">&#39;Allowed-Transit-v6&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">99</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">99</span> description <span class="z-s1">&#39;Black Hole&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_In_v6 rule <span class="z-m">99</span> log <span class="z-s1">&#39;enable&#39;</span>
+
+<span class="z-c1">#Local Connections v4</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 default-action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">50</span> action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">50</span> icmp
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">50</span> protocol <span class="z-s1">&#39;icmp&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">61</span> action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">61</span> description <span class="z-s1">&#39;Allow BGP&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">61</span> destination port <span class="z-s1">&#39;179&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">61</span> protocol <span class="z-s1">&#39;tcp&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">98</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">98</span> description <span class="z-s1">&#39;Black Hole&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">98</span> log <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">98</span> state invalid <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">99</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">99</span> description <span class="z-s1">&#39;Black Hole&#39;</span>
+<span class="z-nb">set</span> firewall name Tunnels_Local_v4 rule <span class="z-m">99</span> log <span class="z-s1">&#39;enable&#39;</span>
+
+<span class="z-c1">#Local Connections v6</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 default-action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">50</span> action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">50</span> icmpv6
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">50</span> protocol <span class="z-s1">&#39;ipv6-icmp&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">61</span> action <span class="z-s1">&#39;accept&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">61</span> description <span class="z-s1">&#39;Allow BGP&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">61</span> destination port <span class="z-s1">&#39;179&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">61</span> protocol <span class="z-s1">&#39;tcp&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">98</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">98</span> description <span class="z-s1">&#39;Black Hole&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">98</span> log <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">98</span> state invalid <span class="z-s1">&#39;enable&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">99</span> action <span class="z-s1">&#39;drop&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">99</span> description <span class="z-s1">&#39;Black Hole&#39;</span>
+<span class="z-nb">set</span> firewall ipv6-name Tunnels_Local_v6 rule <span class="z-m">99</span> log <span class="z-s1">&#39;enable&#39;</span>
+</code></pre></div>
+<h2 id="wireguard">Wireguard</h2>
+<h3 id="setup-keys">Setup Keys</h3>
+<p>You can choose to generate a unique keypair and use it for every wireguard peering, or you can choose to generate a different one for each new peering.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">generate pki wireguard key-pair
+
+#Output example:
+Private key: SOoPQdMdmXE3ssp0/vwwoIMhQqvcQls+DhDjmaLw03U=
+Public key: ArkXeK1c0pCWCouePcRRBCQpXfi4ZIvRFFwTxO60dxs=
+</code></pre></div>
+<p>If you choose to generate unique keypairs for peerings, you can generate and install the keypair in a single command. Note that you have to be in <code>configure</code> mode, at the top level, as shown below:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">vyos@vyos$ configure
+
+[edit]
+vyos@vyos# run generate pki wireguard key-pair install interface wg4242424242
+1 value(s) installed. Use &quot;compare&quot; to see the pending changes, and &quot;commit&quot; to apply.
+Corresponding public-key to use on peer system is: 'UcqcZsJvq1MlYgo3gObjaJ8FH+N7wkfV+EH3YDAMyRE='
+[edit]
+vyos@vyos-home# show interfaces wireguard wg4242424242 
++private-key kHCqfe/GZ8phoNnWfkL3+joXi/qK3ZfdfAnlNuX/9FU=
+</code></pre></div>
+<p>To retrieve keys later, use the op-mode command <code>show interfaces wireguard wg4242424242 public-key</code>.</p>
+<p>Example:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">vyos@vyos$ show interfaces wireguard wg4242424242 public-key 
+UcqcZsJvq1MlYgo3gObjaJ8FH+N7wkfV+EH3YDAMyRE<span class="z-o">=</span>
+</code></pre></div>
+<h3 id="configure-first-peers-tunnel">Configure First Peer&rsquo;s tunnel</h3>
+<p>This example assumes that your ASN is 4242421234 and your peer&rsquo;s ASN is 4242424242</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> interfaces wireguard wg4242424242 description <span class="z-s1">&#39;AS4242424242 - My First Peer&#39;</span>
+
+<span class="z-c1"># Common practice on DN42 is for peers to use 2+the last four digits of your peer&#39;s ASN as the port.</span>
+<span class="z-c1"># You will have to let your peer know what you choose for your port, as well as your clearnet IP address.</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 port <span class="z-s1">&#39;24242&#39;</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 private-key <span class="z-s1">&#39;SOoPQdMdmXE3ssp0/vwwoIMhQqvcQls+DhDjmaLw03U=&#39;</span>
+
+<span class="z-c1"># An arbitrary link-local IPv6 address (that you&#39;ll have to tell to your peer)</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 address <span class="z-s1">&#39;fe80::1234/64&#39;</span>
+
+<span class="z-c1"># One of your DN42 IPv4 addresses (not really needed if you&#39;ll enable extended next-hop)</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 address <span class="z-s1">&#39;172.20.20.1/32&#39;</span>
+
+<span class="z-c1"># Set your peer&#39;s clearnet endpoint information. You need to use an IPv4 or IPv6 address</span>
+<span class="z-c1"># (as opposed to a DNS name).</span>
+<span class="z-c1"># If you have a static IP address but your peer does not,</span>
+<span class="z-c1"># you can leave out this part of the configuration.</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 peer location1 address <span class="z-s1">&#39;192.0.2.1&#39;</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 peer location1 port <span class="z-s1">&#39;21234&#39;</span>
+
+<span class="z-c1"># You can allow everything here and relay on your firewall</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 peer location1 allowed-ips <span class="z-s1">&#39;0.0.0.0/0&#39;</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 peer location1 allowed-ips <span class="z-s1">&#39;::/0&#39;</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 peer location1 public-key <span class="z-s1">&#39;&lt;wireguard public key of your peer&gt;&#39;</span>
+
+<span class="z-c1"># (persistent-keepalive option could be optional, but in my case I noticed that helps starting BGP session)</span>
+<span class="z-nb">set</span> interfaces wireguard wg4242424242 peer location1 persistent-keepalive <span class="z-s1">&#39;60&#39;</span>
+
+<span class="z-c1"># Configure firewall</span>
+<span class="z-nb">set</span> firewall interface wg4242424242 interface-group ipv6-name <span class="z-s1">&#39;Tunnels_In_v6&#39;</span>
+<span class="z-nb">set</span> firewall interface wg4242424242 interface-group name <span class="z-s1">&#39;Tunnels_In_v4&#39;</span>
+<span class="z-nb">set</span> firewall interface wg4242424242 <span class="z-nb">local</span> ipv6-name <span class="z-s1">&#39;Tunnels_Local_v6&#39;</span>
+<span class="z-nb">set</span> firewall interface wg4242424242 <span class="z-nb">local</span> name <span class="z-s1">&#39;Tunnels_Local_v4&#39;</span>
+</code></pre></div>
+<h2 id="bgp">BGP</h2>
+<p>Now that we have a tunnel to our peer and theoretically can ping them, we can setup BGP.</p>
+<h3 id="initial-router-setup">Initial Router Setup</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># Set your ASN and IP blocks</span>
+<span class="z-nb">set</span> protocols bgp system-as <span class="z-s1">&#39;4242421234&#39;</span>
+
+<span class="z-nb">set</span> protocols bgp address-family ipv4-unicast network 172.20.20.0/24<span class="z-sb">`</span>  
+<span class="z-nb">set</span> protocols bgp address-family ipv6-unicast network fd88:9deb:a69e::/48<span class="z-sb">`</span>
+
+<span class="z-c1"># Note that your address blocks should match your exact prefix as listed in the registry.</span>
+<span class="z-c1"># if you try to advertise a subnet of your assigned block, it could get filtered by some peers.</span>
+
+<span class="z-c1"># To keep it simple, just make your router ID match your lower IP within the DN42 registered space.</span>
+<span class="z-nb">set</span> protocols bgp parameters router-id <span class="z-s1">&#39;172.20.20.1&#39;</span>
+</code></pre></div>
+<h3 id="neighbor-up-with-peers">Neighbor Up With Peers</h3>
+<h4 id="option-1-mp-bgp-with-multi-protocol-with-extended-next-hop">Option 1: MP-BGP (with Multi Protocol) - with Extended Next-Hop</h4>
+<p>MP-BGP peerings over IPv6 are recommended on DN42.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># For these examples, your peer&#39;s link-local address is fe80::4242</span>
+
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 update-source <span class="z-s1">&#39;wg4242424242&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 description <span class="z-s1">&#39;FriendlyNet&#39;</span>
+
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 capability extended-nexthop
+
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 address-family ipv4-unicast 
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 address-family ipv6-unicast 
+
+</code></pre></div>
+<h4 id="option-2-bgp-no-multi-protocol-no-extended-next-hop">Option 2: BGP (no Multi Protocol) - no Extended Next-Hop</h4>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># First, we set the ipv6 part.</span>
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 remote-as <span class="z-s1">&#39;4242424242&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 address-family ipv6-unicast 
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 description <span class="z-s1">&#39;FriendlyNet&#39;</span>
+
+<span class="z-c1"># For the ipv4 part we need to add first a static ipv4 route to our peer tunneled ipv4 address</span>
+<span class="z-nb">set</span> protocols static route 172.20.x.y interface wg1234
+
+<span class="z-c1"># 172.20.x.y is your peer tunneled IPv4</span>
+<span class="z-nb">set</span> protocols bgp neighbor 172.20.x.y remote-as <span class="z-s1">&#39;&lt;your peer ASN&gt;&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor 172.20.x.y address-family ipv4-unicast 
+<span class="z-nb">set</span> protocols bgp neighbor 172.20.x.y description <span class="z-s1">&#39;FriendlyNet&#39;</span>
+
+<span class="z-c1"># This setting may need to be adjusted depending on circumstances</span>
+<span class="z-nb">set</span> protocols bgp neighbor 172.20.x.y ebgp-multihop <span class="z-m">20</span>
+</code></pre></div>
+<p>You can now check your BGP summary:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">show ip bgp summary
+
+IPv4 Unicast Summary <span class="z-o">(</span>VRF default<span class="z-o">)</span>:
+BGP router identifier 172.20.20.1, <span class="z-nb">local</span> AS number <span class="z-m">4242421234</span> vrf-id <span class="z-m">0</span>
+BGP table version <span class="z-m">2782</span>
+RIB entries 1378, using <span class="z-m">258</span> KiB of memory
+Peers 1, using <span class="z-m">1</span> MiB of memory
+Peer groups 1, using <span class="z-m">64</span> bytes of memory
+
+Neighbor               V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+fe80::4242             <span class="z-m">4</span> <span class="z-m">4242424242</span>      <span class="z-m">1031</span>         <span class="z-m">6</span>        <span class="z-m">0</span>    <span class="z-m">0</span>    <span class="z-m">0</span> 00:04:20          <span class="z-m">710</span>        <span class="z-m">1</span> FriendlyNet
+
+IPv6 Unicast Summary <span class="z-o">(</span>VRF default<span class="z-o">)</span>:
+BGP router identifier 172.20.20.1, <span class="z-nb">local</span> AS number <span class="z-m">4242421234</span> vrf-id <span class="z-m">0</span>
+BGP table version <span class="z-m">2782</span>
+RIB entries 1378, using <span class="z-m">258</span> KiB of memory
+Peers 1, using <span class="z-m">1</span> MiB of memory
+Peer groups 1, using <span class="z-m">64</span> bytes of memory
+
+Neighbor               V         AS   MsgRcvd   MsgSent   TblVer  InQ OutQ  Up/Down State/PfxRcd   PfxSnt Desc
+fe80::4242             <span class="z-m">4</span> <span class="z-m">4242424242</span>      <span class="z-m">1031</span>         <span class="z-m">6</span>        <span class="z-m">0</span>    <span class="z-m">0</span>    <span class="z-m">0</span> 00:04:20          <span class="z-m">710</span>        <span class="z-m">1</span> FriendlyNet
+</code></pre></div>
+<p>Setting up peer-groups might help standardize multiple peerings:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># One peer group for all IPv6 MP-BGP link-local extended-nexthop peers</span>
+<span class="z-nb">set</span> protocols bgp peer-group dn42 address-family ipv4-unicast
+<span class="z-nb">set</span> protocols bgp peer-group dn42 address-family ipv6-unicast
+<span class="z-nb">set</span> protocols bgp peer-group dn42 capability extended-nexthop
+
+<span class="z-nb">set</span> protocols bgp neighbor fe80::4242 peer-group dn42
+
+<span class="z-c1"># If you have any non-multiprotocol peerings you&#39;ll need to set up peer-groups</span>
+<span class="z-c1"># for the individual address families. This is left up to the reader.</span>
+
+<span class="z-c1"># Delete the settings that are now redundant</span>
+delete protocols bgp neighbor fe80::4242 address-family
+delete protocols bgp neighbor fe80::4242 capability
+</code></pre></div>
+<h2 id="rpkiroa-checking">RPKI/ROA Checking</h2>
+<p>You can achieve this by running docker on a seperate server in the network but as of Vyos 1.4 2023-02-28 its possible to do it on the vyos machine itself. This setup is using Cloudflare&rsquo;s GoRTR and automatically reaching out and downloading a custom JSON file generated by Burble just for the DN42 network.</p>
+<h3 id="setup-rpki-caching-server-on-the-vyos-machine">Setup RPKI Caching Server on the Vyos machine</h3>
+<p>Run this command in operation mode to pull the container image to the vyos machine.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">add container image cloudflare/gortr
+</code></pre></div>
+<p>Run the following commands in configuration mode:</p>
+<p>To create the network for the prki container so it is only reachable on the vyos machine.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> container network rpki
+<span class="z-nb">set</span> container network rpki prefix 172.16.2.0/24
+</code></pre></div>
+<p>To create the container itself</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> container name gortr image cloudflare/gortr
+<span class="z-nb">set</span> container name gortr <span class="z-nb">command</span> <span class="z-s2">&#34;-cache https://dn42.burble.com/roa/dn42_roa_46.json -verify=false -checktime=false -bind :8082&#34;</span>
+<span class="z-nb">set</span> container name gortr network rpki address 172.16.2.10
+<span class="z-nb">set</span> container name gortr restart on-failure
+</code></pre></div>
+<h3 id="setup-rpki-caching-server-on-a-seperate-server">Setup RPKI Caching Server on a seperate server</h3>
+<p>But its also possible to setup the container on a seperate machine.
+Run the following docker command to setup the clouflare gortr container on a seperate server with docker installed.</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">docker run -ti -p 8082:8082 cloudflare/gortr -cache https://dn42.burble.com/roa/dn42_roa_46.json -verify<span class="z-o">=</span><span class="z-nb">false</span> -checktime<span class="z-o">=</span><span class="z-nb">false</span> -bind :8082
+</code></pre></div>
+<p>This will start a docker container that listens on the host server&rsquo;s IP at port 8082.</p>
+<h3 id="point-vyos-router-at-rpki-caching-server">Point VyOS Router at RPKI Caching Server</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> protocols rpki cache &lt;ip address of your GoRTR instance&gt; port <span class="z-s1">&#39;8082&#39;</span>
+<span class="z-nb">set</span> protocols rpki cache &lt;ip address of your GoRTR instance&gt; preference <span class="z-s1">&#39;1&#39;</span>   
+</code></pre></div>
+<p>You can check the connection with <code>show rpki cache-connection</code> the output will look like this:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">show rpki cache-connection
+Connected to group <span class="z-m">1</span>
+rpki tcp cache &lt;ip address of your GoRTR instance&gt;  <span class="z-m">8082</span> pref <span class="z-m">1</span> <span class="z-o">(</span>connected<span class="z-o">)</span>
+</code></pre></div>
+<p>You can also see the received prefix-table with <code>show rpki prefix-table</code>.</p>
+<h3 id="create-route-map">Create Route Map</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> policy route-map DN42-ROA rule <span class="z-m">10</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy route-map DN42-ROA rule <span class="z-m">10</span> match rpki <span class="z-s1">&#39;valid&#39;</span>
+<span class="z-nb">set</span> policy route-map DN42-ROA rule <span class="z-m">20</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy route-map DN42-ROA rule <span class="z-m">20</span> match rpki <span class="z-s1">&#39;notfound&#39;</span>
+<span class="z-nb">set</span> policy route-map DN42-ROA rule <span class="z-m">30</span> action <span class="z-s1">&#39;deny&#39;</span>
+<span class="z-nb">set</span> policy route-map DN42-ROA rule <span class="z-m">30</span> match rpki <span class="z-s1">&#39;invalid&#39;</span>
+</code></pre></div>
+<p>This example allows all routes in unless they are marked invalid or in other words possibly been a victim of BGP hijacking.
+You can also consider to &ldquo;deny&rdquo; the &ldquo;notfound&rdquo; prefixes, for better control.</p>
+<p>You can also consider to combine within the same route-map the RPKI and one or more a prefix lists containing your internal network prefixes, as described later (The example &ldquo;No RPKI/ROA and Internal Network Falls Into DN42 Range&rdquo;).</p>
+<h3 id="assign-route-map-to-neighbor">Assign Route Map to Neighbor</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">set</span> protocols bgp neighbor fe80::1234 address-family ipv4-unicast route-map <span class="z-nb">export</span> <span class="z-s1">&#39;DN42-ROA&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fe80::1234 address-family ipv4-unicast route-map import <span class="z-s1">&#39;DN42-ROA&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fe80::1234 address-family ipv6-unicast route-map <span class="z-nb">export</span> <span class="z-s1">&#39;DN42-ROA&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fe80::1234 address-family ipv6-unicast route-map import <span class="z-s1">&#39;DN42-ROA&#39;</span> 
+</code></pre></div>
+<p><em>Remember to do that for all your new peerings!</em></p>
+<h2 id="example-route-map">Example Route Map</h2>
+<h3 id="no-rpkiroa-and-internal-network-falls-into-dn42-range">No RPKI/ROA and Internal Network Falls Into DN42 Range</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1">##Build prefix list to match personal internal network</span>
+<span class="z-nb">set</span> policy prefix-list BlockIPConflicts description <span class="z-s1">&#39;Prevent Conflicting Routes&#39;</span>
+<span class="z-nb">set</span> policy prefix-list BlockIPConflicts rule <span class="z-m">10</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy prefix-list BlockIPConflicts rule <span class="z-m">10</span> description <span class="z-s1">&#39;Internal IP Space&#39;</span>
+<span class="z-nb">set</span> policy prefix-list BlockIPConflicts rule <span class="z-m">10</span> le <span class="z-s1">&#39;32&#39;</span>
+<span class="z-nb">set</span> policy prefix-list BlockIPConflicts rule <span class="z-m">10</span> prefix <span class="z-s1">&#39;10.10.0.0/16&#39;</span>
+
+
+<span class="z-c1">##Build prefix list to match personal internal network</span>
+<span class="z-nb">set</span> policy prefix-list6 BlockIPConflicts-v6 description <span class="z-s1">&#39;Prevent Conflicting Routes&#39;</span>
+<span class="z-nb">set</span> policy prefix-list6 BlockIPConflicts-v6 rule <span class="z-m">10</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy prefix-list6 BlockIPConflicts-v6 rule <span class="z-m">10</span> description <span class="z-s1">&#39;Internal IP Space&#39;</span>
+<span class="z-nb">set</span> policy prefix-list6 BlockIPConflicts-v6 rule <span class="z-m">10</span> le <span class="z-s1">&#39;128&#39;</span>
+<span class="z-nb">set</span> policy prefix-list6 BlockIPConflicts-v6 rule <span class="z-m">10</span> prefix <span class="z-s1">&#39;fd42:4242:1111::/48&#39;</span>
+
+
+
+<span class="z-c1">##Build prefix list to match DN42&#39;s IPv4 network</span>
+<span class="z-nb">set</span> policy prefix-list DN42-Network rule <span class="z-m">10</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy prefix-list DN42-Network rule <span class="z-m">10</span> le <span class="z-s1">&#39;32&#39;</span>
+<span class="z-nb">set</span> policy prefix-list DN42-Network rule <span class="z-m">10</span> prefix <span class="z-s1">&#39;172.20.0.0/14&#39;</span>
+<span class="z-nb">set</span> policy prefix-list DN42-Network rule <span class="z-m">20</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy prefix-list DN42-Network rule <span class="z-m">20</span> le <span class="z-s1">&#39;32&#39;</span>
+<span class="z-nb">set</span> policy prefix-list DN42-Network rule <span class="z-m">20</span> prefix <span class="z-s1">&#39;10.0.0.0/8&#39;</span>
+
+
+<span class="z-c1">##Build prefix list to match DN42&#39;s IPv6 network</span>
+<span class="z-nb">set</span> policy prefix-list6 DN42-Network-v6 rule <span class="z-m">10</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy prefix-list6 DN42-Network-v6 rule <span class="z-m">10</span> le <span class="z-s1">&#39;128&#39;</span>
+<span class="z-nb">set</span> policy prefix-list6 DN42-Network-v6 rule <span class="z-m">10</span> prefix <span class="z-s1">&#39;fd00::/8&#39;</span>
+
+
+<span class="z-c1">##Block prefixes within internal network range, then allow everything else within DN42, then block everything else.</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">10</span> action <span class="z-s1">&#39;deny&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">10</span> description <span class="z-s1">&#39;Prevent IP Conflicts&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">10</span> match ip address prefix-list <span class="z-s1">&#39;BlockIPConflicts&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">11</span> action <span class="z-s1">&#39;deny&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">11</span> description <span class="z-s1">&#39;Prevent IP Conflicts&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">11</span> match ipv6 address prefix-list <span class="z-s1">&#39;BlockIPConflicts-v6&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">20</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">20</span> description <span class="z-s1">&#39;Allow DN42-Network&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">20</span> match ip address prefix-list <span class="z-s1">&#39;DN42-Network&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">21</span> action <span class="z-s1">&#39;permit&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">21</span> description <span class="z-s1">&#39;Allow DN42-Network&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">21</span> match ipv6 address prefix-list <span class="z-s1">&#39;DN42-Network-v6&#39;</span>
+<span class="z-nb">set</span> policy route-map Default-Peering rule <span class="z-m">99</span> action <span class="z-s1">&#39;deny&#39;</span>
+
+
+<span class="z-c1">##Apply the route-map on import/export</span>
+
+<span class="z-nb">set</span> protocols bgp peer-group dn42 address-family ipv4-unicast route-map <span class="z-nb">export</span> <span class="z-s1">&#39;Default-Peering&#39;</span>
+<span class="z-nb">set</span> protocols bgp peer-group dn42 address-family ipv4-unicast route-map import <span class="z-s1">&#39;Default-Peering&#39;</span>
+<span class="z-nb">set</span> protocols bgp peer-group dn42 address-family ipv6-unicast route-map <span class="z-nb">export</span> <span class="z-s1">&#39;Default-Peering&#39;</span>
+<span class="z-nb">set</span> protocols bgp peer-group dn42 address-family ipv6-unicast route-map import <span class="z-s1">&#39;Default-Peering&#39;</span> 
+</code></pre></div>
+<h1 id="add-your-vyos-router-to-the-global-route-collector">Add your VyOS router to the <a href="/services/Route-Collector">Global Route Collector</a>!</h1>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># The route collector should never export routes, so let&#39;s make a route-map to reject them if it does.</span>
+<span class="z-nb">set</span> policy route-map Deny-All rule <span class="z-m">1</span> action deny
+<span class="z-nb">set</span> protocols bgp neighbor fd42:4242:2601:ac12::1 address-family ipv4-unicast route-map import <span class="z-s1">&#39;Deny-All&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fd42:4242:2601:ac12::1 address-family ipv6-unicast route-map import <span class="z-s1">&#39;Deny-All&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fd42:4242:2601:ac12::1 description <span class="z-s1">&#39;https://lg.collector.dn42&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fd42:4242:2601:ac12::1 ebgp-multihop <span class="z-s1">&#39;10&#39;</span>
+<span class="z-nb">set</span> protocols bgp neighbor fd42:4242:2601:ac12::1 remote-as <span class="z-s1">&#39;4242422602&#39;</span>
+</code></pre></div>
+<h2 id="credits">Credits</h2>
+<p>This How-To has to be considered a work-in-progress by <strong>Matwolf</strong> with parts co-authored by <strong>bri</strong></p>
+<p>It&rsquo;s based on the original VyOS How-To made by <strong>Owens Research</strong>: <a href="/howto/vyos">How-To/VyOS</a>.</p>
+<p>The commands in this page have been adapted to be compatible with the new version of VyOS 1.4.x (sagitta) and to include configurations for IPv6 (MP-BGP over link-local and extended next-hop).</p>
+<p>If you have any questions or suggestions please reach out.</p>
+<h2 id="see-also">See also</h2>
+<p><a href="https://docs.vyos.io/en/latest/configuration/interfaces/wireguard.html">WireGuard</a> and <a href="https://docs.vyos.io/en/latest/configuration/protocols/bgp.html">BGP</a> in the official VyOS documentation.</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

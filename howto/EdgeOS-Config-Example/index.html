@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>EdgeOS Config Example - DN42 Wiki</title>
+    <meta name="description" content="EdgeRouter Lite DN42 config example This is the config I (Felicitus) am running on an Ubiquiti EdgeRouter Lite (AS76197). Features dn42 DNS classic OpenVPN...">
+    <meta property="og:description" content="EdgeRouter Lite DN42 config example This is the config I (Felicitus) am running on an Ubiquiti EdgeRouter Lite (AS76197). Features dn42 DNS classic OpenVPN...">
+    <meta property="og:title" content="EdgeOS Config Example - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/EdgeOS-Config-Example/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">EdgeOS Config Example</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#edgerouter-lite-dn42-config-example" href="#edgerouter-lite-dn42-config-example">EdgeRouter Lite DN42 config example</a></li>
+            
+            <li data-level="2"><a data-section="#features" href="#features">Features</a></li>
+            
+            <li data-level="2"><a data-section="#upcoming" href="#upcoming">Upcoming</a></li>
+            
+            <li data-level="1"><a data-section="#configuration" href="#configuration">Configuration</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">EdgeOS Config Example</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="edgerouter-lite-dn42-config-example">EdgeRouter Lite DN42 config example</h1>
+<p>This is the config I (Felicitus) am running on an Ubiquiti EdgeRouter Lite (AS76197).</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>dn42 DNS</li>
+<li>&ldquo;classic&rdquo; OpenVPN P2P (including the common &ldquo;comp-lzo&rdquo; option)</li>
+<li>BGP</li>
+<li>Some traffic-shaping rules for my very slow 3mbit DSL uplink</li>
+<li>2 internal: One DN42 network (172.22.117.128/25 for me and my servers as well as a NAT 192.168.42.10/24 for my parents, so that they&rsquo;re save from dn42 - that network is NOT announced to dn42).</li>
+<li>Firewall to protect my NAS server and monitoring</li>
+</ul>
+<h2 id="upcoming">Upcoming</h2>
+<ul>
+<li>AICCU integration (SIXXS), probably not possible with the config, so <code>apt-get install aiccu</code> should do the trick</li>
+<li>dn42 IPv6 routing (probably)</li>
+</ul>
+<p>Ask me if you want to know if I have implemented those items already.</p>
+<h1 id="configuration">Configuration</h1>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">firewall</span> <span class="z-p">{</span>
+    <span class="z-kn">all-ping</span> <span class="z-s">enable</span>
+    <span class="z-s">broadcast-ping</span> <span class="z-s">disable</span>
+    <span class="z-s">conntrack-expect-table-size</span> <span class="z-mi">4096</span>
+    <span class="z-s">conntrack-hash-size</span> <span class="z-mi">4096</span>
+    <span class="z-s">conntrack-table-size</span> <span class="z-mi">32768</span>
+    <span class="z-s">conntrack-tcp-loose</span> <span class="z-s">enable</span>
+    <span class="z-s">ipv6-name</span> <span class="z-s">ROUTER_V6</span> <span class="z-p">{</span>
+        <span class="z-kn">default-action</span> <span class="z-s">drop</span>
+        <span class="z-s">rule</span> <span class="z-mi">1</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">port</span> <span class="z-mi">22</span>
+            <span class="z-err">}</span>
+            <span class="z-s">protocol</span> <span class="z-s">tcp</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">ipv6-name</span> <span class="z-s">WAN_IN_V6</span> <span class="z-p">{</span>
+        <span class="z-kn">default-action</span> <span class="z-s">drop</span>
+        <span class="z-s">enable-default-log</span>
+        <span class="z-s">rule</span> <span class="z-mi">3</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">port</span> <span class="z-mi">22</span>
+            <span class="z-err">}</span>
+            <span class="z-s">protocol</span> <span class="z-s">tcp</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">ipv6-receive-redirects</span> <span class="z-s">disable</span>
+    <span class="z-s">ipv6-src-route</span> <span class="z-s">disable</span>
+    <span class="z-s">ip-src-route</span> <span class="z-s">disable</span>
+    <span class="z-s">log-martians</span> <span class="z-s">enable</span>
+    <span class="z-s">name</span> <span class="z-s">DN42</span> <span class="z-p">{</span>
+        <span class="z-kn">default-action</span> <span class="z-s">drop</span>
+        <span class="z-s">rule</span> <span class="z-mi">100</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">address</span> <span class="z-mi">172</span><span class="z-s">.22.117.181</span>
+            <span class="z-err">}</span>
+            <span class="z-s">source</span> <span class="z-p">{</span>
+                <span class="z-kn">address</span> <span class="z-s">!172.22.117.128/25</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">rule</span> <span class="z-mi">101</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">address</span> <span class="z-mi">172</span><span class="z-s">.22.117.182</span>
+            <span class="z-err">}</span>
+            <span class="z-s">source</span> <span class="z-p">{</span>
+                <span class="z-kn">address</span> <span class="z-s">!172.22.117.128/25</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">rule</span> <span class="z-mi">102</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">address</span> <span class="z-mi">172</span><span class="z-s">.22.117.183</span>
+            <span class="z-err">}</span>
+            <span class="z-s">source</span> <span class="z-p">{</span>
+                <span class="z-kn">address</span> <span class="z-s">!172.22.117.128/25</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">name</span> <span class="z-s">ROUTER_V4</span> <span class="z-p">{</span>
+        <span class="z-kn">default-action</span> <span class="z-s">accept</span>
+        <span class="z-s">rule</span> <span class="z-mi">2</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">accept</span>
+            <span class="z-s">protocol</span> <span class="z-s">icmp</span>
+        <span class="z-err">}</span>
+        <span class="z-s">rule</span> <span class="z-mi">10</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">port</span> <span class="z-mi">22</span>
+            <span class="z-err">}</span>
+            <span class="z-s">protocol</span> <span class="z-s">tcp</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">name</span> <span class="z-s">WAN_IN_V4</span> <span class="z-p">{</span>
+        <span class="z-kn">default-action</span> <span class="z-s">drop</span>
+        <span class="z-s">enable-default-log</span>
+        <span class="z-s">rule</span> <span class="z-mi">1</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">accept</span>
+            <span class="z-s">description</span> <span class="z-s">&#34;allow</span> <span class="z-s">established</span> <span class="z-s">connections&#34;</span>
+            <span class="z-s">protocol</span> <span class="z-s">all</span>
+            <span class="z-s">state</span> <span class="z-p">{</span>
+                <span class="z-kn">established</span> <span class="z-s">enable</span>
+                <span class="z-s">related</span> <span class="z-s">enable</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">rule</span> <span class="z-mi">2</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">state</span> <span class="z-p">{</span>
+                <span class="z-kn">invalid</span> <span class="z-s">enable</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">rule</span> <span class="z-mi">3</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">drop</span>
+            <span class="z-s">destination</span> <span class="z-p">{</span>
+                <span class="z-kn">port</span> <span class="z-mi">22</span>
+            <span class="z-err">}</span>
+            <span class="z-s">protocol</span> <span class="z-s">tcp</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">receive-redirects</span> <span class="z-s">disable</span>
+    <span class="z-s">send-redirects</span> <span class="z-s">enable</span>
+    <span class="z-s">source-validation</span> <span class="z-s">disable</span>
+    <span class="z-s">syn-cookies</span> <span class="z-s">enable</span>
+<span class="z-err">}</span>
+<span class="z-s">interfaces</span> <span class="z-p">{</span>
+    <span class="z-kn">ethernet</span> <span class="z-s">eth0</span> <span class="z-p">{</span>
+        <span class="z-kn">duplex</span> <span class="z-s">auto</span>
+        <span class="z-s">firewall</span> <span class="z-p">{</span>
+            <span class="z-kn">in</span> <span class="z-p">{</span>
+                <span class="z-kn">name</span> <span class="z-s">WAN_IN_V4</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">pppoe</span> <span class="z-mi">0</span> <span class="z-p">{</span>
+            <span class="z-kn">default-route</span> <span class="z-s">auto</span>
+            <span class="z-s">firewall</span> <span class="z-p">{</span>
+                <span class="z-kn">local</span> <span class="z-p">{</span>
+                    <span class="z-kn">ipv6-name</span> <span class="z-s">ROUTER_V6</span>
+                    <span class="z-s">name</span> <span class="z-s">ROUTER_V4</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+            <span class="z-s">mtu</span> <span class="z-mi">1492</span>
+            <span class="z-s">name-server</span> <span class="z-s">auto</span>
+            <span class="z-s">password</span> <span class="z-mi">12345678</span>
+            <span class="z-s">traffic-policy</span> <span class="z-p">{</span>
+            <span class="z-p">}</span>
+            <span class="z-kn">user-id</span> <span class="z-s">some-t-online-crap@t-online.de</span>
+        <span class="z-err">}</span>
+        <span class="z-s">speed</span> <span class="z-s">auto</span>
+    <span class="z-err">}</span>
+    <span class="z-s">ethernet</span> <span class="z-s">eth1</span> <span class="z-p">{</span>
+        <span class="z-kn">address</span> <span class="z-mi">172</span><span class="z-s">.22.117.254/25</span>
+        <span class="z-s">duplex</span> <span class="z-s">auto</span>
+        <span class="z-s">speed</span> <span class="z-s">auto</span>
+        <span class="z-s">traffic-policy</span> <span class="z-p">{</span>
+        <span class="z-p">}</span>
+    <span class="z-p">}</span>
+    <span class="z-kn">ethernet</span> <span class="z-s">eth2</span> <span class="z-p">{</span>
+        <span class="z-kn">address</span> <span class="z-mi">192</span><span class="z-s">.168.42.1/24</span>
+        <span class="z-s">duplex</span> <span class="z-s">auto</span>
+        <span class="z-s">speed</span> <span class="z-s">auto</span>
+    <span class="z-err">}</span>
+    <span class="z-s">loopback</span> <span class="z-s">lo</span> <span class="z-p">{</span>
+    <span class="z-p">}</span>
+    <span class="z-kn">openvpn</span> <span class="z-s">vtun0</span> <span class="z-p">{</span>
+        <span class="z-kn">local-address</span> <span class="z-mi">172</span><span class="z-s">.22.117.254</span> <span class="z-p">{</span>
+            <span class="z-kn">subnet-mask</span> <span class="z-mi">255</span><span class="z-s">.255.255.128</span>
+        <span class="z-err">}</span>
+        <span class="z-s">local-port</span> <span class="z-mi">33121</span>
+        <span class="z-s">mode</span> <span class="z-s">site-to-site</span>
+        <span class="z-s">openvpn-option</span> <span class="z-s">--comp-lzo</span>
+        <span class="z-s">protocol</span> <span class="z-s">udp</span>
+        <span class="z-s">remote-address</span> <span class="z-mi">172</span><span class="z-s">.22.117.1</span>
+        <span class="z-s">remote-host</span> <span class="z-mi">5</span><span class="z-s">.9.33.163</span>
+        <span class="z-s">remote-port</span> <span class="z-mi">33121</span>
+        <span class="z-s">shared-secret-key-file</span> <span class="z-s">/config/auth/felihome.key</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+<span class="z-s">policy</span> <span class="z-p">{</span>
+    <span class="z-kn">prefix-list</span> <span class="z-s">vpn-in</span> <span class="z-p">{</span>
+        <span class="z-kn">rule</span> <span class="z-mi">10</span> <span class="z-p">{</span>
+            <span class="z-kn">action</span> <span class="z-s">permit</span>
+            <span class="z-s">ge</span> <span class="z-mi">22</span>
+            <span class="z-s">le</span> <span class="z-mi">28</span>
+            <span class="z-s">prefix</span> <span class="z-mi">172</span><span class="z-s">.22.0.0/15</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+<span class="z-s">protocols</span> <span class="z-p">{</span>
+    <span class="z-kn">bgp</span> <span class="z-mi">76197</span> <span class="z-p">{</span>
+        <span class="z-kn">neighbor</span> <span class="z-mi">172</span><span class="z-s">.22.117.1</span> <span class="z-p">{</span>
+            <span class="z-kn">description</span> <span class="z-s">feli-server</span>
+            <span class="z-s">peer-group</span> <span class="z-s">dn42</span>
+            <span class="z-s">remote-as</span> <span class="z-mi">64717</span>
+        <span class="z-err">}</span>
+        <span class="z-s">network</span> <span class="z-mi">172</span><span class="z-s">.22.117.128/25</span> <span class="z-p">{</span>
+        <span class="z-p">}</span>
+        <span class="z-kn">peer-group</span> <span class="z-s">dn42</span> <span class="z-p">{</span>
+            <span class="z-kn">soft-reconfiguration</span> <span class="z-p">{</span>
+                <span class="z-kn">inbound</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+<span class="z-s">service</span> <span class="z-p">{</span>
+    <span class="z-kn">dhcp-server</span> <span class="z-p">{</span>
+        <span class="z-kn">disabled</span> <span class="z-s">false</span>
+        <span class="z-s">dynamic-dns-update</span> <span class="z-p">{</span>
+            <span class="z-kn">enable</span> <span class="z-s">true</span>
+        <span class="z-err">}</span>
+        <span class="z-s">shared-network-name</span> <span class="z-s">int</span> <span class="z-p">{</span>
+            <span class="z-kn">authoritative</span> <span class="z-s">disable</span>
+            <span class="z-s">subnet</span> <span class="z-mi">172</span><span class="z-s">.22.117.128/25</span> <span class="z-p">{</span>
+                <span class="z-kn">default-router</span> <span class="z-mi">172</span><span class="z-s">.22.117.254</span>
+                <span class="z-s">dns-server</span> <span class="z-mi">172</span><span class="z-s">.22.117.254</span>
+                <span class="z-s">domain-name</span> <span class="z-s">feli-home.felicitus.org</span>
+                <span class="z-s">lease</span> <span class="z-mi">86400</span>
+                <span class="z-s">start</span> <span class="z-mi">172</span><span class="z-s">.22.117.129</span> <span class="z-p">{</span>
+                    <span class="z-kn">stop</span> <span class="z-mi">172</span><span class="z-s">.22.117.150</span>
+                <span class="z-err">}</span>
+                <span class="z-s">static-mapping</span> <span class="z-s">monitoring</span> <span class="z-p">{</span>
+                    <span class="z-kn">ip-address</span> <span class="z-mi">172</span><span class="z-s">.22.117.183</span>
+                    <span class="z-s">mac-address</span> <span class="z-n">52</span><span class="z-p">:</span><span class="z-mi">54</span><span class="z-p">:</span><span class="z-n">00</span><span class="z-p">:</span><span class="z-mi">20</span><span class="z-p">:</span><span class="z-n">df</span><span class="z-p">:</span><span class="z-mi">46</span>
+                <span class="z-err">}</span>
+                <span class="z-s">static-mapping</span> <span class="z-s">nas</span> <span class="z-p">{</span>
+                    <span class="z-kn">ip-address</span> <span class="z-mi">172</span><span class="z-s">.22.117.181</span>
+                    <span class="z-s">mac-address</span> <span class="z-n">e8</span><span class="z-p">:</span><span class="z-mi">39</span><span class="z-p">:</span><span class="z-mi">35</span><span class="z-p">:</span><span class="z-n">ee</span><span class="z-p">:</span><span class="z-mi">22</span><span class="z-p">:</span><span class="z-s">7b</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+        <span class="z-s">shared-network-name</span> <span class="z-s">nat</span> <span class="z-p">{</span>
+            <span class="z-kn">authoritative</span> <span class="z-s">disable</span>
+            <span class="z-s">subnet</span> <span class="z-mi">192</span><span class="z-s">.168.42.0/24</span> <span class="z-p">{</span>
+                <span class="z-kn">default-router</span> <span class="z-mi">192</span><span class="z-s">.168.42.1</span>
+                <span class="z-s">dns-server</span> <span class="z-mi">8</span><span class="z-s">.8.8.8</span>
+                <span class="z-s">dns-server</span> <span class="z-mi">8</span><span class="z-s">.8.4.4</span>
+                <span class="z-s">lease</span> <span class="z-mi">86400</span>
+                <span class="z-s">start</span> <span class="z-mi">192</span><span class="z-s">.168.42.10</span> <span class="z-p">{</span>
+                    <span class="z-kn">stop</span> <span class="z-mi">192</span><span class="z-s">.168.42.100</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">dns</span> <span class="z-p">{</span>
+        <span class="z-kn">forwarding</span> <span class="z-p">{</span>
+            <span class="z-kn">cache-size</span> <span class="z-mi">150</span>
+            <span class="z-s">listen-on</span> <span class="z-s">eth1</span>
+            <span class="z-s">listen-on</span> <span class="z-s">eth2</span>
+            <span class="z-s">name-server</span> <span class="z-mi">8</span><span class="z-s">.8.8.8</span>
+            <span class="z-s">name-server</span> <span class="z-mi">8</span><span class="z-s">.8.4.4</span>
+            <span class="z-s">options</span> <span class="z-s">server=/dn42/172.23.0.53</span>
+            <span class="z-s">options</span> <span class="z-s">server=/22.172.in-addr.arpa/172.23.0.53</span>
+            <span class="z-s">options</span> <span class="z-s">server=/23.172.in-addr.arpa/172.23.0.53</span>
+            <span class="z-s">options</span> <span class="z-s">rebind-domain-ok=/dn42/</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">nat</span> <span class="z-p">{</span>
+        <span class="z-kn">rule</span> <span class="z-mi">6000</span> <span class="z-p">{</span>
+            <span class="z-kn">outbound-interface</span> <span class="z-s">pppoe0</span>
+            <span class="z-s">type</span> <span class="z-s">masquerade</span>
+        <span class="z-err">}</span>
+        <span class="z-s">rule</span> <span class="z-mi">7000</span> <span class="z-p">{</span>
+            <span class="z-kn">outbound-interface</span> <span class="z-s">eth2</span>
+            <span class="z-s">type</span> <span class="z-s">masquerade</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">ssh</span> <span class="z-p">{</span>
+        <span class="z-kn">port</span> <span class="z-mi">22</span>
+        <span class="z-s">protocol-version</span> <span class="z-s">v2</span>
+    <span class="z-err">}</span>
+    <span class="z-s">upnp</span> <span class="z-p">{</span>
+        <span class="z-kn">listen-on</span> <span class="z-s">eth1</span> <span class="z-p">{</span>
+            <span class="z-kn">outbound-interface</span> <span class="z-s">pppoe0</span>
+        <span class="z-err">}</span>
+        <span class="z-s">listen-on</span> <span class="z-s">eth2</span> <span class="z-p">{</span>
+            <span class="z-kn">outbound-interface</span> <span class="z-s">pppoe0</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+<span class="z-s">system</span> <span class="z-p">{</span>
+    <span class="z-kn">host-name</span> <span class="z-s">ubnt</span>
+    <span class="z-s">login</span> <span class="z-p">{</span>
+        <span class="z-kn">user</span> <span class="z-s">felicitus</span> <span class="z-p">{</span>
+            <span class="z-kn">authentication</span> <span class="z-p">{</span>
+                <span class="z-kn">encrypted-password</span> <span class="z-s">errnope</span>
+                <span class="z-s">plaintext-password</span> <span class="z-s">&#34;&#34;</span>
+                <span class="z-s">public-keys</span> <span class="z-s">felicitus@felicitus.org</span> <span class="z-p">{</span>
+                    <span class="z-kn">key</span> <span class="z-s">AAAAB3NzaC1yc2EAAAADAQABAAABAQDPTSLjSY/Be1XJ/klAwLiM1pKSvmbdcOgtgDB6nPcHkgX6JZu7g/Kejfuk4qIKL8GYYUQt7DlGY6n2u5rChWE/6KZJzXcUwS3pXk4LZ5KydWp7ihfvyRtUOBgKkRa1zQv+6KCH9WyR++ArwVTP8KSkrmDe6k7NWAjZqOuIJHG/AbEyTBapTJYjObZ0AM7wlwcB+oRM1BfZCP0Y+PIP2eGJS7Pyb32pITNKk3JuFXgAvbj5OeRrwtpZ9S+/7wIpaUVODPzrVmbC7vOXu/2KJ9aY2BmxUsxRbrvWMmWNiuE0YPt/7lUroK4pH3md3lWRcGUS/uYvhug7yG1yB81nyI15</span>
+                    <span class="z-s">type</span> <span class="z-s">ssh-rsa</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+            <span class="z-s">level</span> <span class="z-s">admin</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">name-server</span> <span class="z-mi">172</span><span class="z-s">.22.117.254</span>
+    <span class="z-s">ntp</span> <span class="z-p">{</span>
+        <span class="z-kn">server</span> <span class="z-mi">0</span><span class="z-s">.ubnt.pool.ntp.org</span> <span class="z-p">{</span>
+        <span class="z-p">}</span>
+        <span class="z-kn">server</span> <span class="z-mi">1</span><span class="z-s">.ubnt.pool.ntp.org</span> <span class="z-p">{</span>
+        <span class="z-p">}</span>
+        <span class="z-kn">server</span> <span class="z-mi">2</span><span class="z-s">.ubnt.pool.ntp.org</span> <span class="z-p">{</span>
+        <span class="z-p">}</span>
+        <span class="z-kn">server</span> <span class="z-mi">3</span><span class="z-s">.ubnt.pool.ntp.org</span> <span class="z-p">{</span>
+        <span class="z-p">}</span>
+    <span class="z-p">}</span>
+    <span class="z-kn">syslog</span> <span class="z-p">{</span>
+        <span class="z-kn">global</span> <span class="z-p">{</span>
+            <span class="z-kn">facility</span> <span class="z-s">all</span> <span class="z-p">{</span>
+                <span class="z-kn">level</span> <span class="z-s">notice</span>
+            <span class="z-err">}</span>
+            <span class="z-s">facility</span> <span class="z-s">protocols</span> <span class="z-p">{</span>
+                <span class="z-kn">level</span> <span class="z-s">debug</span>
+            <span class="z-err">}</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+    <span class="z-s">time-zone</span> <span class="z-s">UTC</span>
+<span class="z-err">}</span>
+<span class="z-s">traffic-policy</span> <span class="z-p">{</span>
+    <span class="z-kn">shaper</span> <span class="z-s">client-up-s</span> <span class="z-p">{</span>
+        <span class="z-kn">bandwidth</span> <span class="z-s">30kbit</span>
+        <span class="z-s">class</span> <span class="z-mi">20</span> <span class="z-p">{</span>
+            <span class="z-kn">bandwidth</span> <span class="z-mi">100</span><span class="z-s">%</span>
+            <span class="z-s">burst</span> <span class="z-mi">6k</span>
+            <span class="z-s">match</span> <span class="z-s">TCPACK</span> <span class="z-p">{</span>
+                <span class="z-kn">ip</span> <span class="z-p">{</span>
+                    <span class="z-kn">protocol</span> <span class="z-s">tcp</span>
+                <span class="z-err">}</span>
+                <span class="z-s">mark</span> <span class="z-mi">225</span>
+            <span class="z-err">}</span>
+            <span class="z-s">priority</span> <span class="z-mi">5</span>
+            <span class="z-s">queue-limit</span> <span class="z-mi">65</span>
+            <span class="z-s">queue-type</span> <span class="z-s">fair-queue</span>
+        <span class="z-err">}</span>
+        <span class="z-s">class</span> <span class="z-mi">30</span> <span class="z-p">{</span>
+            <span class="z-kn">bandwidth</span> <span class="z-mi">5</span><span class="z-s">%</span>
+            <span class="z-s">burst</span> <span class="z-mi">15k</span>
+            <span class="z-s">ceiling</span> <span class="z-mi">20</span><span class="z-s">%</span>
+            <span class="z-s">match</span> <span class="z-s">ssh</span> <span class="z-p">{</span>
+                <span class="z-kn">ip</span> <span class="z-p">{</span>
+                    <span class="z-kn">destination</span> <span class="z-p">{</span>
+                        <span class="z-kn">port</span> <span class="z-mi">22</span>
+                    <span class="z-err">}</span>
+                    <span class="z-s">dscp</span> <span class="z-s">lowdelay</span>
+                    <span class="z-s">protocol</span> <span class="z-s">tcp</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+            <span class="z-s">match</span> <span class="z-s">ssh-ipv6</span> <span class="z-p">{</span>
+                <span class="z-kn">ipv6</span> <span class="z-p">{</span>
+                    <span class="z-kn">destination</span> <span class="z-p">{</span>
+                        <span class="z-kn">port</span> <span class="z-mi">22</span>
+                    <span class="z-err">}</span>
+                    <span class="z-s">protocol</span> <span class="z-s">tcp</span>
+                <span class="z-err">}</span>
+            <span class="z-err">}</span>
+            <span class="z-s">priority</span> <span class="z-mi">6</span>
+            <span class="z-s">queue-limit</span> <span class="z-mi">10</span>
+            <span class="z-s">queue-type</span> <span class="z-s">fair-queue</span>
+        <span class="z-err">}</span>
+        <span class="z-s">default</span> <span class="z-p">{</span>
+            <span class="z-kn">bandwidth</span> <span class="z-mi">95</span><span class="z-s">%</span>
+            <span class="z-s">burst</span> <span class="z-mi">15k</span>
+            <span class="z-s">ceiling</span> <span class="z-mi">100</span><span class="z-s">%</span>
+            <span class="z-s">priority</span> <span class="z-mi">2</span>
+            <span class="z-s">queue-limit</span> <span class="z-mi">13</span>
+            <span class="z-s">queue-type</span> <span class="z-s">fair-queue</span>
+        <span class="z-err">}</span>
+    <span class="z-err">}</span>
+<span class="z-err">}</span>
+
+
+<span class="z-s">/*</span> <span class="z-s">Warning:</span> <span class="z-s">Do</span> <span class="z-s">not</span> <span class="z-s">remove</span> <span class="z-s">the</span> <span class="z-s">following</span> <span class="z-s">line.</span> <span class="z-s">*/</span>
+<span class="z-s">/*</span> <span class="z-p">===</span> <span class="z-s">vyatta-config-version:</span> <span class="z-s">&#34;config-management@1:dhcp-relay@1:dhcp-server@4:firewall@4:ipsec@3:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1&#34;</span> <span class="z-p">===</span> <span class="z-s">*/</span>
+<span class="z-s">/*</span> <span class="z-s">Release</span> <span class="z-s">version:</span> <span class="z-s">v1.3.0.4605130.131011.1754</span> <span class="z-s">*/</span>
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

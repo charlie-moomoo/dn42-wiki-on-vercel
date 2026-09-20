@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>IPv6 Multicast - DN42 Wiki</title>
+    <meta name="description" content="IPv6 Multicast The following guide illustrates how to set up an IPv6 multicast router using PIM-SM (Protocol Independent Multicast in Sparse Mode) with your...">
+    <meta property="og:description" content="IPv6 Multicast The following guide illustrates how to set up an IPv6 multicast router using PIM-SM (Protocol Independent Multicast in Sparse Mode) with your...">
+    <meta property="og:title" content="IPv6 Multicast - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/IPv6-Multicast/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">IPv6 Multicast</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#ipv6-multicast" href="#ipv6-multicast">IPv6 Multicast</a></li>
+            
+            <li data-level="2"><a data-section="#quickstart" href="#quickstart">Quickstart</a></li>
+            
+            <li data-level="2"><a data-section="#testing-applications" href="#testing-applications">Testing &amp; Applications</a></li>
+            
+            <li data-level="3"><a data-section="#creating-a-test-network-namespace" href="#creating-a-test-network-namespace">Creating a test network namespace</a></li>
+            
+            <li data-level="3"><a data-section="#creating-a-test-multicast-listener" href="#creating-a-test-multicast-listener">Creating a test multicast listener</a></li>
+            
+            <li data-level="3"><a data-section="#creating-a-test-multicast-sender" href="#creating-a-test-multicast-sender">Creating a test multicast sender</a></li>
+            
+            <li data-level="2"><a data-section="#advanced-configurations" href="#advanced-configurations">Advanced Configurations</a></li>
+            
+            <li data-level="3"><a data-section="#nomenclature" href="#nomenclature">Nomenclature</a></li>
+            
+            <li data-level="4"><a data-section="#bootstrap-router-bsr" href="#bootstrap-router-bsr">Bootstrap Router (BSR)</a></li>
+            
+            <li data-level="4"><a data-section="#rendezvous-point-rp" href="#rendezvous-point-rp">Rendezvous Point (RP)</a></li>
+            
+            <li data-level="4"><a data-section="#designated-router-dr" href="#designated-router-dr">Designated Router (DR)</a></li>
+            
+            <li data-level="3"><a data-section="#rfc3306-unicast-prefix-based-ipv6-multicast-addresses" href="#rfc3306-unicast-prefix-based-ipv6-multicast-addresses">RFC3306: Unicast-Prefix-based IPv6 Multicast Addresses</a></li>
+            
+            <li data-level="3"><a data-section="#address-management" href="#address-management">Address Management</a></li>
+            
+            <li data-level="4"><a data-section="#bootstrap-router" href="#bootstrap-router">Bootstrap Router</a></li>
+            
+            <li data-level="4"><a data-section="#shared-multicast-addresses" href="#shared-multicast-addresses">Shared multicast addresses</a></li>
+            
+            <li data-level="2"><a data-section="#questions" href="#questions">Questions?</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">IPv6 Multicast</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="ipv6-multicast">IPv6 Multicast</h1>
+<p>The following guide illustrates how to set up an IPv6 multicast router using <a href="https://en.wikipedia.org/wiki/Protocol_Independent_Multicast#Sparse_mode">PIM-SM</a> (Protocol Independent Multicast in Sparse Mode) with your own personal multicast prefix, using pim6sd.</p>
+<p>Some people on dn42 also experimented with using FRR&rsquo;s PIM-SM implementation for <strong>SSM</strong> (source specific multicast) here: <a href="/howto/multicast">multicast page about PIM-SSM</a>. PIM-SSM is recommended by <a href="https://datatracker.ietf.org/doc/html/rfc8815">RFC8815</a> for interdomain multicast, RFC8815 also deprecated interdomain PIM-ASM (any source multicast) (though PIM-ASM using <a href="https://www.rfc-editor.org/rfc/rfc3956">Embedded-RP</a> for IPv6 multicast could maybe be a viable option on dn42?).</p>
+<p>Join #dn42-multicast on HackInt for multicast specific discussions.</p>
+<h2 id="quickstart">Quickstart</h2>
+<ul>
+<li>
+<p>Install pim6sd from here: <a href="https://github.com/troglobit/pim6sd/">https://github.com/troglobit/pim6sd/</a></p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-nb">cd</span> /usr/src
+git clone https://github.com/troglobit/pim6sd.git
+<span class="z-nb">cd</span> pim6sd
+./autogen.sh
+./configure
+make
+</code></pre></div>
+</li>
+<li>
+<p>Find a peer who is already connected to the dn42 multicast backbone</p>
+</li>
+<li>
+<p>Calculate your personal, embedded-RP multicast prefix matching your network prefix via <a href="https://tools.ietf.org/html/rfc3956">RFC3956</a></p>
+<ul>
+<li>Example:
+<ul>
+<li>Pattern: <code>ff7e:&lt;RIID&gt;&lt;plen&gt;:&lt;prefix&gt;::/96</code>
+<ul>
+<li>Prefix: <code>fd00:2001:db8::/48</code></li>
+<li>Prefix length: <code>48 == 0x30</code></li>
+<li>RIID: An arbitrary number between <code>0x1</code> and <code>0xf</code>, for instance <code>0x2</code></li>
+</ul>
+</li>
+<li>Result:
+<ul>
+<li>Multicast prefix: <code>ff7e:230:fd00:2001:db8::/96</code></li>
+<li>RP address: <code>fd00:2001:db8::&lt;RIID&gt;</code> -&gt; <code>fd00:2001:db8::2</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Create a dummy interface to hold your calculated unicast Rendezvous Point address. This one needs to be reachable from within dn42. Also set &ldquo;multicast on&rdquo; on this dummy interface. Example:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-c1"># /etc/network/interfaces.d/pim6sd
+</span><span class="z-c1"></span><span class="z-k">auto</span> <span class="z-s">pim-router-id</span>
+<span class="z-s">iface</span> <span class="z-s">pim-router-id</span> <span class="z-s">inet</span> <span class="z-s">manual</span>
+        <span class="z-s">pre-up</span> <span class="z-s">ip</span> <span class="z-s">link</span> <span class="z-s">add</span> <span class="z-s">name</span> <span class="z-nv">$IFACE</span> <span class="z-s">type</span> <span class="z-s">dummy</span>
+        <span class="z-s">post-up</span> <span class="z-s">ip</span> <span class="z-s">link</span> <span class="z-s">set</span> <span class="z-s">multicast</span> <span class="z-no">on</span> <span class="z-s">dev</span> <span class="z-nv">$IFACE</span>
+        <span class="z-s">post-up</span> <span class="z-s">ip</span> <span class="z-s">-6</span> <span class="z-s">a</span> <span class="z-s">a</span> <span class="z-n">fd00</span><span class="z-p">:</span><span class="z-mi">2001</span><span class="z-p">:</span><span class="z-s">db8::2/128</span> <span class="z-s">dev</span> <span class="z-nv">$IFACE</span>
+        <span class="z-s">post-down</span> <span class="z-s">ip</span> <span class="z-s">link</span> <span class="z-s">del</span> <span class="z-nv">$IFACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create the configuration file:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># /etc/pim6sd.conf</span>
+<span class="z-c1"># disable all interfaces by default</span>
+default_phyint_status disable<span class="z-p">;</span>
+
+<span class="z-c1"># enable the pim-router-id interface first to acquire the correct primary address</span>
+phyint pim-router-id enable<span class="z-p">;</span>
+
+<span class="z-c1"># add multicast-capable peer interfaces below</span>
+phyint dn42-peer1 enable<span class="z-p">;</span>
+
+<span class="z-c1"># configure rendezvous point for the personal multicast prefix</span>
+cand_rp pim-router-id<span class="z-p">;</span>
+group_prefix ff7e:230:fd00:2001:db8::/96<span class="z-p">;</span>
+</code></pre></div>
+<p>The <code>phyint</code> statement enables <a href="https://tools.ietf.org/html/rfc7761">PIM</a> and <a href="https://tools.ietf.org/html/rfc2710">MLD</a> on the target interface - by default all interfaces are in the disable state. Enable an interface if it is directed towards a multicast-capable peer or other multicast-capable routers in your autonomous system. Also enable it for downstream network segments with multicast listeners and senders, like for example your home (W)LAN segments.</p>
+<p>With <code>cand_rp</code> and <code>group_prefix</code> statements you can configure this router as a Rendezvous Point (RP) for your personal multicast group prefix. The address on the interface given as <code>cand_rp</code> will be used as the primary address for your RP, it therefore <em>must</em> be routable.</p>
+</li>
+</ul>
+<hr>
+<h2 id="testing-applications">Testing &amp; Applications</h2>
+<h3 id="creating-a-test-network-namespace">Creating a test network namespace</h3>
+<p>On your router:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">allow-hotplug pim-ns0
+iface pim-ns0 inet manual
+    pre-up ip link add pim-ns0 <span class="z-nb">type</span> veth peer name pim-ns1
+    post-up ip netns add pim-ns0
+    post-up ip link <span class="z-nb">set</span> addr 02:11:22:00:00:02 netns pim-ns0 name pim-ns0 up dev pim-ns1
+    post-up ip link <span class="z-nb">set</span> addr 02:11:22:00:00:01 up dev pim-ns0
+    post-up ip -6 a a fdd5:69d5:c530:1::1/64 dev pim-ns0
+    post-up ip netns <span class="z-nb">exec</span> pim-ns0 ip -6 a a fdd5:69d5:c530:1::2/64 dev pim-ns0
+    post-up ip netns <span class="z-nb">exec</span> pim-ns0 ip -6 r a default via fdd5:69d5:c530:1::1
+    post-down ip link del pim-ns0
+    post-down ip netns del pim-ns0
+</code></pre></div>
+<p>You can now switch into this test network namespace via &ldquo;ip netns exec /bin/bash&rdquo;. Inside this network namespace you can try:</p>
+<h3 id="creating-a-test-multicast-listener">Creating a test multicast listener</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">$ socat -u UDP6-RECV:1234,reuseaddr,ipv6-join-group<span class="z-o">=</span><span class="z-s2">&#34;[ff7e:230:fdd5:69d5:c530::123]:eth0&#34;</span> -
+</code></pre></div>
+<h3 id="creating-a-test-multicast-sender">Creating a test multicast sender</h3>
+<p>First select which interface should be the default one for your multicast traffic. Then send multicast packets via ICMPv6:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">$ ip -6 route add ff7e:230:fdd5:69d5:c530::/96 dev eth0 table <span class="z-nb">local</span>
+$ ping6 -t <span class="z-m">16</span> ff7e:230:fdd5:69d5:c530::123
+</code></pre></div>
+<p>The &ldquo;-t 16&rdquo;, a hop-limit of 16, is important here as <strong>by default all multicast traffic is usually sent with a hop-limit of just 1</strong>.</p>
+<hr>
+<h2 id="advanced-configurations">Advanced Configurations</h2>
+<h3 id="nomenclature">Nomenclature</h3>
+<h4 id="bootstrap-router-bsr">Bootstrap Router (BSR)</h4>
+<p>Router that collects multicast group information from all RP in the network and advertises it across the network.</p>
+<h4 id="rendezvous-point-rp">Rendezvous Point (RP)</h4>
+<p>Router where senders and receivers will meet for a certain multicast address. Senders must send their data to it, after which it will be forwarded to receivers. As soon as a receivers DR learns of the sender it will ask their router to forward data along a direct path between sender and receiver.</p>
+<h4 id="designated-router-dr">Designated Router (DR)</h4>
+<p>First-hop router that stand in for sender and receiver on their downstream networks. The senders DR sends their data towards the RP encapsulated in PIM Register packets. The receivers DR will send join and prune messages to the RP, managing the group subscription.</p>
+<h3 id="rfc3306-unicast-prefix-based-ipv6-multicast-addresses">RFC3306: &ldquo;Unicast-Prefix-based IPv6 Multicast Addresses&rdquo;</h3>
+<p>Before RFC3956 (embedded RP addresses) personal, network prefix based multicast prefixes were calculated via RFC3306. Example:</p>
+<ul>
+<li>
+<p>Pattern: <code>ff3e:&lt;plen&gt;:&lt;prefix&gt;::/96</code></p>
+<ul>
+<li>Prefix: <code>fd00:2001:db8::/48</code>
+<ul>
+<li>Prefix length: <code>48 == 0x30</code></li>
+</ul>
+</li>
+<li>Result: <code>ff3e:30:fd00:2001:db8::/96</code></li>
+</ul>
+</li>
+<li>
+<p>Pros:</p>
+<ul>
+<li>More flexible RP address selection</li>
+<li>Allows filtering on the BSR</li>
+</ul>
+</li>
+<li>
+<p>Cons:</p>
+<ul>
+<li>Needs a central BSR for coordination (or static RP configuration)</li>
+<li>Allows filtering on the BSR</li>
+</ul>
+</li>
+</ul>
+<p>However you can usually just announce and use both RFC3306 and RFC3956 based multicast prefixes, if you want to. pim6sd allows adding multiple <code>group_prefix</code> entries.</p>
+<h3 id="address-management">Address Management</h3>
+<h4 id="bootstrap-router">Bootstrap Router</h4>
+<p>If you want to be participate as a bootstrap router candidate, please read up on how PIM works first. If you join with a bootstrap router candidate add it here below with contact information and join #dn42-multicast on HackInt:</p>
+<ul>
+<li>&lt;BSR-ADDR1&gt; - <a href="mailto:foo@example.com">foo@example.com</a>, foo@HackInt</li>
+<li>&lt;BSR-ADDR2&gt; - &hellip;</li>
+</ul>
+<h4 id="shared-multicast-addresses">Shared multicast addresses</h4>
+<p>Next to personal multicast prefixes generated by network prefix (RFC3306 or RFC3956) there can also be multicast addresses not owned by a specific AS. In general any one can just set up a multicast sender or listener for those. However to work, they need a reliable RP for coordination.</p>
+<p>If you want to offer an RP candidate for a shared multicast address, please read up on how PIM works first. If you join with an RP candidate for a shared multicast address add it here below with contact information and join #dn42-multicast on HackInt:</p>
+<ul>
+<li>&lt;multicast-address1&gt;/128:
+<ul>
+<li>&lt;RP-address1&gt; - <a href="mailto:foo@example.com">foo@example.com</a>, foo@HackInt</li>
+<li>&lt;RP-address2&gt; - <a href="mailto:bar@example.com">bar@example.com</a>, bar@HackInt</li>
+</ul>
+</li>
+<li>&lt;multicast-address2&gt;/128:
+<ul>
+<li>&hellip;</li>
+</ul>
+</li>
+</ul>
+<h2 id="questions">Questions?</h2>
+<ul>
+<li>Join: <code>#dn42-multicast</code> on <code>HackInt</code></li>
+</ul>
+<hr>
+<p>ToDo:</p>
+<ul>
+<li>We have a solution for personal multicast prefixes tied to the network prefix of an AS owner. But what to do with multicast addresses that not only have listeners but also senders globally? We could have everyone add an additional &ldquo;group_prefix ff00::/8&rdquo; and then multicast router with the lowest address would win and become the central RP for all these addresses&hellip; not really scalable, robust or decentral though :-/. Should we use PIM-DM for some of these addresses instead (e.g. ones which generally have a low throughput, for instance Bittorrent Local Peer Discovery)? Or maybe those global addresses should be managed and configured as /128 and people who are interested in managing a specific, global multicast address will coordinate with each other?</li>
+<li>bootstrap router coordination; according to RFCs a bootstrap router can alter/filter the multicast prefixes it received from candidate RPs. Should a bootstrap router check and filter any multicast prefix that was generated from a network prefix which does not match the network prefix used by the PR?</li>
+</ul>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

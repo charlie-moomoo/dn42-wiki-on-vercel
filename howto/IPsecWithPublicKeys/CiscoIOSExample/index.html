@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>CiscoIOSExample - DN42 Wiki</title>
+    <meta name="description" content="IPsec with public key authentication on Cisco IOS Setup Generate an RSA keypair Note: You may already have completed this step, since it s required to enable...">
+    <meta property="og:description" content="IPsec with public key authentication on Cisco IOS Setup Generate an RSA keypair Note: You may already have completed this step, since it s required to enable...">
+    <meta property="og:title" content="CiscoIOSExample - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/IPsecWithPublicKeys/CiscoIOSExample/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">CiscoIOSExample</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#ipsec-with-public-key-authentication-on-cisco-ios" href="#ipsec-with-public-key-authentication-on-cisco-ios">IPsec with public key authentication on Cisco IOS</a></li>
+            
+            <li data-level="2"><a data-section="#setup" href="#setup">Setup</a></li>
+            
+            <li data-level="3"><a data-section="#generate-an-rsa-keypair" href="#generate-an-rsa-keypair">Generate an RSA keypair</a></li>
+            
+            <li data-level="3"><a data-section="#exchange-public-keys-with-your-peer" href="#exchange-public-keys-with-your-peer">Exchange public keys with your peer</a></li>
+            
+            <li data-level="2"><a data-section="#configuration" href="#configuration">Configuration</a></li>
+            
+            <li data-level="3"><a data-section="#configure-the-phase-1-ike-parameters" href="#configure-the-phase-1-ike-parameters">Configure the phase 1 IKE parameters</a></li>
+            
+            <li data-level="2"><a data-section="#full-greipsec-example" href="#full-greipsec-example">Full GRE/IPsec example</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#ipsecwithpublickeys">IPsecWithPublicKeys</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">CiscoIOSExample</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="ipsec-with-public-key-authentication-on-cisco-ios">IPsec with public key authentication on Cisco IOS</h1>
+<h2 id="setup">Setup</h2>
+<h3 id="generate-an-rsa-keypair">Generate an RSA keypair</h3>
+<p><em>Note: You may already have completed this step, since it&rsquo;s required to enable SSH.</em></p>
+<ol>
+<li>Configure a hostname and domain name.</li>
+</ol>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">Router#conf t
+Router(config)#hostname foo
+foo(config)#ip domain-name bar
+</code></pre></div>
+<ol start="2">
+<li>Generate an RSA key. The maximum length was increased from 2048 to 4096 as of release 15.1(1)T</li>
+</ol>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">foo(config)#crypto key generate rsa general-keys modulus 2048
+% The key modulus size is 2048 bits
+% Generating 2048 bit RSA keys, keys will be non-exportable...
+foo(config)#exit
+</code></pre></div>
+<h3 id="exchange-public-keys-with-your-peer">Exchange public keys with your peer</h3>
+<ol>
+<li>Display the public key. Send the key data portion to your peer.</li>
+</ol>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">foo#show crypto key mypubkey rsa foo.bar
+% Key pair was generated at: 19:24:02 UTC Jul 19 2014
+Key name: foo.bar
+Storage Device: not specified
+Usage: General Purpose Key
+Key is not exportable.
+Key Data:
+ 30820122 300D0609 2A864886 F70D0101 01050003 82010F00 3082010A 02820101
+ 00ABF25E 090CBDFC 47B3763B 01E38993 584F1D47 49DEE0FC 6A766D95 F416C5A8
+ 83E16EF2 19C00BC9 64B3E351 D6F43E57 461AC689 912C22FE C4BE10EE 05750F27
+ FEBB9C8C 2DFC7DD7 C0D1E8B2 7F022F54 04101205 60E47D99 2307E625 404F1130
+ CBD1759B BBDBBF89 0C0F6B09 52E50A81 BFCC6AA6 96AFF612 B700AEA5 0EDFCDDB
+ D3C7E014 2A59CD82 29A403CA 01EE580A CC4A3A2C C36369FE D2FA0FEF 2DC32D50
+ 1C55A296 3CBD6AAC 6AA66C73 FAB30A12 CFD1341D C261E013 8A7DA310 8D0E6C99
+ C248D554 D0D68508 3EA53F0F 971DA7A6 203CA186 A79F9D93 0D2E54EF F7E311B2
+ F7A8B486 D980661D DEB6C0B3 80A82583 4936F131 57C6D204 0AA5ED7F 7749F044
+ 8F020301 0001
+</code></pre></div>
+<ol start="2">
+<li>Convert your peer&rsquo;s public key to the hexadecimal DER format using the <a href="https://git.dn42.dev/ryan/pubkey-converter/raw/master/pubkey-converter.pl" title="Public key conversion script">pubkey-converter</a> script, if necessary.</li>
+</ol>
+<h2 id="configuration">Configuration</h2>
+<h3 id="configure-the-phase-1-ike-parameters">Configure the phase 1 IKE parameters</h3>
+<p>In this example, we&rsquo;ll use the following settings:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Key</th>
+<th style="text-align:left">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Encryption</td>
+<td style="text-align:left">AES-128</td>
+</tr>
+<tr>
+<td style="text-align:left">Hash</td>
+<td style="text-align:left">HMAC-SHA1</td>
+</tr>
+<tr>
+<td style="text-align:left">DH Group</td>
+<td style="text-align:left">5 (modp1536)</td>
+</tr>
+<tr>
+<td style="text-align:left">Lifetime</td>
+<td style="text-align:left">28800 seconds</td>
+</tr>
+<tr>
+<td style="text-align:left">Peer address</td>
+<td style="text-align:left">192.0.2.2</td>
+</tr>
+<tr>
+<td style="text-align:left">Local address</td>
+<td style="text-align:left">192.0.2.1</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Add your peer&rsquo;s public key</li>
+</ol>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">foo#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+foo(config)#crypto key pubkey-chain rsa
+foo(config-pubkey-chain)#addressed-key 192.0.2.2
+foo(config-pubkey-key)#key-string
+Enter a public key as a hexidecimal number ....
+
+foo(config-pubkey)#30820122 300D0609 2A864886 F70D0101 01050003 82010F00 3082010A 02820101
+foo(config-pubkey)#00F3E0AA 8924E512 C08BA87C 73820A15 E5180DDC EF827221 2B3864BF B2D2A5E0
+foo(config-pubkey)#33D04C1D 43A0CAF8 617EEEBA 7DB5BD38 429660CC 3144618E 4F386201 52483DA7
+foo(config-pubkey)#FDDF7AAC DCA8C19D FF5B1956 14F63831 ACE70D0F 4C557CE7 220C7E8B 9A2C837F
+foo(config-pubkey)#065A2B41 23B68074 C57F6F78 2F222DA1 915A095C CED77FF3 F1DF849C 3FD086EA
+foo(config-pubkey)#0A74901D 99DA97D5 0CFB22E7 C6C827E6 E53BE215 8D4928D2 458B02E2 1600F1F1
+foo(config-pubkey)#F1128D63 3A55EC4B 54E6A8E1 0B197E1E 7DA31CC2 54C30A2D 03BE5B8A 16A5E324
+foo(config-pubkey)#F3B15B67 C3FB2831 7F31610A 3BD59E74 E749DC25 74424F3F 7EC305AD 0BFA5008
+foo(config-pubkey)#E36C6E00 854433B6 A0E8DBF1 7A4741DD A91A5320 1D5150FA 28F12273 56A3E9A2
+foo(config-pubkey)#D5020301 0001
+foo(config-pubkey)#quit
+foo(config-pubkey-key)#exit
+foo(config-pubkey-chain)#exit
+</code></pre></div>
+<ol start="2">
+<li>Configure an ISAKMP policy</li>
+</ol>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">foo(config)#crypto isakmp policy 10
+foo(config-isakmp)#encryption aes
+foo(config-isakmp)#hash sha
+foo(config-isakmp)#group 5
+foo(config-isakmp)#lifetime 28800
+foo(config-isakmp)#authentication rsa-sig
+foo(config-isakmp)#exit
+</code></pre></div>
+<ol start="3">
+<li>All done! Configure the phase 2 parameters as you otherwise would.</li>
+</ol>
+<h2 id="full-greipsec-example">Full GRE/IPsec example</h2>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">crypto key pubkey-chain rsa
+ addressed-key 192.0.2.2
+  address 192.0.2.2
+   key-string
+    30820122 300D0609 2A864886 F70D0101 01050003 82010F00 3082010A 02820101
+    00F3E0AA 8924E512 C08BA87C 73820A15 E5180DDC EF827221 2B3864BF B2D2A5E0
+    33D04C1D 43A0CAF8 617EEEBA 7DB5BD38 429660CC 3144618E 4F386201 52483DA7
+    FDDF7AAC DCA8C19D FF5B1956 14F63831 ACE70D0F 4C557CE7 220C7E8B 9A2C837F
+    065A2B41 23B68074 C57F6F78 2F222DA1 915A095C CED77FF3 F1DF849C 3FD086EA
+    0A74901D 99DA97D5 0CFB22E7 C6C827E6 E53BE215 8D4928D2 458B02E2 1600F1F1
+    F1128D63 3A55EC4B 54E6A8E1 0B197E1E 7DA31CC2 54C30A2D 03BE5B8A 16A5E324
+    F3B15B67 C3FB2831 7F31610A 3BD59E74 E749DC25 74424F3F 7EC305AD 0BFA5008
+    E36C6E00 854433B6 A0E8DBF1 7A4741DD A91A5320 1D5150FA 28F12273 56A3E9A2
+    D5020301 0001
+   quit
+  !
+  crypto isakmp policy 10
+   encr aes
+   group 5
+   lifetime 28800
+  !
+  crypto ipsec transform-set tset esp-aes esp-sha-hmac
+   mode transport
+  !
+  crypto ipsec profile FOO
+   set transform-set tset
+   set pfs group5
+  !
+  interface Tunnel0
+   ip address 10.1.2.0 255.255.255.254
+   ip mtu 1400
+   tunnel source 192.0.2.1
+   tunnel destination 192.0.2.2
+   tunnel protection ipsec profile FOO
+  !
+  interface FastEthernet0/0
+   description WAN
+   ip address 192.0.2.1 255.255.255.0
+   duplex full
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

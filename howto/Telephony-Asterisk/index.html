@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Telephony Asterisk - DN42 Wiki</title>
+    <meta name="description" content="Getting Started with telephony (Asterisk) This guide will help you quickly deploy a working Asterisk PBX. By the end of this tutorial, you will be able to...">
+    <meta property="og:description" content="Getting Started with telephony (Asterisk) This guide will help you quickly deploy a working Asterisk PBX. By the end of this tutorial, you will be able to...">
+    <meta property="og:title" content="Telephony Asterisk - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/Telephony-Asterisk/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">Telephony Asterisk</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#getting-started-with-telephony-asterisk" href="#getting-started-with-telephony-asterisk">Getting Started with telephony (Asterisk)</a></li>
+            
+            <li data-level="2"><a data-section="#prerequisites" href="#prerequisites">Prerequisites</a></li>
+            
+            <li data-level="2"><a data-section="#installation-notes" href="#installation-notes">Installation notes</a></li>
+            
+            <li data-level="3"><a data-section="#debian-ubuntu" href="#debian-ubuntu">Debian / Ubuntu</a></li>
+            
+            <li data-level="3"><a data-section="#alpine" href="#alpine">Alpine</a></li>
+            
+            <li data-level="3"><a data-section="#docker-docker-compose" href="#docker-docker-compose">Docker (docker compose)</a></li>
+            
+            <li data-level="2"><a data-section="#example-configuration" href="#example-configuration">Example configuration</a></li>
+            
+            <li data-level="3"><a data-section="#pjsip-pjsip-conf" href="#pjsip-pjsip-conf">PJSIP (pjsip.conf)</a></li>
+            
+            <li data-level="3"><a data-section="#dialplan-extensions-conf" href="#dialplan-extensions-conf">Dialplan (extensions.conf)</a></li>
+            
+            <li data-level="2"><a data-section="#setting-up-your-extension" href="#setting-up-your-extension">Setting up your extension</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">Telephony Asterisk</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="getting-started-with-telephony-asterisk">Getting Started with telephony (Asterisk)</h1>
+<p>This guide will help you quickly deploy a working Asterisk PBX. By the end of this tutorial, you will be able to make and receive calls within dn42.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before configuring Asterisk, ensure you have:</p>
+<ol>
+<li>An allocated telephony (<code>+042</code>) number prefix registered in the registry (e.g., <code>+04240000</code>).</li>
+<li>DNS NAPTR records correctly configured on your zone in <code>tel.dn42</code>.</li>
+</ol>
+<p>Example of wildcard NAPTR record to route any calls to your PBX at <code>pbx.yourdomain.dn42</code> with SIP port <code>5060</code>:</p>
+<div class="code-block" data-lang="bind"><span class="code-lang-label" aria-hidden="true">bind</span><pre tabindex="0" class="z-chroma z-code language-bind" data-lang="bind"><code class="language-bind" data-lang="bind">*.0.0.0.0.4.2.4.0.tel.dn42. IN NAPTR 100 10 &quot;u&quot; &quot;E2U+sip&quot; &quot;!^(.*)$!sip:\\1@pbx.yourdomain.dn42:5060!&quot; .
+</code></pre></div>
+<h2 id="installation-notes">Installation notes</h2>
+<h3 id="debian-ubuntu">Debian / Ubuntu</h3>
+<p>Asterisk is available in the official repositories. (For Debian, you need to install packages from <code>sid</code> repository)</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">apt update
+apt install asterisk
+</code></pre></div>
+<h3 id="alpine">Alpine</h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">apk add asterisk
+</code></pre></div>
+<h3 id="docker-docker-compose">Docker (<code>docker compose</code>)</h3>
+<div class="code-block" data-lang="yaml"><span class="code-lang-label" aria-hidden="true">yaml</span><pre tabindex="0" class="z-chroma z-code language-yaml" data-lang="yaml"><code class="language-yaml" data-lang="yaml"><span class="z-nt">services</span><span class="z-p">:</span><span class="z-w">
+</span><span class="z-w">  </span><span class="z-nt">asterisk</span><span class="z-p">:</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">image</span><span class="z-p">:</span><span class="z-w"> </span><span class="z-l">andrius/asterisk:stable</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">container_name</span><span class="z-p">:</span><span class="z-w"> </span><span class="z-l">asterisk42</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">network_mode</span><span class="z-p">:</span><span class="z-w"> </span><span class="z-l">host</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">volumes</span><span class="z-p">:</span><span class="z-w">
+</span><span class="z-w">      </span>- <span class="z-l">./config:/etc/asterisk</span><span class="z-w">
+</span><span class="z-w">    </span><span class="z-nt">restart</span><span class="z-p">:</span><span class="z-w"> </span><span class="z-l">unless-stopped</span><span class="z-w">
+</span></code></pre></div>
+<h2 id="example-configuration">Example configuration</h2>
+<p>Asterisk relies on many configuration files. This guide will focus only on two main config files:</p>
+<ul>
+<li><code>pjsip.conf</code>: Network, Endpoints, and Authentication</li>
+<li><code>extensions.conf</code>: Dialplan and Routing</li>
+</ul>
+<p>When copying the configurations below, replace the following variables (remove the brackets):</p>
+<ul>
+<li><code>&lt;OWN_IPv4&gt;</code>: Your dn42 IPv4 address (e.g., <code>172.20.X.X</code>)</li>
+<li><code>&lt;OWN_IPv6&gt;</code>: Your dn42 IPv6 address (e.g., <code>fdXX::X</code>)</li>
+<li><code>&lt;OWN_PREFIX&gt;</code>: Your telephony prefix (e.g., <code>+04240000</code>)</li>
+<li><code>&lt;EXT_NAME&gt;</code>: Name for your extension (e.g., <code>0001</code> or <code>my-phone</code>)</li>
+<li><code>&lt;FULL_NUMBER&gt;</code>: The full <code>+042</code> number for your extension (e.g., <code>+042400000001</code>)</li>
+<li><code>&lt;SECRET_PASS&gt;</code>: A strong password</li>
+</ul>
+<h3 id="pjsip-pjsip-conf">PJSIP (<code>pjsip.conf</code>)</h3>
+<p>This file defines how Asterisk listens to the network, sets up templates for devices, creates your local extension, and prepares an anonymous endpoint to catch incoming ENUM calls.</p>
+<div class="code-block" data-lang="ini"><span class="code-lang-label" aria-hidden="true">ini</span><pre tabindex="0" class="z-chroma z-code language-ini" data-lang="ini"><code class="language-ini" data-lang="ini"><span class="z-k">[global]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">global</span>
+<span class="z-c1">; verified peers first</span>
+<span class="z-na">endpoint_identifier_order</span><span class="z-o">=</span><span class="z-s">auth_username,username,ip</span>
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Transports</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-k">[transport-udp4]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">transport</span>
+<span class="z-na">protocol</span><span class="z-o">=</span><span class="z-s">udp</span>
+<span class="z-na">bind</span><span class="z-o">=</span><span class="z-s">&lt;OWN_IPv4&gt;:5060</span>
+<span class="z-na">local_net</span><span class="z-o">=</span><span class="z-s">172.20.0.0/14</span>
+<span class="z-na">local_net</span><span class="z-o">=</span><span class="z-s">172.31.0.0/16</span>
+<span class="z-na">local_net</span><span class="z-o">=</span><span class="z-s">10.0.0.0/8</span>
+
+<span class="z-k">[transport-udp6]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">transport</span>
+<span class="z-na">protocol</span><span class="z-o">=</span><span class="z-s">udp</span>
+<span class="z-na">bind</span><span class="z-o">=</span><span class="z-s">[&lt;OWN_IPv6&gt;]:5060</span>
+<span class="z-na">local_net</span><span class="z-o">=</span><span class="z-s">fd00::/8</span>
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Templates</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-na">[phone-template](!)</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">endpoint</span>
+<span class="z-na">context</span><span class="z-o">=</span><span class="z-s">context-local          ; Incoming calls from this phone go here</span>
+<span class="z-na">allow</span><span class="z-o">=</span><span class="z-s">!all,ulaw,alaw           ; Use standard audio formats</span>
+<span class="z-na">rtp_symmetric</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">force_rport</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">rewrite_contact</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">direct_media</span><span class="z-o">=</span><span class="z-s">no                ; Proxy media through PBX to prevent NAT issues</span>
+<span class="z-na">trust_id_inbound</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">send_pai</span><span class="z-o">=</span><span class="z-s">yes</span>
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Local Extensions</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-c1">; Replace variables to create an extension names &lt;EXT_NAME&gt;</span>
+<span class="z-na">[&lt;EXT_NAME&gt;](phone-template)</span>
+<span class="z-na">auth</span><span class="z-o">=</span><span class="z-s">&lt;EXT_NAME&gt;</span>
+<span class="z-na">aors</span><span class="z-o">=</span><span class="z-s">&lt;EXT_NAME&gt;</span>
+<span class="z-na">callerid</span><span class="z-o">=</span><span class="z-s">&#34;My Name&#34; &lt;&lt;FULL_NUMBER&gt;&gt;</span>
+
+<span class="z-k">[&lt;EXT_NAME&gt;]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">auth</span>
+<span class="z-na">auth_type</span><span class="z-o">=</span><span class="z-s">userpass</span>
+<span class="z-na">username</span><span class="z-o">=</span><span class="z-s">&lt;EXT_NAME&gt;</span>
+<span class="z-na">password</span><span class="z-o">=</span><span class="z-s">&lt;SECRET_PASS&gt;</span>
+
+<span class="z-k">[&lt;EXT_NAME&gt;]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">aor</span>
+<span class="z-na">max_contacts</span><span class="z-o">=</span><span class="z-s">3   ; Allow 3 devices to register simultaneously</span>
+<span class="z-na">remove_existing</span><span class="z-o">=</span><span class="z-s">yes</span>
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Incoming calls via ENUM</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-k">[peer-enum-inbound]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">endpoint</span>
+<span class="z-na">context</span><span class="z-o">=</span><span class="z-s">context-enum   ; Send unknown incoming calls to ENUM context</span>
+<span class="z-na">allow</span><span class="z-o">=</span><span class="z-s">!all,ulaw,alaw           ; Use standard audio formats</span>
+<span class="z-na">rtp_symmetric</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">force_rport</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">rewrite_contact</span><span class="z-o">=</span><span class="z-s">yes</span>
+<span class="z-na">direct_media</span><span class="z-o">=</span><span class="z-s">no</span>
+
+<span class="z-k">[peer-enum-inbound-id]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">identify</span>
+<span class="z-na">endpoint</span><span class="z-o">=</span><span class="z-s">peer-enum-inbound</span>
+<span class="z-c1">; match all dn42 subnets</span>
+<span class="z-na">match</span><span class="z-o">=</span><span class="z-s">172.20.0.0/14</span>
+<span class="z-na">match</span><span class="z-o">=</span><span class="z-s">172.31.0.0/16</span>
+<span class="z-na">match</span><span class="z-o">=</span><span class="z-s">10.0.0.0/8</span>
+<span class="z-na">match</span><span class="z-o">=</span><span class="z-s">fd00::/8</span>
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Outgoing calls via ENUM</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-k">[peer-enum-outbound]</span>
+<span class="z-na">type</span><span class="z-o">=</span><span class="z-s">endpoint</span>
+<span class="z-na">allow</span><span class="z-o">=</span><span class="z-s">!all,ulaw,alaw           ; Use standard audio formats</span>
+<span class="z-na">send_pai</span><span class="z-o">=</span><span class="z-s">yes</span>
+</code></pre></div>
+<h3 id="dialplan-extensions-conf">Dialplan (<code>extensions.conf</code>)</h3>
+<p>The file tells Asterisk how to route numbers. It is divided into serveral contexts.</p>
+<div class="code-block" data-lang="ini"><span class="code-lang-label" aria-hidden="true">ini</span><pre tabindex="0" class="z-chroma z-code language-ini" data-lang="ini"><code class="language-ini" data-lang="ini"><span class="z-k">[globals]</span>
+<span class="z-c1">; (Optional) Global variables can go here</span>
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Inbound Routing</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-c1">; Calls originating from your own network.</span>
+<span class="z-k">[context-local]</span>
+
+<span class="z-c1">; 4 digits -&gt; call local extension</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _XXXX,1,Goto(ext-local,${EXTEN},1)</span>
+
+<span class="z-c1">; starts with 042 -&gt; add + and route out</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _042X.,1,Goto(ext-routing,+${EXTEN},1)</span>
+
+<span class="z-c1">; standard +042 dialing -&gt; route out</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _+042X.,1,Goto(ext-routing,${EXTEN},1)</span>
+
+<span class="z-c1">; Catch-all -&gt; add +042 and route out</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _X!,1,Goto(ext-routing,+042${EXTEN},1)</span>
+
+
+<span class="z-c1">; Calls originating from external networks via ENUM.</span>
+<span class="z-k">[context-enum]</span>
+
+<span class="z-c1">; starts with 00 -&gt; replace with + and route out</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _00X!,1,Goto(ext-routing,+${EXTEN:2},1)</span>
+
+<span class="z-c1">; starts with + -&gt; route out</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _+X!,1,Goto(ext-routing,${EXTEN},1)</span>
+
+<span class="z-c1">; Catch-all -&gt; add + and route out</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _X!,1,Goto(ext-routing,+${EXTEN},1)</span>
+
+
+<span class="z-c1">; ==========================================</span>
+<span class="z-c1">; Outbound &amp; Local Routing</span>
+<span class="z-c1">; ==========================================</span>
+
+<span class="z-c1">; Calls destined for local networks.</span>
+<span class="z-k">[ext-local]</span>
+<span class="z-c1">; route &lt;OWN_PREFIX&gt;0001 calls to your local extension &lt;EXT_NAME&gt;</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; 0001,1,Dial(PJSIP/&lt;EXT_NAME&gt;,30)  ; </span>
+
+
+<span class="z-c1">; Inter-PBX routing for both inbound and outbound calls.</span>
+<span class="z-k">[ext-routing]</span>
+
+<span class="z-c1">; route calls destined for your prefix</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _&lt;OWN_PREFIX&gt;.,1,Goto(ext-local,${EXTEN:9},1)</span>
+
+<span class="z-c1">; other external calls -&gt; do ENUM lookup on tel.dn42</span>
+<span class="z-na">exten</span> <span class="z-o">=</span><span class="z-s">&gt; _+042X.,1,Set(TARGET_URI=${ENUMLOOKUP(${EXTEN},sip,,,tel.dn42)})
+</span><span class="z-s"> ; if found, dial via our outbound endpoint
+</span><span class="z-s"> same =&gt; n,ExecIf($[&#34;${TARGET_URI}&#34;!=&#34;&#34;]?Dial(PJSIP/peer-enum-outbound/sip:${TARGET_URI},60))
+</span><span class="z-s"> ; if unallocated or failed, naturally hangup
+</span><span class="z-s"> same =&gt; n,Hangup()</span>
+</code></pre></div>
+<p>Apply your configuration by entering the Asterisk CLI:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">asterisk -rx <span class="z-s1">&#39;core reload&#39;</span>
+</code></pre></div>
+<h2 id="setting-up-your-extension">Setting up your extension</h2>
+<p>You can now connect a softphone (like MicroSIP, Zoiper, or Linphone) or a hardware IP Phone/ATA using the following details:</p>
+<ul>
+<li>Domain / Server: pbx.yourdomain.dn42 / <code>&lt;OWN_IPv4&gt;</code> or <code>&lt;OWN_IPv6&gt;</code></li>
+<li>Port: 5060 (UDP)</li>
+<li>Username: <code>&lt;EXT_NAME&gt;</code></li>
+<li>Password: <code>&lt;SECRET_PASS&gt;</code></li>
+</ul>
+<p>Once connected, ask a friend to call your <code>&lt;FULL_NUMBER&gt;</code>.</p>
+<p><em>Tip: Install and use <code>sngrep -c</code> in your PBX&rsquo;s terminal to visually monitor SIP traffic if calls fail.</em></p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

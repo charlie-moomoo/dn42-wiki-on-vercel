@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>multicast - DN42 Wiki</title>
+    <meta name="description" content="Multicast RFC 8815 deprecated interdomain PIM-ASM (any-source multicast) so PIM-SSM (source-specific multicast) is the way to go! Setup For it to work, you ll...">
+    <meta property="og:description" content="Multicast RFC 8815 deprecated interdomain PIM-ASM (any-source multicast) so PIM-SSM (source-specific multicast) is the way to go! Setup For it to work, you ll...">
+    <meta property="og:title" content="multicast - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/multicast/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">multicast</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="2"><a data-section="#multicast" href="#multicast">Multicast</a></li>
+            
+            <li data-level="3"><a data-section="#setup" href="#setup">Setup</a></li>
+            
+            <li data-level="2"><a data-section="#configuration" href="#configuration">Configuration</a></li>
+            
+            <li data-level="3"><a data-section="#frr-configuration" href="#frr-configuration">frr configuration</a></li>
+            
+            <li data-level="3"><a data-section="#nftables-configuration" href="#nftables-configuration">nftables configuration</a></li>
+            
+            <li data-level="2"><a data-section="#participants" href="#participants">Participants</a></li>
+            
+            <li data-level="2"><a data-section="#current-streams" href="#current-streams">Current streams</a></li>
+            
+            <li data-level="3"><a data-section="#nop-music-stream" href="#nop-music-stream">NOP music stream</a></li>
+            
+            <li data-level="3"><a data-section="#mping" href="#mping">mping</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">multicast</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h2 id="multicast">Multicast</h2>
+<p><a href="https://datatracker.ietf.org/doc/html/rfc8815">RFC 8815</a> deprecated interdomain PIM-ASM (any-source multicast) so PIM-SSM (source-specific multicast) is the way to go!</p>
+<h3 id="setup">Setup</h3>
+<p>For it to work, you&rsquo;ll need to do the following:</p>
+<ul>
+<li>Ask your peering to enable IPv4/IPv6 multicast AFI on your peering</li>
+<li>Set up IPv4/IPv6 PIM for the (s,g) joins to pass through</li>
+<li>Be prepared to setup IGMPv3 and MLDv2 from your listeners</li>
+</ul>
+<p>You&rsquo;re done! You should receive the multicast routes from peers advertising them.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="frr-configuration">frr configuration</h3>
+<p>Enable PIM:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">router pim
+ no autorp discovery
+exit
+router pim6
+exit
+</code></pre></div>
+<p>For IPv4, you can also add the <code>send-v6-secondary</code> directive, which allows you to omit an IPv4 address (as with &ldquo;extended next hop&rdquo;) on the interface. (Does this work? I haven&rsquo;t tried it yet.)</p>
+<p>Import kernel multicast table into frr:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip import-table [TABLE NUMBER] mrib
+ipv6 import-table [TABLE NUMBER] mrib
+</code></pre></div>
+<p>This method is suitable when frr is used only as a multicast routing daemon and another daemon, such as bird, is used for BGP. In this case, bird can export the unicast routes intended for multicast to a special kernel routing table, and frr can import them. If frr also handles BGP, it can store the corresponding unicast routes directly in mrib.</p>
+<p>Enable PIM on a interface:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">interface [INTERFACE NAME]
+ ip pim
+ ip pim use-source [SOURCE IPv4 ADDRESS]
+ ipv6 pim
+ ipv6 pim use-source [SOURCE IPv6 ADDRESS]
+exit
+</code></pre></div>
+<p>Specifying a source address is optional, but can be used if frr would otherwise select the wrong address.</p>
+<p>Enable multicast for a client:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">interface client21
+ ip igmp
+ ip igmp max-groups 32
+ ip igmp require-router-alert
+ ip igmp version 3
+ ip pim
+ ip pim passive
+ ipv6 mld
+ ipv6 mld max-groups 32
+ ipv6 mld require-router-alert
+ ipv6 mld version 2
+ ipv6 pim
+ ipv6 pim passive
+exit
+</code></pre></div>
+<p>The number of maximum groups is optional and can be set freely. For security reasons, this number should not be set unreasonably high. Specifying an explicit IGMP or MLD version is also optional.
+IGMP and MLD messages must follow a specific format. <code>require-router-alert</code> filters out invalid messages.
+Even if an interface is only intended to handle IGMP/MLD, PIM must be enabled on it. If you still do not want to use PIM, a firewall rule is recommended.</p>
+<h3 id="nftables-configuration">nftables configuration</h3>
+<p>Allow PIM:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">iifname &quot;[INTERFACE NAME]&quot; ip6 saddr [SOURCE ADDRESS] ip6 daddr ff02::d meta protocol ip6 meta l4proto pim counter accept;
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">iifname &quot;[INTERFACE NAME]&quot; ip saddr [SOURCE ADDRESS] ip daddr 224.0.0.13 meta protocol ip meta l4proto pim counter accept;
+</code></pre></div>
+<p>Allow MLDv2:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">set icmp6_mld {
+    type icmpv6_type . icmpv6_code;
+    flags interval;
+    elements = {
+        mld-listener-query . 0,
+        mld2-listener-report . 0
+    };
+}
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">iifname [CLIENT INTERFACE NAME] icmpv6 type . icmpv6 code @icmp6_mld ip6 hoplimit 1 exthdr hbh exists ip6 saddr fe80::/10 counter accept;
+</code></pre></div>
+<p>Allow IGMPv3:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">iifname [CLIENT INTERFACE NAME] ip protocol igmp igmp type { membership-query, membership-report-v3 } ip ttl 1 counter accept;
+</code></pre></div>
+<h2 id="participants">Participants</h2>
+<p>Current participants:</p>
+<ul>
+<li>NOP-MNT</li>
+<li>MIRSAL-MNT</li>
+<li>C4TG1RL5-MNT</li>
+<li>KIOUBIT-MNT</li>
+<li>PREVARINITE-MNT</li>
+<li>MARK22K-MNT</li>
+</ul>
+<p>Feel free to ask for a peering and set it up!</p>
+<h2 id="current-streams">Current streams</h2>
+<h3 id="nop-music-stream">NOP music stream</h3>
+<p>cs broadcasts a 48 kHz, 24-bit music stream. An SDP file is required to receive it:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">v=0
+o=- 0 0 IN IP4 172.23.199.110
+s=-
+i=NOP 48 kHz 24-bit music stream
+e=dn42@nop.hu
+c=IN IP4 232.2.3.2
+m=audio 1234 RTP/AVP 96
+a=rtpmap:96 L24/48000/2
+a=recvonly
+a=type:broadcast
+a=source-filter: incl IN IP4 232.2.3.2 172.23.199.110
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">v=0
+o=- 0 0 IN IP6 fd40:cc1e:c0de::fffe
+s=-
+i=NOP 48 kHz 24-bit music stream
+e=dn42@nop.hu
+c=IN IP6 ff3e::8232:232
+m=audio 1234 RTP/AVP 96
+a=rtpmap:96 L24/48000/2
+a=recvonly
+a=type:broadcast
+a=source-filter: incl IN IP6 ff3e::8232:232 fd40:cc1e:c0de::fffe
+</code></pre></div>
+<p>also there is low bandwidth sap/sdp announcements of the format (samplerate could be 44.1khz, 48khz, 96khz 192khz or 384khz, bitdepts also change from 16bit, 24bit or 32bit, MSB) to 172.23.199.110,232.2.3.1:9875 that needs altering in terms of addresses embedded within, however vlc can pick it up</p>
+<p>The stream can then be streamed with <code>ffplay -protocol_whitelist file,fd,udp,rtp -fflags +genpts /path/to/sdp_file</code> or mplayer or vlc.</p>
+<p>the actual <a href="https://datatracker.ietf.org/doc/html/rfc8866">RFC 8866</a>-sdp could be extracted from <a href="https://datatracker.ietf.org/doc/html/rfc2974">RFC 2974</a>-sap&hellip; when its not aes67 (rtp+sap+sdp) then it may be <a href="https://github.com/duncanthrax/scream">scream</a></p>
+<h3 id="mping">mping</h3>
+<p>mping is a program that sends a ping message to a multicast group every second (and responds to incoming pings, if any).
+There are two implementations:</p>
+<ul>
+<li>The <a href="https://github.com/troglobit/mping/">original implementation</a> by troglobit, which supports both sending and receiving.</li>
+<li>A <a href="https://codeberg.org/mark22k/mping-sender">reimplementation</a>, which supports only sending.</li>
+</ul>
+<p>Streams:</p>
+<ul>
+<li><code>mcjoin -j -i [INTERFACE] [fd00:8e13:ce5d::9bee],[ff3e::8000:42]:4321</code> mping-sender</li>
+</ul>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

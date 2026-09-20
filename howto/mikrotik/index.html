@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>mikrotik - DN42 Wiki</title>
+    <meta name="description" content="How to connect to dn42 using Mikrotik RouterOS NB: this is a somewhat outdated page, it uses a VPN stack that s a bit less elegant and not as well supported...">
+    <meta property="og:description" content="How to connect to dn42 using Mikrotik RouterOS NB: this is a somewhat outdated page, it uses a VPN stack that s a bit less elegant and not as well supported...">
+    <meta property="og:title" content="mikrotik - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/mikrotik/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">mikrotik</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#how-to-connect-to-dn42-using-mikrotik-routeros" href="#how-to-connect-to-dn42-using-mikrotik-routeros">How to connect to dn42 using Mikrotik RouterOS</a></li>
+            
+            <li data-level="2"><a data-section="#legend" href="#legend">Legend</a></li>
+            
+            <li data-level="2"><a data-section="#routeros-limitations" href="#routeros-limitations">RouterOS limitations</a></li>
+            
+            <li data-level="2"><a data-section="#tunnel" href="#tunnel">Tunnel</a></li>
+            
+            <li data-level="3"><a data-section="#ipsec" href="#ipsec">IPSec</a></li>
+            
+            <li data-level="3"><a data-section="#gre" href="#gre">GRE</a></li>
+            
+            <li data-level="3"><a data-section="#ips-inside-the-gre-tunnel" href="#ips-inside-the-gre-tunnel">IPs inside the GRE tunnel</a></li>
+            
+            <li data-level="4"><a data-section="#ipv4" href="#ipv4">IPv4</a></li>
+            
+            <li data-level="4"><a data-section="#ipv6" href="#ipv6">IPv6</a></li>
+            
+            <li data-level="2"><a data-section="#bgp" href="#bgp">BGP</a></li>
+            
+            <li data-level="3"><a data-section="#filters" href="#filters">Filters</a></li>
+            
+            <li data-level="4"><a data-section="#ros-7-x" href="#ros-7-x">RoS 7.x</a></li>
+            
+            <li data-level="4"><a data-section="#ros-6-x" href="#ros-6-x">RoS 6.x</a></li>
+            
+            <li data-level="3"><a data-section="#bgp-1" href="#bgp-1">BGP</a></li>
+            
+            <li data-level="4"><a data-section="#ros-7-x-1" href="#ros-7-x-1">RoS 7.x</a></li>
+            
+            <li data-level="4"><a data-section="#ros-6-x-1" href="#ros-6-x-1">RoS 6.x</a></li>
+            
+            <li data-level="2"><a data-section="#split-dns" href="#split-dns">Split DNS</a></li>
+            
+            <li data-level="3"><a data-section="#ros-6-47-and-later" href="#ros-6-47-and-later">RoS 6.47 and later</a></li>
+            
+            <li data-level="3"><a data-section="#ros-earlier-than-6-47" href="#ros-earlier-than-6-47">RoS earlier than 6.47</a></li>
+            
+            <li data-level="2"><a data-section="#specifying-bgp-communities-v7" href="#specifying-bgp-communities-v7">Specifying BGP Communities (v7)</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">mikrotik</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="how-to-connect-to-dn42-using-mikrotik-routeros">How to connect to dn42 using Mikrotik RouterOS</h1>
+<p>NB: this is a somewhat outdated page, it uses a VPN stack that&rsquo;s a bit less elegant and not as well supported nowadays. I&rsquo;m sure it&rsquo;ll still work, but if you&rsquo;re interested in using a modern supported method and current RouterOS version (as of mid-2026), there&rsquo;s <a href="/howto/mikrotik/modern-style">a subpage you can check out</a>. It&rsquo;s a work in progress, but it works perfectly well!</p>
+<h2 id="legend">Legend</h2>
+<ul>
+<li>1.1.1.1 - peer external IP</li>
+<li>2.2.2.2 - your external IP</li>
+<li>A private /30 range for the GRE endpoints: 192.168.200.128/30</li>
+<li>192.168.200.129 - remote GRE IPv4 address</li>
+<li>192.168.200.130 - local GRE IPv4 address</li>
+<li>fd42:c644:5222:3222::40 - remote GRE IPv6 address</li>
+<li>fd42:c644:5222:3222::41 - local GRE IPv6 address</li>
+<li>YOUR_AS - your AS number (numbers only)</li>
+<li>PEER_AS - peer AS number (numbers only)</li>
+</ul>
+<h2 id="routeros-limitations">RouterOS limitations</h2>
+<ul>
+<li>IPSec only supports IKEv1</li>
+<li>OpenVPN only works in tcp mode</li>
+<li>OpenVPN does not support LZO compression</li>
+<li>You can&rsquo;t use /31 subnet for Point-to-Point (PtP) links</li>
+</ul>
+<p>Mikrotik/RouterOS doesn&rsquo;t handle /32 addresses very well on Point-to-Point links (like GRE). There is a <a href="/howto/mikrotik/ptp32">separate howto</a> to explain how to setup /32 addresses on a GRE tunnel (or even an OpenVPN tunnel). What is the easy way? Just use any /30 subnet on the GRE Link, either from your assigned DN42 pool of addresses, or use a private address like 192.168.x.x. Please don&rsquo;t choose from 172.16.0.0/12 or 10.0.0.0/8 because they may overlap with DN42 or ChaosVPN.</p>
+<p>RouterOS v7.2 has some nasty bugs when using PTP configuration or IPv6 link local addresses as NEXTHOP. It won&rsquo;t work (confirmed for v7.2 by their support staff).</p>
+<h2 id="tunnel">Tunnel</h2>
+<h3 id="ipsec">IPSec</h3>
+<p>First, let&rsquo;s add IPSec peer and encryption policy.
+Your peer most likely provided you with encryption details. If not, ask them about it.
+Here we&rsquo;re gonna use aes256-sha256-modp1536</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip ipsec peer
+add address=1.1.1.1 comment=gre-dn42-peer dh-group=modp1536 \
+enc-algorithm=aes-256 hash-algorithm=sha256 local-address=2.2.2.2 secret=PASSWORD
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip ipsec policy
+add comment=gre-dn42-peer dst-address=1.1.1.1/32 proposal=dn42 protocol=gre \
+sa-dst-address=1.1.1.1 sa-src-address=2.2.2.2 src-address=2.2.2.2/32
+</code></pre></div>
+<h3 id="gre">GRE</h3>
+<p>Pretty straightforward here:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/interface gre
+add allow-fast-path=no comment=&quot;DN42 somepeer&quot; local-address=2.2.2.2 name=gre-dn42-peer \
+remote-address=1.1.1.1
+</code></pre></div>
+<h3 id="ips-inside-the-gre-tunnel">IPs inside the GRE tunnel</h3>
+<p>Your peer most likely provided you with IP adresses for the GRE tunnel.
+As mentioned before, you can&rsquo;t use /31 for PtP links, so for the &ldquo;easy way&rdquo; we will be using a /30.
+If you want to avoid wasting a whole /30 for your peering, please check the <a href="/howto/mikrotik/ptp32">point-to-point configuration for RouterOS</a></p>
+<p>Add the IP your peer provided you:</p>
+<h4 id="ipv4">IPv4</h4>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip address
+add address=192.168.200.130/30 interface=gre-dn42-peer network=192.168.200.128
+</code></pre></div>
+<h4 id="ipv6">IPv6</h4>
+<p>Here we can use /127, so it&rsquo;s simple:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ipv6 address
+add address=fdc8:c633:5319:3300::41/127 advertise=no interface=gre-dn42-peer
+</code></pre></div>
+<p>If you configured everything correctly you should be able to ping the remote end of the tunnel. In this specific example that would be 192.168.200.129 (IPv4) or fdc8:c633:5319:3300::40 (IPv6).</p>
+<h2 id="bgp">BGP</h2>
+<h3 id="filters">Filters</h3>
+<p>Both BGP and routing filters were redone from the ground up for RouterOS v7. If you&rsquo;re updating an existing v6 installation, the official migration guide can be found <a href="https://help.mikrotik.com/docs/display/ROS/Routing">here</a></p>
+<p>It&rsquo;s a good idea to setup filters for BGP instances, both IN (advertisements you accept) and OUT (advertisements you send).</p>
+<p>In this example, we will be filtering:</p>
+<ul>
+<li>IN: 192.168.0.0/16 and 169.254.0.0/16, because we don&rsquo;t want other people&rsquo;s routes interfering with out network</li>
+<li>OUT: 192.168.0.0/16 and 169.254.0.0/16, because you shouldn&rsquo;t be advertising your private (non-DN42) network</li>
+</ul>
+<p>This filter will not only catch /8 or /16 networks, but smaller networks inside this subnets as well.</p>
+<h4 id="ros-7-x">RoS 7.x</h4>
+<p>RoS 7 filters have a default-reject behaviour, meaning if you reach the end of the chain without matching any rules, the route will be rejected.</p>
+<p>As such, you need to either explicitly accept all the prefixes that you want to keep, or place a final accept at the end of the chain, after rejecting undesired prefixes.</p>
+<p>In this example, we will use the second method.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing filter rule
+add chain=dn42-in rule=&quot;if (dst in 192.168.0.0/16 &amp;&amp; dst-len &gt; 16) { reject }&quot;
+add chain=dn42-in rule=&quot;if (dst in 169.254.0.0/16 &amp;&amp; dst-len &gt; 16) { reject }&quot;
+add chain=dn42-in rule=&quot;accept&quot;
+add chain=dn42-out rule=&quot;if (dst in 192.168.0.0/16 &amp;&amp; dst-len &gt; 16) { reject }&quot;
+add chain=dn42-out rule=&quot;if (dst in 169.254.0.0/16 &amp;&amp; dst-len &gt; 16) { reject }&quot;
+add chain=dn42-out rule=&quot;accept&quot;
+</code></pre></div>
+<p>If you want only DN42 connectivity, you can also filter IN 10.0.0.0/8 (ChaosVPN / freifunk networks):</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing filter
+add chain=dn42-in rule=&quot;if (dst in 10.0.0.0 &amp;&amp; dst-len &gt; 8) { reject }&quot;
+</code></pre></div>
+<h4 id="ros-6-x">RoS 6.x</h4>
+<p>RouterOS v6 does not have a default-reject behaviour. It will apply the rules in the chain, then accept anything that didn&rsquo;t match a rule.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing filter
+add action=discard address-family=ip chain=dn42-in prefix=192.168.0.0/16 prefix-length=16-32 protocol=bgp
+add action=discard address-family=ip chain=dn42-in prefix=169.254.0.0/16 prefix-length=16-32 protocol=bgp
+add action=discard address-family=ip chain=dn42-out prefix=192.168.0.0/16 prefix-length=16-32 protocol=bgp
+add action=discard address-family=ip chain=dn42-out prefix=169.254.0.0/16 prefix-length=16-32 protocol=bgp
+</code></pre></div>
+<p>If you want only DN42 connectivity, you can filter IN 10.0.0.0/8 (ChaosVPN / freifunk networks):</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing filter
+add action=discard address-family=ip chain=dn42-in prefix=10.0.0.0/8 prefix-length=8-32 protocol=bgp
+</code></pre></div>
+<h3 id="bgp-1">BGP</h3>
+<p>Now, for actual BGP configuration.</p>
+<h4 id="ros-7-x-1">RoS 7.x</h4>
+<p>We&rsquo;ll start by defining the subnets that we host and want to advertise. RouterOS v7 uses the firewall&rsquo;s Address Lists to define a list of networks, then our BGP config refers to those lists when making advertisements.</p>
+<p>Create an address list containing your DN42 subnet allocation, one for IPv4 and one for IPv6:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">IPv4
+/ip firewall address-list
+add address=YOUR_ALLOCATED_SUBNET/MASK list=DN42_allocated_v4
+
+IPv6
+/ipv6 firewall address-list
+add address=YOUR_ALLOCATED_SUBNET/MASK list=DN42_allocated_v6
+</code></pre></div>
+<p>RouterOS will only advertise networks that it has a route to, this helps prevent you from accidentally advertising subnets that aren&rsquo;t usable (eg. due to a typo). If your subnet is already attached to an interface then this isn&rsquo;t a problem, but it&rsquo;s common practice to add a dummy route to the routing table anyway, to ensure that your subnet will always be advertised.</p>
+<p>Add a blackhole route to your DN42 subnet allocation:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">IPv4
+/ip route
+add blackhole distance=1 dst-address=YOUR_ALLOCATED_SUBNET/MASK
+
+IPv6
+/ipv6 route
+add blackhole distance=1 dst-address=YOUR_ALLOCATED_SUBNET/MASK
+</code></pre></div>
+<p>This behaviour is explained here: <a href="https://forum.mikrotik.com/t/rosv7-bgp-blackhole/177053/4">https://forum.mikrotik.com/t/rosv7-bgp-blackhole/177053/4</a></p>
+<p>In recent releases (around v7.21) this can be done from the BGP connection settings instead. If you enable the <code>output.network-blackhole</code> setting, RouterOS will create suitable blackhole routes for the subnets in your Address List, so you don&rsquo;t have to add them yourself.</p>
+<p>Let&rsquo;s create a connection template for DN42. It isn&rsquo;t strictly necessary, but it makes our life easier when adding more peers in future.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp template
+add afi=ipv4 as=YOUR_AS_NUMBER name=DN42_template_v4 output.network=DN42_allocated_v4 router-id=1.1.1.1
+add afi=ipv6 as=YOUR_AS_NUMBER name=DN42_template_v6 output.network=DN42_allocated_v6 router-id=1.1.1.1
+</code></pre></div>
+<p>Create an instance, you can think of this as the BGP daemon that&rsquo;s running.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp instance
+add as=&lt;YOUR_AS&gt; name=bgp-dn42-somename router-id=1.1.1.1
+</code></pre></div>
+<p>Now it&rsquo;s time to add a peer. In RouterOS v7 you can use link-local addresses instead of regular routable addresses, which helps simplify config and reduces the number of IP addresses used for routing (validated with RoS 7.14.3, 7.18.1, 7.18.2 and 7.19rc2). The trick is to add <code>%INTERFACE</code> after the address, where &ldquo;INTERFACE&rdquo; is the name of the interface the link-local address is assigned to, or the interface used to reach your peer&rsquo;s link-local address. So, if You want to listen on fe80::1 on the &ldquo;myPeer&rdquo; interface, the address would be &ldquo;fe80::1%myPeer&rdquo;.</p>
+<p>RoS 7.17 and newer can set the link local address.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">IPv4 peer
+/routing bgp connection
+add address-families=ipv4 disabled=no input.filter=dn42-in \
+local.address=ADDRESS_YOUR_PEER_USE_TO_CONNECT_TO_YOU .role=ebgp \
+multihop=yes name=PEER_NAME output.filter-chain=dn42-out \
+.network=DN42_allocated_v4 remote.address=YOUR_PEER_REMOTE_ADDRESS \
+.as=PEER_AS_NUMBER routing-table=main templates=DN42_template_v4
+
+IPv6 peer
+/routing bgp connection
+add address-families=ipv6 disabled=no input.filter=dn42-in \
+local.address=ADDRESS_YOUR_PEER_USE_TO_CONNECT_TO_YOU .role=ebgp \
+multihop=yes name=PEER_NAME output.filter-chain=dn42-out \
+.network=DN42_allocated_v6 remote.address=YOUR_PEER_REMOTE_ADDRESS \
+.as=PEER_AS_NUMBER routing-table=main templates=DN42_template_v6
+</code></pre></div>
+<h4 id="ros-6-x-1">RoS 6.x</h4>
+<p>The older RouterOS 6.x is fairly similar, but the biggest difference is that instead of using Address Lists for your advertised subnets, you specify them directly in the BGP settings, in the Network menu. We&rsquo;ll deal with that later.</p>
+<p>Create an instance, you can think of this as the BGP daemon that&rsquo;s running.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp instance
+set default disabled=yes
+add as=YOUR_AS client-to-client-reflection=no name=bgp-dn42-somename out-filter=dn42-in router-id=1.1.1.1
+</code></pre></div>
+<p>Let&rsquo;s add some peers. Right now we have just one, but we still need two connections - for IPv4 and IPv6</p>
+<p>IPv4:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp peer
+add comment=&quot;DN42: somepeer IPv4&quot; in-filter=dn42-in instance=bgp-dn42-somename multihop=yes \
+name=dn42-somepeer-ipv4 out-filter=dn42-out remote-address=192.168.200.129 remote-as=PEER_AS \
+route-reflect=yes ttl=default
+</code></pre></div>
+<p>IPv6 (if desired):</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp peer
+add address-families=ipv6 comment=&quot;DN42: somepeer IPv6&quot; in-filter=dn42-in \
+instance=bgp-dn42-somename multihop=yes name=dn42-somepeer-ipv6 out-filter=dn42-out \
+remote-address=fd42:c644:5222:3222::40 remote-as=PEER_AS route-reflect=yes ttl=default
+</code></pre></div>
+<p>NB: Mikrotik RoS 6.x doesn&rsquo;t deal well with BGP running over link-local addresses (addresses that start with with fe80). You need to use an fd42:: address in your BGP session, otherwise BGP will not install any received routes.</p>
+<p>Finally we can advertise our routes. You&rsquo;re presumably advertising your allocated DN42 subnet, it&rsquo;s very simple:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing bgp network
+add network=YOUR_ALLOCATED_SUBNET synchronize=no
+</code></pre></div>
+<p>You can repeat this for all the IPv4 and IPv6 networks that you host.</p>
+<h2 id="split-dns">Split DNS</h2>
+<p>You can separate DNS requests for the .dn42 TLD from your default DNS traffic. This allows regular (non-DN42) lookups to work as normal, while .dn42 queries are handled on the DN42 network.</p>
+<p>Adjust the network and LAN GW in these examples to match your own network configuration.</p>
+<h3 id="ros-6-47-and-later">RoS 6.47 and later</h3>
+<p>Newer versions of RouterOS can redirect DNS queries according to special rules. We add a &ldquo;static&rdquo; DNS mapping that forwards matching queries to a specific DNS server:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip dns static
+add comment=DN42 forward-to=172.23.0.53 regexp=&quot;.*\\.dn42&quot; type=FWD
+</code></pre></div>
+<h3 id="ros-earlier-than-6-47">RoS earlier than 6.47</h3>
+<p>DNS redirection can be achieved with a Layer 7 (L7) filter in RouterOS. We define a new L7 protocol by matching the body of the DNS query, then use NAT to redirect those queries to a DN42 DNS server.</p>
+<p>In this example we assume that your LAN hosts use the 192.168.0.0/24 subnet, and your gateway is 192.168.0.1</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ip firewall layer7-protocol
+add name=DN42-DNS regexp=&quot;\\x04dn42.\\x01&quot;
+
+/ip firewall nat
+add action=src-nat chain=srcnat comment=&quot;NAT to DN42 DNS&quot; dst-address=172.23.0.53 dst-port=53 protocol=udp src-address=192.168.0.0/24 to-addresses=192.168.0.1
+add action=dst-nat chain=dstnat dst-address-type=local dst-port=53 layer7-protocol=DN42-DNS protocol=udp src-address=192.168.0.0/24 to-addresses=172.23.0.53 to-ports=53
+</code></pre></div>
+<h2 id="specifying-bgp-communities-v7">Specifying BGP Communities (v7)</h2>
+<p>See the <a href="/howto/BGP-communities">BGP communities</a> page to understand what this means.</p>
+<p>In this example we are applying community numbers 5 (peer link latency of 55-148ms) and 41 (prefixes originate from Europe) to our advertisements.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/routing/filter/community-list
+add list=dn42 communities=64511:41
+add list=dn42 communities=64511:5
+
+/routing/filter/rule/
+add chain=dn42-out rule=&quot;append bgp-communities dn42&quot;
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

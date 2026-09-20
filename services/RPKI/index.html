@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>RPKI - DN42 Wiki</title>
+    <meta name="description" content="ROA &#43; RPKI This page covers guidance and examples on using RPKI and ROA within DN42. What is ROA? A Route Origination Authorization details which AS is...">
+    <meta property="og:description" content="ROA &#43; RPKI This page covers guidance and examples on using RPKI and ROA within DN42. What is ROA? A Route Origination Authorization details which AS is...">
+    <meta property="og:title" content="RPKI - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/RPKI/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">RPKI</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#roa-rpki" href="#roa-rpki">ROA &#43; RPKI</a></li>
+            
+            <li data-level="2"><a data-section="#what-is-roa" href="#what-is-roa">What is ROA?</a></li>
+            
+            <li data-level="2"><a data-section="#what-is-rpki" href="#what-is-rpki">What is RPKI?</a></li>
+            
+            <li data-level="2"><a data-section="#what-is-rtr" href="#what-is-rtr">What is RTR?</a></li>
+            
+            <li data-level="2"><a data-section="#how-can-i-implement-roa-on-dn42" href="#how-can-i-implement-roa-on-dn42">How can I implement ROA on dn42?</a></li>
+            
+            <li data-level="2"><a data-section="#roa" href="#roa">ROA</a></li>
+            
+            <li data-level="3"><a data-section="#using-public-roa-tables" href="#using-public-roa-tables">Using public ROA tables</a></li>
+            
+            <li data-level="2"><a data-section="#rpki" href="#rpki">RPKI</a></li>
+            
+            <li data-level="3"><a data-section="#using-public-rpki-services" href="#using-public-rpki-services">Using Public RPKI Services</a></li>
+            
+            <li data-level="4"><a data-section="#flapalerted-rpki-rtr-servers" href="#flapalerted-rpki-rtr-servers">FlapAlerted RPKI RTR Servers</a></li>
+            
+            <li data-level="4"><a data-section="#example-configuration-bird-2" href="#example-configuration-bird-2">Example Configuration (Bird 2)</a></li>
+            
+            <li data-level="3"><a data-section="#running-your-own-rpki-server" href="#running-your-own-rpki-server">Running Your Own RPKI Server</a></li>
+            
+            <li data-level="4"><a data-section="#with-docker" href="#with-docker">With Docker</a></li>
+            
+            <li data-level="4"><a data-section="#with-docker-compose" href="#with-docker-compose">With Docker Compose</a></li>
+            
+            <li data-level="3"><a data-section="#using-kioubits-dn42-registry-wizard" href="#using-kioubits-dn42-registry-wizard">Using Kioubits DN42 Registry Wizard</a></li>
+            
+            <li data-level="4"><a data-section="#all-in-one-rtr-server" href="#all-in-one-rtr-server">All-in-One RTR Server</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">RPKI</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="roa-rpki">ROA + RPKI</h1>
+<p>This page covers guidance and examples on using RPKI and ROA within DN42.</p>
+<h2 id="what-is-roa">What is ROA?</h2>
+<p>A Route Origination Authorization details which AS is authorised to advertise which originating IP prefixes. A ROA may also include prefix length information.</p>
+<h2 id="what-is-rpki">What is RPKI?</h2>
+<p>Resource Public Key Infrastructure is basically a framework for securing the routing infrastructure.<br>
+It provides a way to connect number resource information to a trust anchor.</p>
+<h2 id="what-is-rtr">What is RTR?</h2>
+<p>The Resource Public Key Infrastructure (RPKI) to Router Protocol provides a way for a router to access RPKI validation information.<br>
+It provides the router with validity information regarding prefix origination:</p>
+<ul>
+<li>VALID<br>
+The route announcement is covered by a ROA and the announcing AS is validated</li>
+<li>INVALID<br>
+The route announcement is covered by a ROA and the announcing AS is invalid (possibly hijacking)</li>
+<li>UNKNOWN<br>
+There exists no ROA for the route announcement</li>
+</ul>
+<h2 id="how-can-i-implement-roa-on-dn42">How can I implement ROA on dn42?</h2>
+<p>On dn42 we generate ROA information from the dn42 registry.</p>
+<p>Generators:</p>
+<ul>
+<li>Burble&rsquo;s dn42regsrv: <a href="https://git.burble.com/burble.dn42/dn42regsrv">https://git.burble.com/burble.dn42/dn42regsrv</a></li>
+<li>bauen1&rsquo;s dn42-roagen: <a href="https://gitlab.com/bauen1/dn42-roagen">https://gitlab.com/bauen1/dn42-roagen</a></li>
+<li>Kioubit&rsquo;s registry wizard: <a href="https://github.com/Kioubit/dn42_registry_wizard">https://github.com/Kioubit/dn42_registry_wizard</a></li>
+<li>chuangzhu&rsquo;s pure bash script: <a href="https://paste.sr.ht/~chuang/e98d2fe791de68a6cf5aade7877cd0dbc1cdb84e">https://paste.sr.ht/~chuang/e98d2fe791de68a6cf5aade7877cd0dbc1cdb84e</a></li>
+<li>nuku&rsquo;s python script: <a href="https://github.com/nuku97/dn42-bird-roa-generator">https://github.com/nuku97/dn42-bird-roa-generator</a></li>
+</ul>
+<p>It is also possible to integrate the ROA files with a RTR cache server as shown below.</p>
+<h2 id="roa">ROA</h2>
+<h3 id="using-public-roa-tables">Using public ROA tables</h3>
+<p>ROA files generated by <a href="https://git.burble.com/burble.dn42/dn42regsrv">dn42regsrv</a> are available from burble.dn42:</p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th> IPv4/IPv6 </th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_46.json">https://dn42.burble.com/roa/dn42_roa_46.json</a>  </td>
+<td> Both </td>
+<td>JSON format for use with RPKI</td>
+</tr>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_bird1_46.conf">https://dn42.burble.com/roa/dn42_roa_bird1_46.conf</a>  </td>
+<td> Both </td>
+<td>Bird1 format</td>
+</tr>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_bird1_4.conf">https://dn42.burble.com/roa/dn42_roa_bird1_4.conf</a>  </td>
+<td> IPv4 Only </td>
+<td>Bird1 format</td>
+</tr>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_bird1_6.conf">https://dn42.burble.com/roa/dn42_roa_bird1_6.conf</a>  </td>
+<td> IPv6 Only </td>
+<td>Bird1 format</td>
+</tr>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_bird2_46.conf">https://dn42.burble.com/roa/dn42_roa_bird2_46.conf</a>  </td>
+<td> Both </td>
+<td>Bird2 format</td>
+</tr>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_bird2_4.conf">https://dn42.burble.com/roa/dn42_roa_bird2_4.conf</a>  </td>
+<td> IPv4 Only </td>
+<td>Bird2 format</td>
+</tr>
+<tr>
+<td><a href="https://dn42.burble.com/roa/dn42_roa_bird2_6.conf">https://dn42.burble.com/roa/dn42_roa_bird2_6.conf</a>  </td>
+<td> IPv6 Only </td>
+<td>Bird2 format</td>
+</tr>
+</tbody>
+</table>
+<p>ROA files generated by <a href="https://github.com/Kioubit/dn42_registry_wizard">roa_wizard</a> are available from kioubit.dn42:</p>
+<table>
+<thead>
+<tr>
+<th>URL</th>
+<th> IPv4/IPv6 </th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://kioubit-roa.dn42.dev/?type=v4">https://kioubit-roa.dn42.dev/?type=v4</a>  </td>
+<td> IPv4 Only </td>
+<td>Bird2 format</td>
+</tr>
+<tr>
+<td><a href="https://kioubit-roa.dn42.dev/?type=v6">https://kioubit-roa.dn42.dev/?type=v6</a>  </td>
+<td> IPv6 Only </td>
+<td>Bird2 format</td>
+</tr>
+<tr>
+<td><a href="https://kioubit-roa.dn42.dev/?type=json">https://kioubit-roa.dn42.dev/?type=json</a>  </td>
+<td> Both </td>
+<td>JSON format for use with RPKI</td>
+</tr>
+</tbody>
+</table>
+<h2 id="rpki">RPKI</h2>
+<p>It is recommended to run your own RPKI validator, as this provides you with the most security and control over your routing decisions. However, to get started, or if running your own validator isn’t desirable, a public RPKI RTR server is available. The service supports full RPKI validation for all relevant DN42 and affiliated networks’ prefixes.</p>
+<h3 id="using-public-rpki-services">Using Public RPKI Services</h3>
+<p>DN42’s RPKI RTR service endpoints are hosted by multiple operators. By configuring multiple RTR servers in your BGP daemon, you gain additional resiliency and improved validation coverage.</p>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Port</th>
+<th><strong>IPv4/IPv6</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rpki.akae.re</td>
+<td>8082</td>
+<td>both</td>
+</tr>
+<tr>
+<td>rpki.dn42.launchpadx.top</td>
+<td>8082</td>
+<td>both</td>
+</tr>
+<tr>
+<td>rpki.dn42.milu.moe</td>
+<td>8082</td>
+<td>both</td>
+</tr>
+<tr>
+<td>rpki.dn42.6700.cc</td>
+<td>8282</td>
+<td>both</td>
+</tr>
+<tr>
+<td>rpki.nia.dn42</td>
+<td>8082</td>
+<td>both</td>
+</tr>
+<tr>
+<td>rpki.routedbits.dn42</td>
+<td>8082</td>
+<td>both</td>
+</tr>
+<tr>
+<td>rpki.dn42.yuyuko.com / rpki.yuyuko.dn42</td>
+<td>4282</td>
+<td>both</td>
+</tr>
+</tbody>
+</table>
+<h4 id="flapalerted-rpki-rtr-servers">FlapAlerted RPKI RTR Servers</h4>
+<p>These services will publish a ROA pointing to AS0 when a prefix flapping. This can be used to prevent flap from spreading further in the network.</p>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Port</th>
+<th><strong>IPv4/IPv6</strong></th>
+<th>FlapAlerted Instance</th>
+<th>Provider</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rpki.dn42.launchpadx.top</td>
+<td>8084</td>
+<td>both</td>
+<td><a href="https://flaps.lpnet0.dn42/">https://flaps.lpnet0.dn42/</a>, <a href="https://dn42-flaps.launchpadx.top/">https://dn42-flaps.launchpadx.top/</a></td>
+<td>AS4242423702</td>
+</tr>
+<tr>
+<td>rpki.nia.dn42</td>
+<td>8084</td>
+<td>both</td>
+<td><a href="https://flap.nia.dn42/">flap.nia.dn42</a>, <a href="https://flap42.strexp.net/">flap42.strexp.net</a></td>
+<td>AS4242421331</td>
+</tr>
+<tr>
+<td>rpki.nia.dn42</td>
+<td>8083</td>
+<td>both</td>
+<td>Multiple Sources (2-Votes Policy) (see <a href="https://flap-data.nia.dn42/">flap-data.nia.dn42</a>)</td>
+<td>AS4242421331</td>
+</tr>
+<tr>
+<td>rpki.dn42.6700.cc</td>
+<td>8280</td>
+<td>both</td>
+<td>Flap data source: <a href="https://flap42-data.strexp.net">https://flap42-data.strexp.net</a></td>
+<td>AS4242423088</td>
+</tr>
+<tr>
+<td>rpki.sess.dn42</td>
+<td>8282</td>
+<td>both</td>
+<td><a href="https://flap.sess.dn42/">https://flap.sess.dn42/</a></td>
+<td>AS4242422466</td>
+</tr>
+<tr>
+<td>rpki.edu.dn42</td>
+<td>8083</td>
+<td>both</td>
+<td><a href="https://flapalerted.nedifinita.com/">https://flapalerted.nedifinita.com/</a></td>
+<td>AS4242420454</td>
+</tr>
+</tbody>
+</table>
+<p>To configure the service, connect your BGP software’s RPKI client to one or more of these RTR servers.</p>
+<h4 id="example-configuration-bird-2">Example Configuration (Bird 2)</h4>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">protocol</span> <span class="z-s">rpki</span> <span class="z-s">roa_dn42_1</span> <span class="z-p">{</span>
+        <span class="z-kn">roa4</span> <span class="z-p">{</span> <span class="z-kn">table</span> <span class="z-s">dn42_roa</span><span class="z-p">;</span> <span class="z-p">}</span>;
+        <span class="z-kn">roa6</span> <span class="z-p">{</span> <span class="z-kn">table</span> <span class="z-s">dn42_roa_v6</span><span class="z-p">;</span> <span class="z-p">}</span>;
+        <span class="z-kn">remote</span> <span class="z-s">&#34;rpki1.example.com&#34;</span><span class="z-p">;</span>
+        <span class="z-kn">port</span> <span class="z-mi">8082</span><span class="z-p">;</span>
+        <span class="z-kn">refresh</span> <span class="z-mi">600</span><span class="z-p">;</span>
+        <span class="z-kn">retry</span> <span class="z-mi">300</span><span class="z-p">;</span>
+        <span class="z-kn">expire</span> <span class="z-mi">7200</span><span class="z-p">;</span>
+<span class="z-p">}</span>
+
+<span class="z-k">protocol</span> <span class="z-s">rpki</span> <span class="z-s">roa_dn42_2</span> <span class="z-p">{</span>
+        <span class="z-kn">roa4</span> <span class="z-p">{</span> <span class="z-kn">table</span> <span class="z-s">dn42_roa</span><span class="z-p">;</span> <span class="z-p">}</span>;
+        <span class="z-kn">roa6</span> <span class="z-p">{</span> <span class="z-kn">table</span> <span class="z-s">dn42_roa_v6</span><span class="z-p">;</span> <span class="z-p">}</span>;
+        <span class="z-kn">remote</span> <span class="z-s">&#34;rpki2.example.com&#34;</span><span class="z-p">;</span>
+        <span class="z-kn">port</span> <span class="z-mi">8082</span><span class="z-p">;</span>
+        <span class="z-kn">refresh</span> <span class="z-mi">600</span><span class="z-p">;</span>
+        <span class="z-kn">retry</span> <span class="z-mi">300</span><span class="z-p">;</span>
+        <span class="z-kn">expire</span> <span class="z-mi">7200</span><span class="z-p">;</span>
+<span class="z-p">}</span>
+</code></pre></div>
+<h3 id="running-your-own-rpki-server">Running Your Own RPKI Server</h3>
+<h4 id="with-docker">With Docker</h4>
+<div class="code-block" data-lang="bash"><span class="code-lang-label" aria-hidden="true">bash</span><pre tabindex="0" class="z-chroma z-code language-bash" data-lang="bash"><code class="language-bash" data-lang="bash">docker run --name dn42rpki -p 8082:8282 --restart<span class="z-o">=</span>always -d rpki/stayrtr -verify<span class="z-o">=</span><span class="z-nb">false</span> -checktime<span class="z-o">=</span><span class="z-nb">false</span> -cache<span class="z-o">=</span>https://dn42.burble.com/roa/dn42_roa_46.json
+</code></pre></div>
+<h4 id="with-docker-compose">With Docker Compose</h4>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">services:</span>
+  <span class="z-s">stayrtr:</span>
+    <span class="z-s">image:</span> <span class="z-s">rpki/stayrtr</span><span class="z-p">:</span><span class="z-s">latest</span>
+    <span class="z-s">ports:</span>
+      <span class="z-s">-</span> <span class="z-s">&#34;8082:8282&#34;</span>
+    <span class="z-s">command:</span> <span class="z-s">&gt;</span>
+      <span class="z-s">-cache</span> <span class="z-s">https://dn42.burble.com/roa/dn42_roa_46.json</span>
+</code></pre></div>
+<h3 id="using-kioubits-dn42-registry-wizard">Using Kioubit&rsquo;s DN42 Registry Wizard</h3>
+<p><a href="https://github.com/Kioubit/dn42_registry_wizard">DN42 Registry Wizard</a> is a comprehensive tool for DN42 registry interactions. <strong>Unlike other solutions, it can parse the registry and host an RTR server all-in-one</strong> without requiring separate components.</p>
+<h4 id="all-in-one-rtr-server">All-in-One RTR Server</h4>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-c1"># Clone the DN42 registry</span>
+git clone https://git.dn42.dev/dn42/registry.git
+
+<span class="z-c1"># Start RTR server directly from registry</span>
+./registry_wizard &lt;path to registry&gt; rtr 
+
+<span class="z-c1"># Setup a cronjob to continously update the registry and notify registry_wizard</span>
+git fetch --all
+git reset --hard origin/master
+<span class="z-nb">kill</span> -SIGUSR1 <span class="z-s2">&#34;</span><span class="z-k">$(</span>pidof <span class="z-s1">&#39;registry_wizard&#39;</span><span class="z-k">)</span><span class="z-s2">&#34;</span>
+</code></pre></div>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">Usage: registry_wizard &lt;registry_root&gt; rtr [OPTIONS]
+
+Options:
+  -p, --port &lt;port&gt;        Port to listen on [default: 9323]
+      --refresh &lt;refresh&gt;  RTR refresh timing [default: 3600]
+      --expire &lt;expire&gt;    RTR expire timing [default: 7200]
+      --retry &lt;retry&gt;      RTR retry timing [default: 600]
+  -h, --help               Print help
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

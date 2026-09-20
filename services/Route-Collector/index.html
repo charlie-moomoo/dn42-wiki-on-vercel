@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Route Collector - DN42 Wiki</title>
+    <meta name="description" content="Global Route Collector The Global Route Collector (GRC) provides a real time view of routing and peering across DN42 and can be used to generate maps, stats...">
+    <meta property="og:description" content="Global Route Collector The Global Route Collector (GRC) provides a real time view of routing and peering across DN42 and can be used to generate maps, stats...">
+    <meta property="og:title" content="Route Collector - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/Route-Collector/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">Route Collector</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#global-route-collector" href="#global-route-collector">Global Route Collector</a></li>
+            
+            <li data-level="2"><a data-section="#peering-with-the-collector" href="#peering-with-the-collector">Peering with the collector</a></li>
+            
+            <li data-level="3"><a data-section="#bgp-configuration" href="#bgp-configuration">BGP Configuration</a></li>
+            
+            <li data-level="2"><a data-section="#querying-the-collector" href="#querying-the-collector">Querying the collector</a></li>
+            
+            <li data-level="3"><a data-section="#looking-glass" href="#looking-glass">Looking Glass</a></li>
+            
+            <li data-level="3"><a data-section="#mrt-dumps" href="#mrt-dumps">MRT Dumps</a></li>
+            
+            <li data-level="3"><a data-section="#prometheus-metrics" href="#prometheus-metrics">Prometheus Metrics</a></li>
+            
+            <li data-level="3"><a data-section="#ssh-interface" href="#ssh-interface">SSH Interface</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">Route Collector</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="global-route-collector">Global Route Collector</h1>
+<p>The Global Route Collector (GRC) provides a real time view of routing and peering across DN42 and can be used to generate maps, stats or just query how routes are being propagated across the network.</p>
+<p>Technically the GRC is a <a href="https://bird.network.cz/">bird</a> instance that anyone can peer with, it imports all routes whilst exporting none and provides a number of interfaces for querying the route data.</p>
+<p>The DN42 route collector service has now been designed with an architecture comprising a super-node and multiple regional nodes(RRC).</p>
+<p>Data from the GRC is used to generate some of the DN42 Maps (see the <a href="/internal/Internal-Services">Internal Services</a> page).</p>
+<h2 id="peering-with-the-collector">Peering with the collector</h2>
+<p>The collector uses the dynamic peering capability in Bird2 to allow anyone to peer with it without any new server side configuration being required. The collector relies on users peering with it across the network so the more peers the better and the more comprehensive the collector data will be.</p>
+<p>The GRC has a super node and several regional nodes(RRC).</p>
+<p>Once you peer with an RRC, you no longer need to peer with the super node, as the RRC will report the collected routes to the super node.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">Operator</th>
+<th style="text-align:left">Node ASN</th>
+<th style="text-align:left">Hostname</th>
+<th style="text-align:left">IPv4</th>
+<th style="text-align:left">IPv6</th>
+<th style="text-align:left">Peering Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><a href="https://lg.collector.dn42/">GRC</a></td>
+<td style="text-align:left">Super</td>
+<td style="text-align:left">GRMML-MNT</td>
+<td style="text-align:left">4242422602</td>
+<td style="text-align:left">collector.dn42</td>
+<td style="text-align:left">172.20.0.179</td>
+<td style="text-align:left">fd42:d42:d42:179::1</td>
+<td style="text-align:left">multihop</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://grc-hk.iedon.net">RRC Asia</a></td>
+<td style="text-align:left">Regional</td>
+<td style="text-align:left">IEDON-MNT</td>
+<td style="text-align:left">4242422189</td>
+<td style="text-align:left">grc-hk.iedon.dn42</td>
+<td style="text-align:left">172.23.91.191</td>
+<td style="text-align:left">fd42:4242:2189:191::1</td>
+<td style="text-align:left">Prefer <a href="https://iedon.net/nodes">direct peering here</a> rather than multihop</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bgp-configuration">BGP Configuration</h3>
+<ul>
+<li>Unlike normal DN42 peerings, you may have to enable multihop to peer with the GRC(Some nodes prefer direct peering rather than multihop, please check peering policy)</li>
+<li>The collector supports Multiprotocol BGP, so you don&rsquo;t need to configure separate IPv4 and IPv6 sessions</li>
+<li>Please enable the Add Paths BGP extension to export all available routes</li>
+</ul>
+<p>Example bird2 config:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">protocol</span> <span class="z-s">bgp</span> <span class="z-s">ROUTE_COLLECTOR</span>
+<span class="z-p">{</span>
+  <span class="z-kn">local</span> <span class="z-s">as</span> <span class="z-s">***YOUR_ASN***</span><span class="z-p">;</span>
+  <span class="z-kn">neighbor</span> <span class="z-s">fd42:d42:d42:179::1</span> <span class="z-s">as</span> <span class="z-mi">4242422602</span><span class="z-p">;</span>
+  <span class="z-c1"># Or, `neighbor fd42:4242:2189:191::1 as 4242422189;` if you would like to use the regional service, &#34;RRC Asia&#34; for example.
+</span><span class="z-c1"></span>
+  <span class="z-c1"># enable multihop as the collector is not locally connected
+</span><span class="z-c1"></span>  <span class="z-kn">multihop</span><span class="z-p">;</span>
+
+  <span class="z-kn">ipv4</span> <span class="z-p">{</span>
+    <span class="z-c1"># export all available paths to the collector    
+</span><span class="z-c1"></span>    <span class="z-kn">add</span> <span class="z-s">paths</span> <span class="z-s">tx</span><span class="z-p">;</span>
+
+    <span class="z-c1"># import/export filters
+</span><span class="z-c1"></span>    <span class="z-kn">import</span> <span class="z-s">none</span><span class="z-p">;</span>
+    <span class="z-kn">export</span> <span class="z-s">filter</span> <span class="z-p">{</span>
+      <span class="z-c1"># export all valid routes
+</span><span class="z-c1"></span>      <span class="z-kn">if</span> <span class="z-s">(</span> <span class="z-s">is_valid_network()</span> <span class="z-s">&amp;&amp;</span> <span class="z-s">source</span> <span class="z-p">~</span> <span class="z-sr">[</span> <span class="z-s">RTS_STATIC,</span> <span class="z-s">RTS_BGP</span> <span class="z-s">]</span> <span class="z-s">)</span>
+      <span class="z-s">then</span> <span class="z-p">{</span>
+        <span class="z-kn">accept</span><span class="z-p">;</span>
+      <span class="z-p">}</span>
+      <span class="z-kn">reject</span><span class="z-p">;</span>
+    <span class="z-p">}</span>;
+  <span class="z-p">}</span>;
+
+  <span class="z-kn">ipv6</span> <span class="z-p">{</span>
+    <span class="z-c1"># export all available paths to the collector    
+</span><span class="z-c1"></span>    <span class="z-kn">add</span> <span class="z-s">paths</span> <span class="z-s">tx</span><span class="z-p">;</span>
+
+    <span class="z-c1"># import/export filters
+</span><span class="z-c1"></span>    <span class="z-kn">import</span> <span class="z-s">none</span><span class="z-p">;</span>
+    <span class="z-kn">export</span> <span class="z-s">filter</span> <span class="z-p">{</span>
+      <span class="z-c1"># export all valid routes
+</span><span class="z-c1"></span>      <span class="z-kn">if</span> <span class="z-s">(</span> <span class="z-s">is_valid_network_v6()</span> <span class="z-s">&amp;&amp;</span> <span class="z-s">source</span> <span class="z-p">~</span> <span class="z-sr">[</span> <span class="z-s">RTS_STATIC,</span> <span class="z-s">RTS_BGP</span> <span class="z-s">]</span> <span class="z-s">)</span>
+      <span class="z-s">then</span> <span class="z-p">{</span>
+        <span class="z-kn">accept</span><span class="z-p">;</span>
+      <span class="z-p">}</span>
+      <span class="z-kn">reject</span><span class="z-p">;</span>
+    <span class="z-p">}</span>;
+  <span class="z-p">}</span>;
+<span class="z-p">}</span>
+</code></pre></div>
+<p>Example OpenBGPD config snippet (assumes config similar to
+the <a href="/howto/OpenBGPD">OpenBGPD setup guide</a>; note the GRC
+neighbor should be defined separately (outside the
+<code>dn42peers</code> group)):</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">neighbor</span> <span class="z-s">fd42:d42:d42:179::1</span> <span class="z-p">{</span>
+	<span class="z-kn">local-address</span> <span class="z-s">&lt;YOUR-ROUTER-DN42-IPv6&gt;</span>
+	<span class="z-s">descr</span> <span class="z-s">dn42grc</span>
+	<span class="z-s">remote-as</span> <span class="z-mi">4242422602</span>
+	<span class="z-s">multihop</span> <span class="z-mi">255</span>
+	<span class="z-s">announce</span> <span class="z-s">IPv4</span> <span class="z-s">unicast</span>
+	<span class="z-s">announce</span> <span class="z-s">IPv6</span> <span class="z-s">unicast</span>
+	<span class="z-s">announce</span> <span class="z-s">add-path</span> <span class="z-s">send</span> <span class="z-s">all</span>
+<span class="z-err">}</span>
+
+<span class="z-c1"># [...]
+</span><span class="z-c1"></span>
+<span class="z-s">allow</span> <span class="z-s">to</span> <span class="z-p">{</span><span class="z-kn">group</span> <span class="z-s">dn42peers</span> <span class="z-s">fd42:d42:d42:179::1</span><span class="z-err">}</span> <span class="z-s">prefix-set</span> <span class="z-s">dn42etc</span>
+</code></pre></div>
+<p>Example VyOS 1.4 &ldquo;Sagitta&rdquo; config</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text"># The route collector should never export routes, so let's make a route-map to reject them if it does.
+set policy route-map Deny-All rule 1 action deny
+set protocols bgp neighbor fd42:d42:d42:179::1 address-family ipv4-unicast route-map import 'Deny-All'
+set protocols bgp neighbor fd42:d42:d42:179::1 address-family ipv6-unicast route-map import 'Deny-All'
+set protocols bgp neighbor fd42:d42:d42:179::1 description 'https://lg.collector.dn42'
+set protocols bgp neighbor fd42:d42:d42:179::1 ebgp-multihop '10'
+set protocols bgp neighbor fd42:d42:d42:179::1 remote-as '4242422602'
+
+</code></pre></div>
+<h2 id="querying-the-collector">Querying the collector</h2>
+<h3 id="looking-glass">Looking Glass</h3>
+<p>The collector runs a looking glass based on <a href="https://github.com/xddxdd/bird-lg-go">bird-lg-go</a>.</p>
+<ul>
+<li><a href="https://lg.collector.dn42/">https://lg.collector.dn42/</a></li>
+</ul>
+<h3 id="mrt-dumps">MRT Dumps</h3>
+<p><a href="https://tools.ietf.org/html/rfc6396">MRT Dumps</a> are produced by the collector every 10 minutes. Bird produces MRT dumps corresponding to tables, so four separate dumps are created, one for IPv4 Unicast (master4), one for IPv6 Unicast (master6), one for IPv4 Multicast (multicast4) and one for IPv6 Multicast (multicast6). The 10 minutes dumps are available for one week before being reduced down to one a day.</p>
+<ul>
+<li><a href="https://mrt.collector.dn42">https://mrt.collector.dn42</a></li>
+</ul>
+<p>The latest dumps can always be found at the following URLs:</p>
+<ul>
+<li><a href="https://mrt.collector.dn42/master4_latest.mrt.bz2">https://mrt.collector.dn42/master4_latest.mrt.bz2</a></li>
+<li><a href="https://mrt.collector.dn42/master6_latest.mrt.bz2">https://mrt.collector.dn42/master6_latest.mrt.bz2</a></li>
+<li><a href="https://mrt.collector.dn42/multicast4_latest.mrt.bz2">https://mrt.collector.dn42/multicast4_latest.mrt.bz2</a></li>
+<li><a href="https://mrt.collector.dn42/multicast6_latest.mrt.bz2">https://mrt.collector.dn42/multicast6_latest.mrt.bz2</a></li>
+</ul>
+<h3 id="prometheus-metrics">Prometheus Metrics</h3>
+<p>The collector runs <a href="https://github.com/czerwonk/bird_exporter">bird_exporter</a> and prometheus style metrics are available at the following URL:</p>
+<ul>
+<li><a href="http://collector.dn42:9324/metrics">http://collector.dn42:9324/metrics</a></li>
+</ul>
+<h3 id="ssh-interface">SSH Interface</h3>
+<p>The collector bird instance can be queried directly using a birdc shell.</p>
+<ul>
+<li>ssh <a href="mailto:shell@collector.dn42">shell@collector.dn42</a></li>
+</ul>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">$ ssh shell@collector.dn42
+------------------------------------
+*    DN42 Global Route Collector   *
+------------------------------------
+* http://collector.dn42/
+
+This service provides a bird2 shell
+<span class="z-k">for</span> querying the route collector
+
+Be nice, access is logged and
+abuse will not be tolerated
+------------------------------------
+BIRD 2.19.1 ready.
+Access restricted
+bird&gt; show route count
+<span class="z-m">3634623</span> of <span class="z-m">3634623</span> routes <span class="z-k">for</span> <span class="z-m">1358</span> networks in table master4
+<span class="z-m">3758721</span> of <span class="z-m">3758721</span> routes <span class="z-k">for</span> <span class="z-m">1300</span> networks in table master6
+Total: <span class="z-m">7393344</span> of <span class="z-m">7393344</span> routes <span class="z-k">for</span> <span class="z-m">2658</span> networks in <span class="z-m">2</span> tables
+bird&gt;
+
+</code></pre></div>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>Distributed Wiki - DN42 Wiki</title>
+    <meta name="description" content="Distributed Wiki This wiki is mirrored by multiple operators across both the public internet and on dn42. Current operators providing the wiki service can be...">
+    <meta property="og:description" content="Distributed Wiki This wiki is mirrored by multiple operators across both the public internet and on dn42. Current operators providing the wiki service can be...">
+    <meta property="og:title" content="Distributed Wiki - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/Distributed-Wiki/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">Distributed Wiki</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#distributed-wiki" href="#distributed-wiki">Distributed Wiki</a></li>
+            
+            <li data-level="2"><a data-section="#hosting-the-wiki" href="#hosting-the-wiki">Hosting the wiki</a></li>
+            
+            <li data-level="2"><a data-section="#prerequisites" href="#prerequisites">Prerequisites</a></li>
+            
+            <li data-level="2"><a data-section="#network" href="#network">Network</a></li>
+            
+            <li data-level="2"><a data-section="#data-replication" href="#data-replication">Data replication</a></li>
+            
+            <li data-level="3"><a data-section="#setup-the-repo" href="#setup-the-repo">Setup the repo</a></li>
+            
+            <li data-level="2"><a data-section="#nginx-reverse-proxy" href="#nginx-reverse-proxy">Nginx reverse proxy</a></li>
+            
+            <li data-level="3"><a data-section="#ssl" href="#ssl">SSL</a></li>
+            
+            <li data-level="4"><a data-section="#header" href="#header">Header</a></li>
+            
+            <li data-level="5"><a data-section="#site-identification" href="#site-identification">Site identification</a></li>
+            
+            <li data-level="5"><a data-section="#enabling-hpkp" href="#enabling-hpkp">Enabling HPKP</a></li>
+            
+            <li data-level="4"><a data-section="#domains" href="#domains">Domains</a></li>
+            
+            <li data-level="4"><a data-section="#config-example" href="#config-example">Config example</a></li>
+            
+            <li data-level="2"><a data-section="#exabgp" href="#exabgp">ExaBGP</a></li>
+            
+            <li data-level="3"><a data-section="#announcing" href="#announcing">Announcing</a></li>
+            
+            <li data-level="4"><a data-section="#configuration" href="#configuration">Configuration</a></li>
+            
+            <li data-level="4"><a data-section="#watchdog-script" href="#watchdog-script">Watchdog script</a></li>
+            
+            <li data-level="4"><a data-section="#run" href="#run">Run</a></li>
+            
+            <li data-level="2"><a data-section="#setting-up-the-wiki-software" href="#setting-up-the-wiki-software">Setting up the wiki software</a></li>
+            
+            <li data-level="2"><a data-section="#gollum" href="#gollum">gollum</a></li>
+            
+            <li data-level="2"><a data-section="#dn42-wiki-go" href="#dn42-wiki-go">dn42-wiki-go</a></li>
+            
+            <li data-level="3"><a data-section="#introduction" href="#introduction">Introduction</a></li>
+            
+            <li data-level="3"><a data-section="#live-version" href="#live-version">Live Version</a></li>
+            
+            <li data-level="3"><a data-section="#operating-modes" href="#operating-modes">Operating Modes</a></li>
+            
+            <li data-level="3"><a data-section="#features" href="#features">Features</a></li>
+            
+            <li data-level="3"><a data-section="#quick-start" href="#quick-start">Quick Start</a></li>
+            
+            <li data-level="4"><a data-section="#manual-build" href="#manual-build">Manual Build</a></li>
+            
+            <li data-level="3"><a data-section="#webhook-endpoints" href="#webhook-endpoints">Webhook Endpoints</a></li>
+            
+            <li data-level="4"><a data-section="#polling-integration" href="#polling-integration">Polling Integration</a></li>
+            
+            <li data-level="3"><a data-section="#configuration-reference" href="#configuration-reference">Configuration Reference</a></li>
+            
+            <li data-level="4"><a data-section="#runtime" href="#runtime">Runtime</a></li>
+            
+            <li data-level="4"><a data-section="#git" href="#git">Git</a></li>
+            
+            <li data-level="4"><a data-section="#webhook" href="#webhook">Webhook</a></li>
+            
+            <li data-level="4"><a data-section="#paths-and-templating" href="#paths-and-templating">Paths and templating</a></li>
+            
+            <li data-level="4"><a data-section="#layout-and-footer" href="#layout-and-footer">Layout and footer</a></li>
+            
+            <li data-level="4"><a data-section="#tls" href="#tls">TLS</a></li>
+            
+            <li data-level="4"><a data-section="#logging-and-client-ip-handling" href="#logging-and-client-ip-handling">Logging and client IP handling</a></li>
+            
+            <li data-level="3"><a data-section="#notes" href="#notes">Notes</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">Distributed Wiki</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="distributed-wiki">Distributed Wiki</h1>
+<p>This wiki is mirrored by multiple operators across both the public internet and on dn42.
+Current operators providing the wiki service can be found on the page footer.</p>
+<h2 id="hosting-the-wiki">Hosting the wiki</h2>
+<p>For hosting the wiki one will need to decide whether they desire to host a public internet mirror, join the wiki.dn42 anycast or both.
+The idea is to deploy mirrors across dn42 using <a href="https://en.wikipedia.org/wiki/Anycast">anycast</a> addressing (BGP), thus providing redundancy, load-balancing and improved access times to the wiki.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>
+<p>Stable 24/7 connection to dn42.</p>
+</li>
+<li>
+<p>Stable host machine, present in dn42.</p>
+</li>
+<li>
+<p>Solid networking/sysadmin skills (to keep the system as a whole stable).</p>
+<p>In contrast with the general spirit in dn42, this service should NOT be deployed by unskilled members for the purpose of learning and exploring - since it is the primary source of information related to the project, it should not be used as a playground.</p>
+</li>
+<li>
+<p>Wiki Software (choose one):</p>
+<ul>
+<li><a href="https://github.com/iedon/dn42-wiki-go">dn42-wiki-go</a>  (Recommended)</li>
+<li><a href="https://git.dn42.dev/wiki/wiki-ng">wiki-ng</a></li>
+<li><a href="https://github.com/gollum/gollum">gollum</a></li>
+</ul>
+</li>
+<li>
+<p>Other Software:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Git_(software)">Git</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Nginx">Nginx</a></li>
+<li><a href="https://github.com/Exa-Networks/exabgp">ExaBGP</a></li>
+</ul>
+<p>It&rsquo;s recommended to use a debian distro on the host machine, where most of the above software can be installed using package manager(s) with ease. On some distros (RHEL based for example) it might not be an easy task.</p>
+</li>
+</ul>
+<p>The local webserver is to be monitored with a simple <a href="/services/Distributed-Wiki#watchdog-script">shell script</a> working <a href="/services/Distributed-Wiki/#exabgp">in conjunction</a> with <a href="https://github.com/Exa-Networks/exabgp">ExaBGP</a>, announcing/withdrawing the assigned route if the service is up/down.
+Nginx acts as a reverse proxy and handles the encryption.</p>
+<h2 id="network">Network</h2>
+<ul>
+<li>Install wiki anycast IP addresses <code>172.23.0.80/32</code> and <code>fd42:d42:d42:80::1/64</code> on the system</li>
+<li>Assign a unicast IP address to be used by Nginx</li>
+<li>Establish connectivity to the dn42 network</li>
+</ul>
+<h2 id="data-replication">Data replication</h2>
+<p>Site files are stored in a local <a href="https://en.wikipedia.org/wiki/Distributed_revision_control">DVCS</a> repository (Git) on each node and replicated through a central server.
+Since the wiki is hosted on top of Git, it is not overly complicated to keep the local site in sync with others, each site only triggers periodic pulls/pushes from/to the Git server.</p>
+<h3 id="setup-the-repo">Setup the repo</h3>
+<ul>
+<li>
+<p>Clone the dn42 wiki repo:</p>
+<p><code>git clone git@git.dn42.dev:wiki/wiki.git &lt;path&gt;</code></p>
+</li>
+<li>
+<p>Setup cron for periodic pull/push jobs for the repo (simple example):</p>
+</li>
+</ul>
+<ul>
+<li>
+<p><strong>wiki-sync.sh</strong>:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-cp">#!/bin/bash
+</span><span class="z-cp"></span>
+<span class="z-nv">WIKI_PATH</span><span class="z-o">=</span>&lt;repo path&gt;
+<span class="z-nv">GIT</span><span class="z-o">=</span>/usr/bin/git
+
+<span class="z-nb">cd</span> <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">WIKI_PATH</span><span class="z-si">}</span><span class="z-s2">&#34;</span>
+<span class="z-si">${</span><span class="z-nv">GIT</span><span class="z-si">}</span> push
+<span class="z-si">${</span><span class="z-nv">GIT</span><span class="z-si">}</span> pull
+
+<span class="z-nb">exit</span> <span class="z-m">0</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Cron entry</strong>:</p>
+</li>
+</ul>
+<p><code>*/10 * * * * &lt;path&gt;/wiki-sync.sh &amp;&gt; /dev/null</code></p>
+<p>Running in 10 minute intervals is reasonable, if you choose to change this, please keep it in the range from 5 to 15 minutes. Also consider using dn42notifyd to get a callbacks instead.</p>
+<h2 id="nginx-reverse-proxy">Nginx reverse proxy</h2>
+<h3 id="ssl">SSL</h3>
+<ul>
+<li>Generate an SSL certificate using the main Certificate authority using a method that supports anycasted IP addresses.</li>
+</ul>
+<h4 id="header">Header</h4>
+<h5 id="site-identification">Site identification</h5>
+<p>A custom header <code>X-SiteID</code> identifies the site you&rsquo;re connecting to:</p>
+<ul>
+<li><code>add_header X-SiteID   '&lt;AS&gt;-&lt;ISO country code&gt;';</code>
+<ul>
+<li>&lt;AS&gt; is the as number prefixed with <code>as</code> like <code>as64737</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="enabling-hpkp">Enabling <a href="https://en.wikipedia.org/wiki/HTTP_Public_Key_Pinning">HPKP</a></h5>
+<ul>
+<li>
+<p>Extract base64 encoded SPKI fingerprint from private key <code>wiki.key</code>:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">openssl rsa -in wiki.key -outform der -pubout <span class="z-p">|</span> openssl dgst -sha256 -binary <span class="z-p">|</span> openssl enc -base64
+</code></pre></div>
+</li>
+<li>
+<p>Configure Nginx to send the fingerprint in header (SSL block):</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">add_header</span> <span class="z-s">Public-Key-Pins</span>  <span class="z-s">pin-sha256=&#34;&lt;primary&gt;&#34;</span><span class="z-p">;</span> <span class="z-k">pin-sha256=&#34;&lt;backup&gt;&#34;</span><span class="z-p">;</span> <span class="z-k">max-age=5184000</span><span class="z-p">;</span> <span class="z-k">includeSubDomains&#39;</span><span class="z-p">;</span>
+</code></pre></div>
+</li>
+</ul>
+<ul>
+<li><code>&lt;primary&gt;</code> - the fingerprint extracted from <code>wiki.key</code></li>
+<li><code>&lt;backup&gt;</code>  - the CA fingerprint: <code>of00RDinhPeVRNnXm1jXQDagktOL75qQo1pT+xc7VIE=</code></li>
+</ul>
+<p>Read more about this <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Public_Key_Pinning">here</a>.</p>
+<h4 id="domains">Domains</h4>
+<p>The proxy should accept the following domain names:</p>
+<ul>
+<li>internal.dn42</li>
+<li>wiki.dn42</li>
+</ul>
+<h4 id="config-example">Config example</h4>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">ssl_protocols</span>  <span class="z-s">TLSv1.2</span> <span class="z-s">TLSv1.1</span> <span class="z-s">TLSv1</span><span class="z-p">;</span>
+<span class="z-k">ssl_session_cache</span> <span class="z-s">shared:SSL:2m</span><span class="z-p">;</span>
+
+<span class="z-k">ssl_ciphers</span>   <span class="z-s">ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA</span><span class="z-p">;</span>
+
+<span class="z-k">ssl_prefer_server_ciphers</span>   <span class="z-no">on</span><span class="z-p">;</span>
+
+<span class="z-k">upstream</span> <span class="z-s">wiki</span> <span class="z-p">{</span> <span class="z-kn">server</span> <span class="z-n">127.0.0.1</span><span class="z-p">:</span><span class="z-mi">4567</span><span class="z-p">;</span> <span class="z-p">}</span>
+
+<span class="z-k">server</span> <span class="z-p">{</span> 
+        <span class="z-kn">server_name</span> <span class="z-s">internal.dn42</span> <span class="z-s">wiki.dn42</span> <span class="z-s">as&lt;aut-num&gt;-&lt;cc&gt;.wiki.dn42</span><span class="z-p">;</span>
+
+        <span class="z-kn">listen</span> <span class="z-n">172.23.0.80</span><span class="z-p">:</span><span class="z-mi">80</span> <span class="z-s">default</span><span class="z-p">;</span>
+        <span class="z-kn">listen</span> <span class="z-s">[fd42:d42:d42:80::1]:80</span> <span class="z-s">default</span><span class="z-p">;</span>
+        <span class="z-kn">listen</span> <span class="z-s">&lt;unicast</span> <span class="z-s">ipv4&gt;</span> <span class="z-mi">80</span><span class="z-p">;</span>
+        <span class="z-kn">listen</span> <span class="z-s">[&lt;unicast</span> <span class="z-s">ipv6&gt;]:80</span><span class="z-p">;</span>
+
+        <span class="z-kn">add_header</span> <span class="z-s">X-SiteID</span>                   <span class="z-s">&#39;&lt;aut-num&gt;-&lt;cc&gt;&#39;</span><span class="z-p">;</span>
+
+        <span class="z-kn">location</span> <span class="z-s">/</span> <span class="z-p">{</span>
+                <span class="z-kn">proxy_pass</span> <span class="z-s">http://wiki</span><span class="z-p">;</span>
+        <span class="z-p">}</span>
+<span class="z-p">}</span>
+
+<span class="z-k">upstream</span> <span class="z-s">wikirw</span> <span class="z-p">{</span> <span class="z-kn">server</span> <span class="z-n">127.0.0.1</span><span class="z-p">:</span><span class="z-mi">4568</span><span class="z-p">;</span> <span class="z-p">}</span>
+
+
+<span class="z-k">server</span> <span class="z-p">{</span> 
+        <span class="z-kn">server_name</span> <span class="z-s">internal.dn42</span> <span class="z-s">wiki.dn42</span> <span class="z-s">as&lt;aut-num&gt;-&lt;cc&gt;.wiki.dn42</span><span class="z-p">;</span>
+
+        <span class="z-kn">listen</span> <span class="z-n">172.23.0.80</span><span class="z-p">:</span><span class="z-mi">443</span> <span class="z-s">ssl</span> <span class="z-s">default</span><span class="z-p">;</span>
+        <span class="z-kn">listen</span> <span class="z-s">[fd42:d42:d42:80::1]:443</span> <span class="z-s">ssl</span> <span class="z-s">default</span><span class="z-p">;</span>
+        <span class="z-kn">listen</span> <span class="z-s">&lt;unicast</span> <span class="z-s">ipv4&gt;</span> <span class="z-mi">443</span> <span class="z-s">ssl</span><span class="z-p">;</span>
+        <span class="z-kn">listen</span> <span class="z-s">[&lt;unicast</span> <span class="z-s">ipv6&gt;]:443</span> <span class="z-s">ssl</span><span class="z-p">;</span>
+
+	<span class="z-kn">ssl</span> <span class="z-no">on</span><span class="z-p">;</span>
+        <span class="z-kn">ssl_certificate</span>      <span class="z-s">&lt;path&gt;/ssl.crt</span><span class="z-p">;</span>  
+        <span class="z-kn">ssl_certificate_key</span>  <span class="z-s">&lt;path&gt;/ssl.key</span><span class="z-p">;</span>
+
+        <span class="z-kn">add_header</span> <span class="z-s">strict-transport-security</span>  <span class="z-s">&#34;max-age=5184000</span><span class="z-p">;</span> <span class="z-kn">includeSubDomains&#34;</span><span class="z-p">;</span>
+        <span class="z-kn">add_header</span> <span class="z-s">Public-Key-Pins</span>            <span class="z-s">&#39;pin-sha256=&#34;&lt;primary-pin&gt;&#34;</span><span class="z-p">;</span><span class="z-kn">pin-sha256=&#34;&lt;backup-pin&gt;&#34;</span><span class="z-p">;</span>  <span class="z-kn">max-age=5184000</span><span class="z-p">;</span> <span class="z-kn">includeSubDomains&#39;</span><span class="z-p">;</span>
+        <span class="z-kn">add_header</span> <span class="z-s">X-SiteID</span>                   <span class="z-s">&#39;&lt;aut-num&gt;-&lt;cc&gt;&#39;</span><span class="z-p">;</span>
+
+        <span class="z-kn">location</span> <span class="z-s">/</span> <span class="z-p">{</span>
+                <span class="z-kn">proxy_pass</span> <span class="z-s">http://wikirw</span><span class="z-p">;</span>
+        <span class="z-p">}</span>
+<span class="z-p">}</span>
+
+</code></pre></div>
+<h2 id="exabgp">ExaBGP</h2>
+<h3 id="announcing">Announcing</h3>
+<p>The prefix AS-PATH should show the announcement is originating from your AS. After peering ExaBGP to the nearest speaker(s), check if the prefix is routing properly inside your network. Try not to blackhole the passing traffic (e.g. no static routes to <code>172.23.0.80/32</code>). Test the whole thing by shutting down nginx/gollum and watch what happens.</p>
+<h4 id="configuration">Configuration</h4>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-c1"># exabgp.conf
+</span><span class="z-c1"></span>
+<span class="z-k">group</span> <span class="z-s">gollum-watchdog</span> <span class="z-p">{</span>
+  <span class="z-kn">neighbor</span> <span class="z-s">&lt;peer1&gt;</span> <span class="z-p">{</span>
+    <span class="z-kn">router-id</span> <span class="z-s">x.x.x.x</span><span class="z-p">;</span>
+    <span class="z-kn">local-address</span> <span class="z-s">&lt;source-address&gt;</span><span class="z-p">;</span>
+    <span class="z-kn">local-as</span> <span class="z-s">&lt;ownas&gt;</span><span class="z-p">;</span>
+    <span class="z-kn">peer-as</span> <span class="z-s">&lt;peeras&gt;</span><span class="z-p">;</span>
+  <span class="z-p">}</span>
+
+  <span class="z-c1">## (example ipv4) peer with one of our iBGP speakers:
+</span><span class="z-c1"></span>  <span class="z-kn">neighbor</span> <span class="z-mi">172</span><span class="z-s">.22.0.1</span> <span class="z-p">{</span>
+    <span class="z-kn">router-id</span> <span class="z-mi">172</span><span class="z-s">.23.0.80</span><span class="z-p">;</span>
+    <span class="z-kn">local-address</span> <span class="z-mi">172</span><span class="z-s">.22.0.2</span><span class="z-p">;</span>
+    <span class="z-kn">local-as</span> <span class="z-mi">123456</span><span class="z-p">;</span>
+    <span class="z-kn">peer-as</span> <span class="z-mi">123456</span><span class="z-p">;</span>
+  <span class="z-p">}</span>
+
+  <span class="z-c1">## (example ipv6) peer with one of our iBGP speakers:
+</span><span class="z-c1"></span>  <span class="z-kn">neighbor</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d::1</span> <span class="z-p">{</span>
+    <span class="z-kn">router-id</span> <span class="z-mi">172</span><span class="z-s">.23.0.80</span><span class="z-p">;</span>
+    <span class="z-kn">local-address</span> <span class="z-n">fd42</span><span class="z-p">:</span><span class="z-mi">4992</span><span class="z-p">:</span><span class="z-s">6a6d::2</span><span class="z-p">;</span>
+    <span class="z-kn">local-as</span> <span class="z-mi">123456</span><span class="z-p">;</span>
+    <span class="z-kn">peer-as</span> <span class="z-mi">123456</span><span class="z-p">;</span>
+  <span class="z-p">}</span>
+
+  <span class="z-c1">## ...
+</span><span class="z-c1"></span>
+  <span class="z-kn">process</span> <span class="z-s">watch-gollum</span> <span class="z-p">{</span>
+     <span class="z-kn">run</span> <span class="z-s">&lt;path&gt;/gollum-watchdog.sh</span><span class="z-p">;</span>
+  <span class="z-p">}</span>
+<span class="z-p">}</span>
+
+</code></pre></div>
+<h4 id="watchdog-script">Watchdog script</h4>
+<p>Watchdog runs in an infinite loop, sending the appropriate commands to stdout. <a href="https://github.com/Exa-Networks/exabgp">ExaBGP</a> attaches to the process&rsquo; stdout and listens for instructions. Watchdog sends either a route announce or widthdraw.</p>
+<p>Run <code>gollum-watchdog.sh</code> in a shell first to validate it&rsquo;s working:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-cp">#!/bin/bash
+</span><span class="z-cp"></span>
+<span class="z-nv">CURL</span><span class="z-o">=</span>curl
+
+<span class="z-c1">## url&#39;s to check (all listed must be alive to send announce)</span>
+<span class="z-nv">URL</span><span class="z-o">=(</span><span class="z-s2">&#34;http://172.23.0.80&#34;</span> <span class="z-s2">&#34;https://172.23.0.80&#34;</span> <span class="z-s2">&#34;http://[fd42:d42:d42:80::1]&#34;</span> <span class="z-s2">&#34;https://[fd42:d42:d42:80::1]&#34;</span><span class="z-o">)</span>
+
+<span class="z-nv">ROUTE</span><span class="z-o">=</span><span class="z-s1">&#39;172.23.0.80/32&#39;</span>
+<span class="z-c1">## the anycast v6 route (/64 due to prefix size limits)</span>
+<span class="z-nv">ROUTE6</span><span class="z-o">=</span><span class="z-s1">&#39;fd42:d42:d42:80::/64&#39;</span>
+
+<span class="z-c1">## the next-hop we&#39;ll be advertising to neighbor(s)</span>
+<span class="z-nv">NEXTHOP</span><span class="z-o">=</span><span class="z-s1">&#39;&lt;source-address&gt;&#39;</span> 
+<span class="z-nv">NEXTHOP6</span><span class="z-o">=</span><span class="z-s1">&#39;&lt;source-address-v6&gt;&#39;</span>
+
+<span class="z-c1">## regex match this keyword against HTTP response from curl</span>
+<span class="z-nv">VALIDATE_KEYWORD</span><span class="z-o">=</span><span class="z-s1">&#39;gollum&#39;</span>
+
+<span class="z-nv">INTERVAL</span><span class="z-o">=</span><span class="z-m">60</span>
+
+<span class="z-c1">###########################</span>
+
+<span class="z-nv">RUN_STATE</span><span class="z-o">=</span><span class="z-m">0</span>             
+
+check_urls<span class="z-o">()</span> <span class="z-o">{</span>          
+        <span class="z-k">for</span> url in <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">URL</span><span class="z-p">[@]</span><span class="z-si">}</span><span class="z-s2">&#34;</span><span class="z-p">;</span> <span class="z-k">do</span>
+
+                <span class="z-c1">## workaround curl errno 23 when piping</span>
+                <span class="z-nv">http_response</span><span class="z-o">=</span><span class="z-sb">`</span><span class="z-si">${</span><span class="z-nv">CURL</span><span class="z-si">}</span> --insecure -g -s -L -o - <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">url</span><span class="z-si">}</span><span class="z-s2">&#34;</span><span class="z-sb">`</span>
+
+                <span class="z-nb">echo</span> <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">http_response</span><span class="z-si">}</span><span class="z-s2">&#34;</span> <span class="z-p">|</span> egrep -q <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">VALIDATE_KEYWORD</span><span class="z-si">}</span><span class="z-s2">&#34;</span> <span class="z-o">||</span> <span class="z-o">{</span>
+                        <span class="z-k">return</span> <span class="z-m">1</span>
+                <span class="z-o">}</span>
+
+                <span class="z-c1">## add more checks</span>
+
+        <span class="z-k">done</span>
+        <span class="z-k">return</span> <span class="z-m">0</span>
+<span class="z-o">}</span>
+
+<span class="z-k">while</span> <span class="z-o">[</span> <span class="z-m">1</span> <span class="z-o">]</span><span class="z-p">;</span> <span class="z-k">do</span>
+        <span class="z-k">if</span> <span class="z-o">[</span> <span class="z-si">${</span><span class="z-nv">RUN_STATE</span><span class="z-si">}</span> -eq <span class="z-m">0</span> <span class="z-o">]</span><span class="z-p">;</span> <span class="z-k">then</span>
+                check_urls <span class="z-o">&amp;&amp;</span> <span class="z-o">{</span>
+                        <span class="z-nv">RUN_STATE</span><span class="z-o">=</span><span class="z-m">1</span>
+                        <span class="z-nb">echo</span> <span class="z-s2">&#34;announce route </span><span class="z-si">${</span><span class="z-nv">ROUTE</span><span class="z-si">}</span><span class="z-s2"> next-hop </span><span class="z-si">${</span><span class="z-nv">NEXTHOP</span><span class="z-si">}</span><span class="z-s2">&#34;</span>
+                        <span class="z-nb">echo</span> <span class="z-s2">&#34;announce route </span><span class="z-si">${</span><span class="z-nv">ROUTE6</span><span class="z-si">}</span><span class="z-s2"> next-hop </span><span class="z-si">${</span><span class="z-nv">NEXTHOP6</span><span class="z-si">}</span><span class="z-s2">&#34;</span>
+                <span class="z-o">}</span>       
+        <span class="z-k">else</span>    
+                check_urls <span class="z-o">||</span> <span class="z-o">{</span>
+                        <span class="z-nv">RUN_STATE</span><span class="z-o">=</span><span class="z-m">0</span>
+                        <span class="z-nb">echo</span> <span class="z-s2">&#34;withdraw route </span><span class="z-si">${</span><span class="z-nv">ROUTE</span><span class="z-si">}</span><span class="z-s2"> next-hop </span><span class="z-si">${</span><span class="z-nv">NEXTHOP</span><span class="z-si">}</span><span class="z-s2">&#34;</span>
+                        <span class="z-nb">echo</span> <span class="z-s2">&#34;withdraw route </span><span class="z-si">${</span><span class="z-nv">ROUTE6</span><span class="z-si">}</span><span class="z-s2"> next-hop </span><span class="z-si">${</span><span class="z-nv">NEXTHOP6</span><span class="z-si">}</span><span class="z-s2">&#34;</span>
+                <span class="z-o">}</span>       
+        <span class="z-k">fi</span>
+
+        sleep <span class="z-si">${</span><span class="z-nv">INTERVAL</span><span class="z-si">}</span>
+
+<span class="z-k">done</span>    
+
+<span class="z-nb">exit</span> <span class="z-m">0</span>
+</code></pre></div>
+<h4 id="run">Run</h4>
+<p>Normally SIGUSR1 to the exabgp process triggers a configuration update, but at occasion the process might need to be restarted - since its gracefull shutdown can be glitchy , this might be a bit difficult. Sending SIGKILL to the child(ren) and immediately after, the parent, does the job (quick-and-dirty).</p>
+<p><code>USAGE: /etc/exabgp/run.sh [start|stop|restart]</code></p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-cp">#!/bin/bash
+</span><span class="z-cp"></span>
+<span class="z-nv">PID_FILE</span><span class="z-o">=</span>/var/run/exaBGP/exabgp_PID
+
+<span class="z-c1">######################################</span>
+
+<span class="z-nv">EXABGP</span><span class="z-o">=</span>&lt;path&gt;/sbin/exabgp
+<span class="z-nv">EXA_LOG</span><span class="z-o">=</span>/var/log/exabgp.log
+<span class="z-nv">CONF</span><span class="z-o">=</span>/etc/exabgp/exabgp.conf
+
+
+start<span class="z-o">()</span> <span class="z-o">{</span>
+	<span class="z-o">[</span> -f <span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span> <span class="z-o">]</span> <span class="z-o">&amp;&amp;</span> <span class="z-o">{</span>
+		<span class="z-nb">echo</span> <span class="z-s2">&#34;WARNING: `cat </span><span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span><span class="z-s2">`: exabgp already running&#34;</span><span class="z-p">;</span> <span class="z-k">return</span> <span class="z-m">1</span>
+	<span class="z-o">}</span>
+	<span class="z-si">${</span><span class="z-nv">EXABGP</span><span class="z-si">}</span> <span class="z-si">${</span><span class="z-nv">CONF</span><span class="z-si">}</span> <span class="z-p">&amp;</span>&gt; <span class="z-si">${</span><span class="z-nv">EXA_LOG</span><span class="z-si">}</span> <span class="z-p">&amp;</span>
+	<span class="z-nv">cpid</span><span class="z-o">=</span><span class="z-nv">$!</span>
+	<span class="z-o">[</span> <span class="z-si">${</span><span class="z-nv">cpid</span><span class="z-si">}</span> -eq <span class="z-m">0</span> <span class="z-o">]</span> <span class="z-o">&amp;&amp;</span> <span class="z-o">{</span>
+		<span class="z-nb">echo</span> <span class="z-s2">&#34;ERROR: could not start process&#34;</span><span class="z-p">;</span> <span class="z-k">return</span> <span class="z-m">1</span>
+
+	<span class="z-o">}</span>
+        <span class="z-nb">echo</span> <span class="z-si">${</span><span class="z-nv">cpid</span><span class="z-si">}</span> &gt; <span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span>
+<span class="z-o">}</span>
+
+stop<span class="z-o">(){</span>
+	<span class="z-o">[</span> -f <span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span> <span class="z-o">]</span> <span class="z-o">||</span> <span class="z-k">return</span> <span class="z-m">1</span> 
+	pkill -9 -P <span class="z-k">$(</span>cat <span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span><span class="z-k">)</span>
+        <span class="z-nb">kill</span> -9  <span class="z-k">$(</span>cat <span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span><span class="z-k">)</span>
+	rm -f <span class="z-si">${</span><span class="z-nv">PID_FILE</span><span class="z-si">}</span>
+<span class="z-o">}</span>
+
+<span class="z-k">case</span> <span class="z-si">${</span><span class="z-nv">1</span><span class="z-si">}</span> in
+    start <span class="z-o">)</span>
+	start
+    <span class="z-p">;;</span>
+    stop <span class="z-o">)</span>
+	stop
+   <span class="z-p">;;</span>
+    restart <span class="z-o">)</span>
+	stop
+	sleep <span class="z-m">1</span>
+	start
+   <span class="z-p">;;</span>
+<span class="z-k">esac</span>
+
+<span class="z-nb">exit</span> <span class="z-m">0</span>
+</code></pre></div>
+<h2 id="setting-up-the-wiki-software">Setting up the wiki software</h2>
+<p>See the documentation below for both gollum and dn42-wiki-go.</p>
+<h2 id="gollum">gollum</h2>
+<ul>
+<li>
+<p>Install <a href="https://github.com/gollum/gollum">gollum</a></p>
+</li>
+<li>
+<p>Start two gollum instances, read-only and read/write on <code>127.0.0.1</code>:</p>
+<p>Read/write (SSL only):</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">RACK_ENV=production gollum --css --host 127.0.0.1  --port 4568 &lt;path&gt;
+</code></pre></div>
+<p>Read-only:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">RACK_ENV=production gollum --css --host 127.0.0.1  --port 4567 --no-edit &lt;path&gt;
+</code></pre></div>
+<p>Set <code>&lt;path&gt;</code> to the location where wiki Git repo was cloned.</p>
+</li>
+</ul>
+<h2 id="dn42-wiki-go">dn42-wiki-go</h2>
+<h3 id="introduction">Introduction</h3>
+<p><a href="https://github.com/iedon/dn42-wiki-go">dn42-wiki-go</a> is a lightweight, Git-backed wiki engine designed for DN42. It is based on <a href="https://git.dn42.dev/wiki/wiki-ng">wiki-ng</a>, aims to replace the old Gollum-based DN42 distributed wiki.</p>
+<p>It can serve pages live through its built-in Go HTTP server or generate a fully static HTML export for external hosting. All content is stored in a Git repository, making it easy to replicate across nodes or run in disconnected environments.</p>
+<h3 id="live-version">Live Version</h3>
+<ul>
+<li><a href="https://wiki.dn42/">https://wiki.dn42/</a> (DN42 Access)</li>
+<li><a href="https://dn42.jp/">https://dn42.jp/</a> (Clearnet)</li>
+</ul>
+<p><img src="/services/images/iedon-dn42-wiki-go.png" alt="Screenshot of iEdon DN42 Wiki Go"></p>
+<h3 id="operating-modes">Operating Modes</h3>
+<p>You can run <code>dn42-wiki-go</code> in three different ways:</p>
+<ol>
+<li>
+<p><strong>Run static build once then exit (<code>--build</code> or <code>live=false</code>)</strong><br>
+The App renders all Markdown files into HTML under outputDir and exits.<br>
+Best for setups where your own cron job handles Git sync and file publishing.</p>
+</li>
+<li>
+<p><strong>Live mode without reverse proxy (<code>live=true</code>)</strong><br>
+The built-in HTTP server directly serves pages, assets, and APIs.<br>
+Suitable for simple deployments.</p>
+</li>
+<li>
+<p><strong>Live mode behind a reverse proxy</strong><br>
+The reverse proxy (nginx, Caddy, HAProxy, etc.) serves the generated files, and only API endpoints are forwarded to the App.<br>
+See <code>config.example.json</code> for example configs and <code>nginx-vhost.conf</code> for a reverse-proxy reference.</p>
+<p><strong>Recommended for production and anycast nodes</strong>.</p>
+</li>
+</ol>
+<h3 id="features">Features</h3>
+<ul>
+<li>Live mode with automatic Markdown rendering and scheduled Git pull/push.</li>
+<li>Static mode for fully pre-built HTML exports.</li>
+<li>Optional in-browser editor with commit metadata (author, message prefix, remote IP).</li>
+<li>Webhook endpoints for remote pull/push triggers and optional polling integration(see <code>dn42notifyd</code>).</li>
+<li>Themeable templates and bundled UI assets.</li>
+<li>Designed for distributed, multi-node and anycast environments.</li>
+</ul>
+<h3 id="quick-start">Quick Start</h3>
+<p>Pre-built binaries are available in the <a href="https://github.com/iedon/dn42-wiki-go/releases">GitHub releases</a>.</p>
+<p>Please do not forget to clone the repository to copy <code>config.example.json</code>(to <code>config.json</code>) and the <code>template</code> folder. They should be put together in the same production directory.</p>
+<h4 id="manual-build">Manual Build</h4>
+<ol>
+<li>Install Go 1.24+ and ensure the git executable is available in PATH.</li>
+<li>Copy the example config:
+cp config.example.json config.json
+Then edit the settings you need.</li>
+<li>Build for your platform (example: Linux amd64):
+<div class="code-block" data-lang="bash"><span class="code-lang-label" aria-hidden="true">bash</span><pre tabindex="0" class="z-chroma z-code language-bash" data-lang="bash"><code class="language-bash" data-lang="bash"><span class="z-nb">export</span> <span class="z-nv">GOOS</span><span class="z-o">=</span>linux
+<span class="z-nb">export</span> <span class="z-nv">GOARCH</span><span class="z-o">=</span>amd64
+./build.sh
+</code></pre></div>
+</li>
+</ol>
+<p>Determine which user is used to run <code>dn42-wiki-go</code>, then create <code>~/.gitconfig</code> for this user, which will be used by <code>git</code>.</p>
+<p>For example:</p>
+<div class="code-block" data-lang="ini"><span class="code-lang-label" aria-hidden="true">ini</span><pre tabindex="0" class="z-chroma z-code language-ini" data-lang="ini"><code class="language-ini" data-lang="ini"><span class="z-k">[user]</span>
+        <span class="z-na">email</span> <span class="z-o">=</span> <span class="z-s">noreply@dn42.jp    
+</span><span class="z-s">        name = IEDON.DN42 Wiki Mirror(116)</span>
+</code></pre></div>
+<p>To create the isolated, low-privileged user <code>dn42-wiki-go</code>, you may run:</p>
+<div class="code-block" data-lang="bash"><span class="code-lang-label" aria-hidden="true">bash</span><pre tabindex="0" class="z-chroma z-code language-bash" data-lang="bash"><code class="language-bash" data-lang="bash"><span class="z-c1"># This user cannot log in or get a shell.</span>
+<span class="z-c1"># This user has /opt/dn42-wiki-go as working directory.</span>
+<span class="z-c1"># No default home folder created automatically.</span>
+sudo useradd -r -s /usr/sbin/nologin -d /opt/dn42-wiki-go -M dn42-wiki-go
+</code></pre></div>
+<p>Both systemd socket enabler and UNIX domain socket are supported, check example configuration files: <code>dn42-wiki-go.socket</code> and <code>dn42-wiki-go.service</code>.</p>
+<p>If you would like to use with Docker: <code>Dockerfile</code> and <code>docker-compose.yml</code> are also provided, bind proper directories and map <code>config.json</code> for the App to use, then you are all set.</p>
+<h3 id="webhook-endpoints">Webhook Endpoints</h3>
+<p>When <code>webhook.enabled</code> = true, the server exposes:</p>
+<ul>
+<li>
+<p>GET | POST /api/webhook/pull<br>
+Runs git pull and rebuilds the cached HTML.</p>
+</li>
+<li>
+<p>GET | POST /api/webhook/push<br>
+Pushes local commits to the remote.</p>
+</li>
+</ul>
+<p>If <code>webhook.secret</code> is set, requests must include an Authorization header that matches the secret.
+If <code>webhook.secret</code> is empty, a random secret will be generated on startup to secure the endpoint (used for polling).</p>
+<h4 id="polling-integration">Polling Integration</h4>
+<p>When <code>webhook.polling.enabled</code> = true, the server registers with a remote notify service and triggers <code>/api/webhook/pull</code> whenever a refresh completes.</p>
+<p>This is compatible with <code>dn42notifyd</code> and similar tools.</p>
+<h3 id="configuration-reference">Configuration Reference</h3>
+<p>All settings are provided through a JSON file. Below is a concise reference of all options.</p>
+<h4 id="runtime">Runtime</h4>
+<ul>
+<li>
+<p><code>live</code> <em>(bool, default <code>false</code>)</em>:<br>
+true -&gt; run HTTP server and render on demand.<br>
+false -&gt; render once to outputDir and exit.</p>
+</li>
+<li>
+<p><code>editable</code> <em>(bool, default <code>false</code>)</em>:<br>
+Enables in-browser editing and write operations.</p>
+</li>
+<li>
+<p><code>listen</code> <em>(string, default <code>&quot;:8080&quot;</code>)</em>:<br>
+TCP address (host:port) or UNIX socket (unix:/path).</p>
+<p>Advanced: See example systemd files <code>dn42-wiki-go.socket</code> and <code>dn42-wiki-go.service</code> in the repository.</p>
+</li>
+<li>
+<p><code>baseUrl</code> <em>(string, optional)</em>:<br>
+URL prefix when hosting under a subdirectory.</p>
+</li>
+<li>
+<p><code>siteName</code> <em>(string, default <code>&quot;DN42 Wiki Go&quot;</code>)</em>:<br>
+Display name of the wiki.</p>
+</li>
+</ul>
+<h4 id="git">Git</h4>
+<ul>
+<li><code>git.binPath</code> <em>(string, default <code>git</code>)</em>: Path to the Git executable.</li>
+<li><code>git.remote</code> <em>(string, default empty)</em>: Remote URL. Leave empty for standalone/local repositories.</li>
+<li><code>git.localDirectory</code> <em>(string, default <code>./repo</code>)</em>: Directory where the wiki repository is cloned or initialised.</li>
+<li><code>git.pullIntervalSec</code> <em>(int, default <code>3600</code>)</em>: Seconds between background <code>git pull</code> operations in live mode. Disabled if no remote is set.</li>
+<li><code>git.author</code> <em>(string, default <code>&quot;Anonymous &lt;anonymous@localhost&gt;&quot;</code>)</em>: Author string used for commits generated by the application.</li>
+<li><code>git.commitMessagePrefix</code> <em>(string, default empty)</em>: Optional prefix prepended verbatim to commit messages supplied by users.</li>
+<li><code>git.commitMessageAppendRemoteAddr</code> <em>(string, default empty)</em>: Optional suffix appended when a request carries a remote address. If the value contains <code>%s</code> it is treated as a <code>fmt</code> format string; otherwise it is concatenated.</li>
+</ul>
+<h4 id="webhook">Webhook</h4>
+<ul>
+<li><code>webhook.enabled</code> <em>(bool, default <code>false</code>)</em>: Expose webhook endpoints on the main HTTP server.</li>
+<li><code>webhook.secret</code> <em>(string, default empty)</em>: Shared secret expected in the <code>Authorization</code> header. If empty, a random secret is generated on startup.</li>
+<li><code>webhook.polling.enabled</code> <em>(bool, default <code>false</code>)</em>: Keep a registration active with the remote notification service and trigger periodic pulls.</li>
+<li><code>webhook.polling.endpoint</code> <em>(string, default empty)</em>: URL of the notification service (eg. Usage with <a href="https://git.dn42.dev/dn42/dn42notifyd">dn42notifyd</a>: <code>https://git.dn42/dn42notify/poll</code>).</li>
+<li><code>webhook.polling.callbackUrl</code> <em>(string, default empty)</em>: Public URL for <code>/api/webhook/pull</code>. Required when <code>webhook.polling.enabled</code> is <code>true</code>.</li>
+<li><code>webhook.polling.pollingIntervalSec</code> <em>(int, default <code>3600</code>)</em>: Seconds between refresh attempts. Must be positive when polling is enabled.</li>
+<li><code>webhook.polling.skipRemoteCert</code> <em>(bool, default <code>false</code>)</em>: Insecure: Skip TLS verification.</li>
+</ul>
+<h4 id="paths-and-templating">Paths and templating</h4>
+<ul>
+<li><code>outputDir</code> <em>(string, default <code>./dist</code>)</em>: Destination directory for static builds or asset exports.</li>
+<li><code>templateDir</code> <em>(string, default <code>./template</code>)</em>: Location of layout templates and static assets bundled into the server/UI.</li>
+<li><code>homeDoc</code> <em>(string, default <code>Home.md</code>)</em>: Repository document to treat as the home page. Normalised to a <code>.md</code> path relative to the repo root.</li>
+<li><code>privatePagesPrefix</code> <em>(array of strings, default empty)</em>: Request to routes started with these prefixes will be blocked.</li>
+</ul>
+<h4 id="layout-and-footer">Layout and footer</h4>
+<ul>
+<li><code>ignoreHeader</code> <em>(bool, default <code>false</code>)</em>: Skip loading <code>_Header.md</code> when <code>true</code>. Leave <code>false</code> to include the fragment when present.</li>
+<li><code>ignoreFooter</code> <em>(bool, default <code>false</code>)</em>: Skip <code>_Footer.md</code> when <code>true</code>; otherwise render it if available.</li>
+<li><code>serverFooter</code> <em>(string, default empty)</em>: Markdown snippet rendered into the global footer at runtime.</li>
+</ul>
+<h4 id="tls">TLS</h4>
+<ul>
+<li><code>enableTLS</code> <em>(bool, default <code>false</code>)</em>: Serve HTTPS using the provided certificate and key.</li>
+<li><code>tlsCert</code> <em>(string)</em>: Path to the TLS certificate. Required only when <code>enableTLS</code> is true.</li>
+<li><code>tlsKey</code> <em>(string)</em>: Path to the TLS private key. Required when <code>enableTLS</code> is true.</li>
+</ul>
+<h4 id="logging-and-client-ip-handling">Logging and client IP handling</h4>
+<ul>
+<li><code>logLevel</code> <em>(string, default <code>info</code>)</em>: Minimum log level (<code>debug</code>, <code>info</code>, <code>warn</code>, or <code>error</code>).</li>
+<li><code>trustedProxies</code> <em>(array of strings, default empty)</em>: CIDR blocks or literal IPs that are trusted to populate <code>X-Forwarded-For</code>.</li>
+<li><code>trustedRemoteAddrLevel</code> <em>(int, default <code>1</code>)</em>: Number of additional trusted hops to peel off when deriving the end-user IP from the forwarded chain. Values less than <code>1</code> are coerced to <code>1</code> during load.</li>
+</ul>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>live = true requires write access to the Git repo for local commits.</li>
+<li>With no remote configured, <code>dn42-wiki-go</code> initializes a local-only repository.</li>
+<li>Template changes require restarting the server or rebuilding static output.</li>
+</ul>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

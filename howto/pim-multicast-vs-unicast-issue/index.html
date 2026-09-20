@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>pim multicast vs unicast issue - DN42 Wiki</title>
+    <meta name="description" content="Issue: PIM: Multicast vs. Unicast Routes Symptom With pim6sd you might have stumbled over the following message in your logs: For src [...], iif is [...],...">
+    <meta property="og:description" content="Issue: PIM: Multicast vs. Unicast Routes Symptom With pim6sd you might have stumbled over the following message in your logs: For src [...], iif is [...],...">
+    <meta property="og:title" content="pim multicast vs unicast issue - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/pim-multicast-vs-unicast-issue/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">pim multicast vs unicast issue</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#issue-pim-multicast-vs-unicast-routes" href="#issue-pim-multicast-vs-unicast-routes">Issue: PIM: Multicast vs. Unicast Routes</a></li>
+            
+            <li data-level="2"><a data-section="#symptom" href="#symptom">Symptom</a></li>
+            
+            <li data-level="2"><a data-section="#background" href="#background">Background</a></li>
+            
+            <li data-level="2"><a data-section="#examples" href="#examples">Examples</a></li>
+            
+            <li data-level="3"><a data-section="#example-1" href="#example-1">Example 1</a></li>
+            
+            <li data-level="3"><a data-section="#example-2" href="#example-2">Example 2</a></li>
+            
+            <li data-level="3"><a data-section="#example-3" href="#example-3">Example 3</a></li>
+            
+            <li data-level="2"><a data-section="#mitigations" href="#mitigations">Mitigations</a></li>
+            
+            <li data-level="3"><a data-section="#section-1-bgp-multicast-channels" href="#section-1-bgp-multicast-channels">1) BGP multicast channels</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-only-unicast-host-routes-for-multicast-routers-ipv4-32-ipv6-128" href="#section-2-only-unicast-host-routes-for-multicast-routers-ipv4-32-ipv6-128">2) (Only?) unicast host routes for multicast routers (IPv4: /32, IPv6: /128)</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-watchdog" href="#section-3-watchdog">3) Watchdog?</a></li>
+            
+            <li data-level="3"><a data-section="#section-4-roa" href="#section-4-roa">4) ROA?</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">pim multicast vs unicast issue</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="issue-pim-multicast-vs-unicast-routes">Issue: PIM: Multicast vs. Unicast Routes</h1>
+<h2 id="symptom">Symptom</h2>
+<p>With pim6sd you might have stumbled over the following message in your logs: <code>For src [...], iif is [...], next hop router is [...]: NOT A PIM ROUTER</code>. And your multicast routing somehow does not work even though according to your pim6stat output it looks like the correct multicast router was detected via PIM. Or it might have worked in the past and suddenly stopped working.</p>
+<p>This means that somehow the neighboring router which pim6sd (but might happen to another PIM implementation, too?) has chosen is another router not capable of multicast routing via PIM. But how can that be, why did pim6sd choose that neighbor in the first place then?</p>
+<h2 id="background">Background</h2>
+<p>One simple cause could be firewall rules filtering some PIM messages. But there can be another issue, which this page will dive into.</p>
+<p>PIM stands for <strong>Protocol Independent</strong> Multicast. Which confusingly does not mean that PIM would be a fully independent protocol&hellip; It is actually very dependent on the existence of preestablished unicast routes, so typically quite dependent on another unicast routing protocol. It is only independent of how those unicast routes were established exactly, which metric was used etc. Without unicast routes PIM does not work though. PIM then tries to establish its multicast routing trees via/over those unicast routes (and for PIM-SM in any-source multicast, ASM, mode might even use that to tunnel multicast packets to before a multicast routing tree could be established, to reduce delays or to avoid packet loss).</p>
+<p><strong>This means that for a PIM-SM daemon any unicast route configured in the kernel towards any PIM-SM router in the network must point to a next hop capable of PIM-SM.</strong> Otherwise the incapable next hop router will potentially be a black hole for multicast routing.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="example-1">Example 1</h3>
+<p><img src="/internal/images/pim-multicast-vs-unicast-issue-example1.png" alt="Example 1: 3 routers, link with missing PIM"></p>
+<p>Nodes R1, R2, R3 are all peering via BGP on dedicated interface to each other. And have established unicast routes to each other through BGP. For PIM-SM all three routers are running a PIM daemon, but somehow PIM was not configured properly on the dedicated interfaces between R1 and R3 (acc. interfaces not added to the PIM daemon, incorrect filter rules, missing kernel multicast flag on these interfaces, &hellip;).</p>
+<p>PIM-SM between R1 and R3 will be broken, even though in theory multicast between R1 and R3 via R2 could work.</p>
+<h3 id="example-2">Example 2</h3>
+<p><img src="/internal/images/pim-multicast-vs-unicast-issue-example2.png" alt="Example 2: 5 routers, 1 router with no PIM"></p>
+<p>Same as example 1 but here multicast routing between R1 and R4 will be broken, as the selected unicast route between R1 and R4 is via R5, but R5 is not running any daemon capable of PIM-SM at all.</p>
+<p>Here it is apparent that not only misconfiguration can lead to this unicast vs. multicast routes issue. But also potentially any router in the network which is only capable of a unicast routing protocol while not yet being capable of PIM.</p>
+<h3 id="example-3">Example 3</h3>
+<p><img src="/internal/images/pim-multicast-vs-unicast-issue-example3.png" alt="Example 3: Multiple multicast routers on subnet, but no PIM on downstream interface"></p>
+<p>In this example R1 and R2 are routers for the same AS. Furthermore they serve several other client devices downstream. Therefore both R1 and R2 announce the same IPv6 /64 subnet for these client devices via BGP. However R1 and R2 have disabled PIM on their downstream interface, they only use MLD downstream while PIM is only used to their upstream routers R3 and R4.</p>
+<p>R3 wants to establish a multicast tree to R1 via PIM. The shortest/&ldquo;best&rdquo; path for R3 to R1 according to BGP is R3-&gt;R2(-&gt;R1).</p>
+<p>But because R2 does not talk PIM on the downstream interface it will not forward PIM messages to R1, therefore creating a black hole for multicast.</p>
+<h2 id="mitigations">Mitigations</h2>
+<h3 id="section-1-bgp-multicast-channels">1) BGP multicast channels</h3>
+<p>BGP allows using the dedicated BGP channels &ldquo;IPv4 multicast&rdquo; and &ldquo;IPv6 multicast&rdquo;. This does <em>not</em> mean that with these channels BGP would distribute multicast routes. But it allows establishing an alternative unicast topology that is supposed to be dedicated for multicast protocols like PIM. And more notably distinct to the BGP topology used for unicast payload packets.</p>
+<p>This should especially make it easier to avoid the second example. However it does not help in the situation where for instance bird is used for BGP and pim6sd for PIM and the latter crashed at some point in the future. Then even though bird is using the &ldquo;ipv{4,6} multicast&rdquo; channel it will not be aware that PIM ceased to work.</p>
+<h3 id="section-2-only-unicast-host-routes-for-multicast-routers-ipv4-32-ipv6-128">2) (Only?) unicast host routes for multicast routers (IPv4: /32, IPv6: /128)</h3>
+<p>On PIM capable routers announce /32 and /128 unicast host routes (in the dedicated BGP IPv4/IPv6 multicast channels?), the unicast address(es) of this specific multicast router. This would especially avoid the issue in example 3, as a /128 for R1 received on R3 via R4 would be more specific and prefered over a /64 received on R3 from R2. Also only announcing and accepting host routes on the BGP IPv4/v6 multicast channels might be sufficient and safer?</p>
+<p>ToDo: Verify that for PIM-SM to work properly that unicast routes only to multicast routers are sufficient. That unicast routes to any non-PIM downstream clients are not needed. For PIM-SM in ASM mode this should work as we only need unicast connectivity to PIM-SM capable Rendezvous-Points? Would this also work for SSM?</p>
+<p>Typically there shouldn&rsquo;t be that many multicast routers for a subnet? So announcing only host routers shouldn&rsquo;t increase overhead that much on a BGP IPv4/v6 multicast channel? But might be a bit &ldquo;unconventional&rdquo; to announce such small subnets / host routes via BGP?</p>
+<h3 id="section-3-watchdog">3) Watchdog?</h3>
+<p>Write some watchdog script/daemon which enables/disables/filters BGP exports(/imports?) if it detects that a/no PIM session was established to that neighbor?</p>
+<p>Question: Would there be a chicken &amp; egg situation, or at least (a) small timeframe(s) for potential packetloss? We need unicast routes for PIM a priori, but we want to retract unicast routes if PIM is not established to avoid black holing? Maybe a watchdog would actually need to:</p>
+<ol>
+<li>Always run PIM on all interfaces to (potential) routers</li>
+<li>Initially only accept unicast routes from direct neighbors via BGP (on the IPv4/v6 multicast channel), no unicast routes from multi-hop routers yet</li>
+<li>If both BGP and PIM are established to a neighbor: Then start accepting unicast routes via BGP via multi-hop</li>
+<li>If PIM to a neighbor times out, retract/filter multi-hop unicast routes via BGP from this neighbor</li>
+</ol>
+<h3 id="section-4-roa">4) ROA?</h3>
+<p>Use a dedicated ROA filter database for multicast, (manually? automaticaly?) delete entries of misbehaving nodes?</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

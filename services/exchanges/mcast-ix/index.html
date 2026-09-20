@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>mcast ix - DN42 Wiki</title>
+    <meta name="description" content="we re planning to have a mcast-ix.dn42 somewhere in the cloud at #dn42 for years now now we have a pull req with cosmetical issues only: the main goal is to...">
+    <meta property="og:description" content="we re planning to have a mcast-ix.dn42 somewhere in the cloud at #dn42 for years now now we have a pull req with cosmetical issues only: the main goal is to...">
+    <meta property="og:title" content="mcast ix - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/exchanges/mcast-ix/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">mcast ix</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid grid--no-summary">
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#exchanges">exchanges</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">mcast ix</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>we&rsquo;re planning to have a mcast-ix.dn42 somewhere in the cloud at #dn42 for years now&hellip;</p>
+<p>now we have a pull req with cosmetical issues only: <a href="https://git.dn42.dev/dn42/registry/pulls/2575">https://git.dn42.dev/dn42/registry/pulls/2575</a></p>
+<p>the main goal is to have a shared lan where ases can peer to each other with the following conditions:</p>
+<ul>
+<li>pure ethernet</li>
+<li>low latency between the vms</li>
+<li>native support for jumbo frames</li>
+<li>possibility to private vlans between participants with the same conditions</li>
+</ul>
+<p>how to participate:</p>
+<p>all you have to do is prepare a qcow2 or vmdk image and upload it to somewhere and ping nop-mnt (mc36 @ irc) with the url&hellip; i&rsquo;ll wget it once then boot up your vm connected to the switchport&hellip; you&rsquo;ll have raw dn42 reachability there and pat-ed clearnet to continue your installation or upgrades or to connect to the rest of your infra&hellip;</p>
+<p>alternatively you can try remotely the ix by preparing the vm image and giving it a vnic pointing to a remote switch participating in the ix already.  &ldquo;-netdev socket,id=a1,udp=vpn.nop.hu:998,localaddr=:1234 -device virtio-net-pci,netdev=a1,mac=as:df:as:df:as:df&rdquo; 4 example nop-mnt&rsquo;s vpls instance running in a very different datacenter where the real ix located, plus your networking delays to that datacenter, is the sum packet loss, delay, etc&hellip; its just about to try out the ix before participating&hellip;</p>
+<p>once finalized, only one thing to look for twice, the &ldquo;console=ttyS0,115200n8&rdquo; be present as a kernel parameter&hellip; plus that your only vnic at the real dc will be the above mentioned vpls instance, but now, with a much less delay/jitter/packetlosss&hellip;. if you need vnc access instead, just ask for it during the bringup phase&hellip;.</p>
+<p>if you need a private peering here between you and an other participant, just ask for a private ethernet connection&hellip;</p>
+<p>consider enabling lldp on your interfaces because it helps speed up things on the switch moreover if you&rsquo;ll have more interfaces there then will help you too&hellip;</p>
+<p>also consider enabling pim sparse mode on the ix and then you can have the rtp://172.23.199.110@232.2.3.2:1234/ stream</p>
+<p>last but not least, always save your configs! there will be a daily recurring power cut sheduled to 21:00pm cest +-1minutes to have the infrastructure auto-upgraded&hellip;</p>
+<p>the whole idea is to consider the following hypervisor configuration:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">dn42ix#show startup-config vdc
+vdc definition vm-bri
+ connect ethernet2825 vm-switch
+ cpu host
+ image /rtr/ix/bri.img
+ memory 1024
+ nic virtio-net-pci
+ mac cafe.beef.b00b
+ exit
+vdc definition vm-clearnet
+ local ethernet66602
+ local ethernet66603
+ connect ethernet66601 vm-switch
+ exit
+vdc definition vm-jlu5
+ connect ethernet1080 vm-switch
+ cpu host
+ image /rtr/ix/jlu5.img
+ cdrom /rtr/ix/jlu5.iso
+ memory 1024
+ exit
+vdc definition vm-lare
+ connect ethernet3035 vm-switch
+ cpu host
+ image /rtr/ix/lare.img
+ memory 1024
+ exit
+vdc definition vm-nop
+ connect ethernet1955 vm-switch
+ exit
+vdc definition vm-routeserver
+ exit
+vdc definition vm-switch
+ connect ethernet1080 vm-jlu5
+ connect ethernet1955 vm-nop
+ connect ethernet2825 vm-bri
+ connect ethernet3035 vm-lare
+ connect ethernet66601 vm-clearnet
+ exit
+
+dn42ix#
+</code></pre></div>
+<p>now you can have drop-in replacement vm-s to experiment with like whats it looks a like if the ix is provisioned on a juniper vsrx3 shitload or a cisco nxosv or plain freerouter in software mode or in p4dpdk mode&hellip;.</p>
+<p>then publishing a small report on r/networking on behalf of #dn42 measurements</p>
+<p>and probably doing even more crazyer projects/experiment if we settle to have a proper dn42 ix finally with low latency shared vlan between the vms&hellip;</p>
+<p>like a real ix&hellip;</p>
+<p>static addressing plan, there is a randomized dhcp and slaac on the subnet but consider picking up a static ip and pere with that:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">nick/mnter</th>
+<th style="text-align:left">asn*</th>
+<th style="text-align:left">your-ipv4-fixed-ip</th>
+<th style="text-align:left">your-ipv6-fixed-ip</th>
+<th style="text-align:left">your-ipv6-linklocal</th>
+<th style="text-align:left">public lg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">sw1-mcastix</td>
+<td style="text-align:left">1951</td>
+<td style="text-align:left">N/A</td>
+<td style="text-align:left">N/A</td>
+<td style="text-align:left">N/A</td>
+<td style="text-align:left">TBD: SOON</td>
+</tr>
+<tr>
+<td style="text-align:left">rs1-mcastix</td>
+<td style="text-align:left">1951</td>
+<td style="text-align:left">172.23.124.126/27</td>
+<td style="text-align:left">fde0:93fa:7a0:c1ca::179/64</td>
+<td style="text-align:left">fe80::200:bff:fead:beef</td>
+<td style="text-align:left">TBD: SOON</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-badcorp</td>
+<td style="text-align:left">1952</td>
+<td style="text-align:left">172.23.124.97/27</td>
+<td style="text-align:left">fde0:93fa:7a0:c1ca::666/64</td>
+<td style="text-align:left">fe80::260:54ff:fe33:2178</td>
+<td style="text-align:left">TBD: SOON</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-nop</td>
+<td style="text-align:left">1955</td>
+<td style="text-align:left">172.23.124.122/27</td>
+<td style="text-align:left">fde0:93fa:7a0:c1ca::1955/64</td>
+<td style="text-align:left">fe80::200:ccff:fe1e:c0de</td>
+<td style="text-align:left">telnet sandbox.freertr.org</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-catgirls</td>
+<td style="text-align:left">1411</td>
+<td style="text-align:left">172.23.124.101/27</td>
+<td style="text-align:left">fde0:93fa:7a0:c1ca:581a:fc3f:a2d0:828c/64</td>
+<td style="text-align:left">fe80::1411:5</td>
+<td style="text-align:left">TBD: SOON</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-catgirls2</td>
+<td style="text-align:left">1411</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD: SOON</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-lare</td>
+<td style="text-align:left">3035</td>
+<td style="text-align:left">172.23.124.114/27</td>
+<td style="text-align:left">fde0:93fa:7a0:c1ca:0:42:4242:3035/64</td>
+<td style="text-align:left">fe80::21f:45ff:fe11:7356</td>
+<td style="text-align:left">clearnet: <a href="https://lg.lare.cc/">https://lg.lare.cc/</a> dn42: <a href="https://lg.lare.dn42/">https://lg.lare.dn42/</a></td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-bri</td>
+<td style="text-align:left">2825</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-jlu5</td>
+<td style="text-align:left">1080</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+</tr>
+<tr>
+<td style="text-align:left">rtr1-fl</td>
+<td style="text-align:left">1975</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+<td style="text-align:left">TBD</td>
+</tr>
+</tbody>
+</table>
+<p>TBD: add yourself please here while keeping some ordering</p>
+<p>*: so your as number xxxx shortened here, the rigthmost part after the 424242xxxx&hellip;. this also will be your ethernetXXXX and so on so just remember this by heart XD</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">function</th>
+<th style="text-align:left">console</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">switch</td>
+<td style="text-align:left">telnet ix.nop.dn42 20001</td>
+</tr>
+<tr>
+<td style="text-align:left">route server 1</td>
+<td style="text-align:left">telnet ix.nop.dn42 20002</td>
+</tr>
+<tr>
+<td style="text-align:left">bad-corp-rtr1</td>
+<td style="text-align:left">telnet ix.nop.dn42 20003</td>
+</tr>
+</tbody>
+</table>
+<p>public mrt dumps and config archive of the infra at <a href="http://ix.nop.dn42/">http://ix.nop.dn42/</a> here</p>
+<p>it&rsquo;ll be shitload in the beginning but hopefully it could improve the common knowledge&hellip;.</p>
+<p>please consider joining #dn42-ix#2 to speed up sorting out potential issues, etc</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

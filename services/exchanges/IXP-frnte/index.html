@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>IXP frnte - DN42 Wiki</title>
+    <meta name="description" content="The IXP frnte An IXP is a collection point for Internet providers. This can be physical or virtual. In a physical IXP, several Internet providers place...">
+    <meta property="og:description" content="The IXP frnte An IXP is a collection point for Internet providers. This can be physical or virtual. In a physical IXP, several Internet providers place...">
+    <meta property="og:title" content="IXP frnte - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/services/exchanges/IXP-frnte/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">IXP frnte</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#the-ixp-frnte" href="#the-ixp-frnte">The IXP frnte</a></li>
+            
+            <li data-level="2"><a data-section="#current-participants" href="#current-participants">Current participants</a></li>
+            
+            <li data-level="2"><a data-section="#history-and-origin" href="#history-and-origin">History and origin</a></li>
+            
+            <li data-level="2"><a data-section="#join-the-ixp" href="#join-the-ixp">Join the IXP</a></li>
+            
+            <li data-level="3"><a data-section="#section-1-request-the-infrastructure" href="#section-1-request-the-infrastructure">1\. Request the infrastructure</a></li>
+            
+            <li data-level="3"><a data-section="#section-2-proxmox-login-and-vm-setup" href="#section-2-proxmox-login-and-vm-setup">2\. Proxmox Login and VM Setup</a></li>
+            
+            <li data-level="3"><a data-section="#section-3-configure-vlan" href="#section-3-configure-vlan">3\. Configure VLAN</a></li>
+            
+            <li data-level="3"><a data-section="#section-4-connect-to-the-route-server" href="#section-4-connect-to-the-route-server">4\. Connect to the Route Server</a></li>
+            
+            <li data-level="3"><a data-section="#section-5-check-if-it-works" href="#section-5-check-if-it-works">5\. Check if it works</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#services">services</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#exchanges">exchanges</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">IXP frnte</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><h1 id="the-ixp-frnte">The IXP frnte</h1>
+<p>An IXP is a collection point for Internet providers. This can be physical or virtual. In a physical IXP, several Internet providers place servers in a data center and connect them to each other.</p>
+<p>In a virtual IXP, the servers are not &ldquo;real&rdquo;. They are not physically connected with cables, but for example via a VPN.</p>
+<p>In dn42 almost all connections are virtual. One builds on the Internet and creates virtual links between the single nodes. In IXP frnte, all providers have virtual machines, which are connected to each other. Due to the large number of providers in IXP, it is possible to reach them easily and with low latency. However, the large number also leads to the fact that no direct peerings are established within an IXP, instead route servers are used. This receives and coordinates all routes of the providers and sends out appropriate routes. This way, many indirect peerings can be established.</p>
+<h2 id="current-participants">Current participants</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>AS</th>
+<th>Route server</th>
+<th>IRC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bandura&rsquo;s network</td>
+<td>4242422923</td>
+<td>4242421081</td>
+<td>mark22k</td>
+</tr>
+</tbody>
+</table>
+<h2 id="history-and-origin">History and origin</h2>
+<p>In dn42 and in the Anonet there was the UCIS IXP for a long time. However, this is no longer actively operated.</p>
+<p>Members of the LGP Corp have now created a new IXP in dn42. This is the IXP frnte. It is located in France near Nantes and has two separate internet connections. This article describes how to enter the IXP and set up peering with the current route server.</p>
+<h2 id="join-the-ixp">Join the IXP</h2>
+<h3 id="section-1-request-the-infrastructure">1. Request the infrastructure</h3>
+<p>LGP Corp provides virtual machines free of charge to any AS operator or anyone who wants to experiment with networks. There are no costs! The VM&rsquo;s can be configured and linked together as desired. The VM&rsquo;s can be connected to each other via a VLAN. Furthermore, an internet connection is available with two ISPs, depending on your choice. The virtual machine gets a public IPv6 and if necessary IPv4 over NAT to be able to access important resources like GitHub.<br>
+It is best to create a diagram of your network and send it to the LGP Corp.<br>
+The LGP Corp or the responsible admin for the IXP can be reached in <strong>IRC</strong> on hackint.org under <strong>toinux</strong>. Send the diagram to them and discuss further details.<br>
+Furthermore, all virtual machines are put into a common VLAN. This causes that one can reach all providers at the IXP without problems.</p>
+<h3 id="section-2-proxmox-login-and-vm-setup">2. Proxmox Login and VM Setup</h3>
+<p>After that you will receive your access data for the Proxmox portal from the LGP Corp. Under which you can set up your VM&rsquo;s. The portal can be reached under <a href="https://pve.home.lgp-corp.fr/"><strong>https://pve.home.lgp-corp.fr/</strong></a>. Select &ldquo;Proxmox VE authentication server&rdquo; as &ldquo;Realm&rdquo;. It also offers a VNC monitor to work directly on the server. For the setup under SSH an IPv6 connectivity to the internet is required. If you only have an IPv4, you can get an IPv6 for free from Hurricane Electric at <a href="https://tunnelbroker.net/">https://tunnelbroker.net/</a>.</p>
+<h3 id="section-3-configure-vlan">3. Configure VLAN</h3>
+<p>An internal IPv6 Range has been requested for the IXP: <code>fde0:93fa:7a0:2::/64</code> (<a href="https://explorer.dn42.dev/#/inet6num/fde0:93fa:7a0:2::_64">fde0:93fa:7a0:2::/64 on explorer</a>)</p>
+<p>The following is the assignment policy:<br>
+<code>fde0:93fa:7a0:2:0:&lt;asn32|high16|hex&gt;:&lt;asn32|low16|hex&gt;:1/64</code><br>
+For example, if you have the ASN 4242421080, you get the range <code>fde0:93fa:7a0:2:0:fcde:3558:1/64</code><br>
+It should be noted that only the last block may be changed. So you get a practical IPv6 range of <code>fde0:93fa:7a0:2:0:fcde:3558:/112</code>.<br>
+A Ruby script to calculate the IPv6 can be found on <a href="https://gist.github.com/marek22k/494cf9c4d269867f23f2c3577e1780ef">ixp_frnte_dn42_prefix.rb on GitHub Gist</a>.</p>
+<p>An example configuration for Debian based Linux distributions would be:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">iface ensXX inet6 static
+    address fde0:93fa:7a0:2:0:fcde:3558:1/64
+</code></pre></div>
+<p>Here <code>ensXX</code> is the dn42 VLAN interface. This can be determined by comparing the MAC address of the interface with the MAC address of the dn42 VLAN in Proxmox. The MAC address can be determined on Linux with <code>ip l</code>:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">ensXX: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu
+    <span class="z-m">1500</span> qdisc pfifo_fast state UP mode DEFAULT group
+    default qlen <span class="z-m">1000</span>
+    link/ether MAC brd ff:ff:ff:ff:ff:ff
+</code></pre></div>
+<p><code>MAC</code> would be the MAC address. After that you can activate the interface with ifup or a reboot of the VM.<br>
+Of course there are other configuration possibilities. This is only an example for Debian-based Linux distributions.</p>
+<h3 id="section-4-connect-to-the-route-server">4. Connect to the Route Server</h3>
+<p>There can be several Route Servers (RS) on one IXP. However, on the IXP frnte there is currently only one, which is operated by jlu5 (operator of the highdef network).
+IPv6: fde0:93fa:7a0:2:0:fcde:3559:1
+ASN: 4242421081</p>
+<p>You can now enter this configuration into your routing daemon and it will connect to the RS. You should keep in mind that the RS itself does not forward any traffic, but is only responsible for the coordination. Therefore the AS path must not necessarily start with the AS of the RS.</p>
+<p>An example configuration for bird2 would be the following:</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">protocol</span> <span class="z-s">bgp</span> <span class="z-s">ixp_rs</span> <span class="z-s">from</span> <span class="z-s">dnpeers</span> <span class="z-p">{</span>
+    <span class="z-kn">neighbor</span> <span class="z-n">fde0</span><span class="z-p">:</span><span class="z-mi">93</span><span class="z-n">fa</span><span class="z-p">:</span><span class="z-mi">7</span><span class="z-n">a0</span><span class="z-p">:</span><span class="z-mi">2</span><span class="z-p">:</span><span class="z-mi">0</span><span class="z-p">:</span><span class="z-n">fcde</span><span class="z-p">:</span><span class="z-mi">3559</span><span class="z-p">:</span><span class="z-mi">1</span> <span class="z-s">as</span> <span class="z-mi">4242421081</span><span class="z-p">;</span>
+    
+    <span class="z-kn">enable</span> <span class="z-s">extended</span> <span class="z-s">messages</span> <span class="z-no">on</span><span class="z-p">;</span>
+    <span class="z-kn">direct</span><span class="z-p">;</span>
+    <span class="z-kn">enforce</span> <span class="z-s">first</span> <span class="z-s">as</span> <span class="z-no">off</span><span class="z-p">;</span>
+    
+    <span class="z-kn">ipv4</span> <span class="z-p">{</span>
+    	<span class="z-kn">extended</span> <span class="z-s">next</span> <span class="z-s">hop</span><span class="z-p">;</span>
+    <span class="z-p">}</span>;
+<span class="z-p">}</span>
+</code></pre></div>
+<p><strong>What does this configuration do?</strong></p>
+<p>First we create a new BGP session (<code>protocol bgp</code>). This is based on the dnpeers template which can be found in the standard Bird2 configuration in the <a href="/howto/Bird2">wiki</a>. We name this session &ldquo;ixp_rs&rdquo;. However, this is only an internal name and can be replaced with another one.</p>
+<p>After that we determine with whom we want to have the session. This would be the RS. Therefore we put IPv6 address and ASN there.</p>
+<p>Furthermore, we allow larger BGP messages. Thus, instead of 4096 bytes, a whole 65535 bytes are transmitted in one message. This is especially useful because an RS has to announce a lot of routes.</p>
+<p>With <code>direct</code> we indicate that the RS is directly connected to our server and no routing via third parties has to be performed. In our case, the RS is connected to us via the dn42 VLAN.</p>
+<p>The next line has the effect that the ASN of the RS does not necessarily have to be the next hop for routing. This is important because we do not route the traffic via the RS, but via the respective peers. These have an ASN that differs from the ASN of the RS.</p>
+<p>Since the dn42 VLAN <em>only</em> supports IPv6, any IPv4 traffic must also go over IPv6. If you do not have or do not want to use IPv4, you can ignore this part of the configuration.</p>
+<p>Finally we save the bird2 configuration and load the new configuration with <code>birdc configure</code>.</p>
+<h3 id="section-5-check-if-it-works">5. Check if it works</h3>
+<p>There are now a few things to check:<br>
+Once you can see if the BGP session is esablished. In Bird you can do this with <code>birdc show protocols all ixp_rs</code>.<br>
+Furthermore, you can display different routes (in case of bird with <code>birdc show route for [ip address]</code>) or perform a traceroute.<br>
+One can also try to ping the IP of some at the IXP. From the latency you can also see if everything is working:</p>
+<ul>
+<li>Bandura&rsquo;s pingable:
+<ul>
+<li><code>172.22.149.224</code></li>
+<li><code>fd04:234e:fc31::</code></li>
+</ul>
+</li>
+</ul>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

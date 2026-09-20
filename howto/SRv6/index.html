@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>SRv6 - DN42 Wiki</title>
+    <meta name="description" content="In previous post, I have wrote how did I deploy DN42 over SRv3 L3VPN on my infrastructure, but haven t mention a more popular scenario: SRv6 for traffic...">
+    <meta property="og:description" content="In previous post, I have wrote how did I deploy DN42 over SRv3 L3VPN on my infrastructure, but haven t mention a more popular scenario: SRv6 for traffic...">
+    <meta property="og:title" content="SRv6 - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/SRv6/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">SRv6</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#why-srv6" href="#why-srv6">Why SRv6</a></li>
+            
+            <li data-level="1"><a data-section="#section-1-topology" href="#section-1-topology">1 Topology</a></li>
+            
+            <li data-level="1"><a data-section="#section-2-create-network-interface" href="#section-2-create-network-interface">2 Create Network Interface</a></li>
+            
+            <li data-level="1"><a data-section="#section-3-kernel-parameter-adjustment" href="#section-3-kernel-parameter-adjustment">3 Kernel Parameter Adjustment</a></li>
+            
+            <li data-level="1"><a data-section="#section-4-bgp-srv6-for-default-routing-table" href="#section-4-bgp-srv6-for-default-routing-table">4 BGP SRv6 for Default Routing Table</a></li>
+            
+            <li data-level="1"><a data-section="#section-5-complete-configurations" href="#section-5-complete-configurations">5 Complete Configurations</a></li>
+            
+            <li data-level="1"><a data-section="#section-6-verfication" href="#section-6-verfication">6 Verfication</a></li>
+            
+            <li data-level="1"><a data-section="#section-6-1-check-routing-table-of-r1-r2-and-r3" href="#section-6-1-check-routing-table-of-r1-r2-and-r3">6.1 Check routing table of R1, R2 and R3:</a></li>
+            
+            <li data-level="1"><a data-section="#section-6-2-ping-from-client1-and-client2" href="#section-6-2-ping-from-client1-and-client2">6.2 Ping from Client1 and Client2</a></li>
+            
+            <li data-level="1"><a data-section="#section-7-known-limits" href="#section-7-known-limits">7 Known Limits</a></li>
+            
+            <li data-level="2"><a data-section="#section-7-1-nat" href="#section-7-1-nat">7.1 NAT</a></li>
+            
+            <li data-level="2"><a data-section="#section-7-2-router-ipv6-address-inaccessible" href="#section-7-2-router-ipv6-address-inaccessible">7.2 Router IPv6 address inaccessible</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">SRv6</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>In previous <a href="/howto/DN42-Over-SRv6-L3VPN">post</a>, I have wrote how did I deploy DN42 over SRv3 L3VPN on my infrastructure, but haven&rsquo;t mention a more popular scenario: SRv6 for traffic looking up default routing table, not everyone want to mess with VRF (it&rsquo;s a trouble for service deployment and eBGP peering either).</p>
+<p>This article is about how to configure SRv6 for default routing table, with help of Containerlab for demostration.</p>
+<p>The Containerlab lab can be found <a href="https://github.com/Hawkins-Sherpherd/srv6-lab1">here</a>.</p>
+<h1 id="why-srv6">Why SRv6</h1>
+<ul>
+<li>With SRv6 as second dataplane, the transit traffic can forward on intermediate nodes without BGP running. Once BGP process failed, the node can still forward internal transit traffic, prevents BGP blackhole.</li>
+<li>Multiservice support (L3VPN, traffic engineering, L2 transport, etc.).</li>
+<li>Support on most Linux server you can buy (including LXC containers), no extra kernel modules required.</li>
+</ul>
+<h1 id="section-1-topology">1 Topology</h1>
+<p>All router in this topology runs FRR.</p>
+<p><img src="https://blog.sherpherd.net/img/srv6-lab.clab.png" alt="Topology"></p>
+<h1 id="section-2-create-network-interface">2 Create Network Interface</h1>
+<p>A VRF interface is needed for END.DT4 action route install for default routing table, or the route will be rejected. Use a VRF bind to table 254 for workaround.</p>
+<p>IS-IS need a dummy interface for SRv6 Locator route, by default, it&rsquo;s sr0.</p>
+<p>All command followed are <strong>NOT</strong> persistent, the way to persist configuration is on yours.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ip link add sr0 type dummy
+ip link set sr0 up mtu 65536
+ip link add name vrf-main type vrf table 254
+ip link set vrf-main up
+</code></pre></div>
+<h1 id="section-3-kernel-parameter-adjustment">3 Kernel Parameter Adjustment</h1>
+<p>All command followed are <strong>NOT</strong> persistent, the way to persist configuration is on yours.</p>
+<p>Don&rsquo;t forget to enable SRv6 for every interface transmits SRv6 traffic.</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">sysctl -w net.ipv6.seg6_flowlabel=1
+sysctl -w net.ipv6.conf.all.seg6_enabled=1
+sysctl -w net.ipv6.conf.eth1.seg6_enabled=1
+sysctl -w net.ipv6.conf.lo.seg6_enabled=1
+sysctl -w net.ipv6.conf.all.forwarding=1
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.vrf.strict_mode=1
+</code></pre></div>
+<p>**Caution: **net.vrf.strict_mode is a critical parameter, it determines whether different VRF can share one routing table or not, when its value equals 1, every VRF has to have dedicate routing table. If it&rsquo;s value not equal to 1, the SRv6 IPv4 L3VPN won&rsquo;t work, the related SID routes will be rejected.</p>
+<p>net.vrf.strict_mode resets 0 everytime a new VRF adds, to prevent network operation interrupt, please create all VRF could be used at most.</p>
+<h1 id="section-4-bgp-srv6-for-default-routing-table">4 BGP SRv6 for Default Routing Table</h1>
+<p>No VRF configuration involved in FRR, all happens in default scope.</p>
+<p>Skip the deamons, SRv6 Locator and IS-IS configuration as they already shown in previous <a href="/howto/DN42-Over-SRv6-L3VPN">post</a>.</p>
+<p>Send SRv6 encapsulation information in Unicast families, and use &ldquo;sid export&rdquo; instead &ldquo;sid vpn export&rdquo;.</p>
+<p>This is BGP Unicast families configuration on R1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text"> address-family ipv4 unicast
+  network 203.0.113.0/24
+  neighbor 2001:db8::2 encapsulation-srv6
+  sid export auto
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  network 2001:db8:1::/64
+  neighbor 2001:db8::2 activate
+  neighbor 2001:db8::2 encapsulation-srv6
+  sid export auto
+ exit-address-family
+</code></pre></div>
+<h1 id="section-5-complete-configurations">5 Complete Configurations</h1>
+<p>R1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">frr version 10.7.0_git
+frr defaults traditional
+hostname r1
+!
+ip router-id 1.1.1.1
+!
+interface eth1
+ ipv6 router isis 1
+ isis network point-to-point
+exit
+!
+interface eth2
+ ip address 203.0.113.1/24
+ ipv6 address 2001:db8:1::1/64
+exit
+!
+interface lo
+ ipv6 address 2001:db8::1/128
+ ipv6 address 5f00:1:1::1/64
+ ipv6 router isis 1
+exit
+!
+router bgp 1
+ neighbor 2001:db8::2 remote-as 1
+ neighbor 2001:db8::2 update-source lo
+ neighbor 2001:db8::2 capability extended-nexthop
+ !
+ segment-routing srv6
+  locator MAIN
+ exit
+ !
+ address-family ipv4 unicast
+  network 203.0.113.0/24
+  neighbor 2001:db8::2 encapsulation-srv6
+  sid export auto
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  network 2001:db8:1::/64
+  neighbor 2001:db8::2 activate
+  neighbor 2001:db8::2 encapsulation-srv6
+  sid export auto
+ exit-address-family
+exit
+!
+router isis 1
+ is-type level-1
+ net 00.0010.0100.1001.00
+ segment-routing srv6
+  locator MAIN
+ exit
+exit
+!
+segment-routing
+ srv6
+  encapsulation
+   source-address 5f00:1:1::1
+  exit
+  locators
+   locator MAIN
+    prefix 5f00:1:1::/48
+    behavior usid
+    format usid-f3216
+   exit
+   !
+  exit
+  !
+ exit
+ !
+exit
+!
+</code></pre></div>
+<p>R3:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">frr version 10.7.0_git
+frr defaults traditional
+hostname r3
+!
+ip router-id 1.1.1.2
+!
+interface eth1
+ ipv6 router isis 1
+ isis network point-to-point
+exit
+!
+interface eth2
+ ip address 192.0.2.1/24
+ ipv6 address 2001:db8:2::1/64
+exit
+!
+interface lo
+ ipv6 address 2001:db8::2/128
+ ipv6 address 5f00:1:2::1/128
+ ipv6 router isis 1
+exit
+!
+router bgp 1
+ neighbor 2001:db8::1 remote-as 1
+ neighbor 2001:db8::1 update-source lo
+ neighbor 2001:db8::1 capability extended-nexthop
+ !
+ segment-routing srv6
+  locator MAIN
+ exit
+ !
+ address-family ipv4 unicast
+  network 192.0.2.0/24
+  neighbor 2001:db8::1 encapsulation-srv6
+  sid export auto
+ exit-address-family
+ !
+ address-family ipv6 unicast
+  network 2001:db8:2::/64
+  neighbor 2001:db8::1 activate
+  neighbor 2001:db8::1 encapsulation-srv6
+  sid export auto
+ exit-address-family
+exit
+!
+router isis 1
+ is-type level-1
+ net 00.0010.0100.2001.00
+ segment-routing srv6
+  locator MAIN
+ exit
+exit
+!
+segment-routing
+ srv6
+  encapsulation
+   source-address 5f00:1:2::1
+  exit
+  locators
+   locator MAIN
+    prefix 5f00:1:2::/48
+    behavior usid
+    format usid-f3216
+   exit
+   !
+  exit
+  !
+ exit
+ !
+exit
+!
+</code></pre></div>
+<h1 id="section-6-verfication">6 Verfication</h1>
+<h1 id="section-6-1-check-routing-table-of-r1-r2-and-r3">6.1 Check routing table of R1, R2 and R3:</h1>
+<p>R1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">r1# show ip route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv4 unicast VRF default:
+K&gt;* 0.0.0.0/0 [0/0] via 172.20.20.1, eth0 (vrf default), weight 1, 01:34:55
+C&gt;* 172.20.20.0/24 is directly connected, eth0 (vrf default), weight 1, 01:34:55
+L&gt;* 172.20.20.3/32 is directly connected, eth0 (vrf default), weight 1, 01:34:55
+B&gt;  192.0.2.0/24 [200/0] via 2001:db8::2 (recursive), seg6 5f00:1:2:e000::, weight 1, 01:19:14
+  *                        via fe80::a8c1:abff:fecc:41b2, eth1, seg6 5f00:1:2:e000::, weight 1, 01:19:14
+C&gt;* 203.0.113.0/24 is directly connected, eth2, weight 1, 01:20:06
+L&gt;* 203.0.113.1/32 is directly connected, eth2, weight 1, 01:20:06
+r1# show ipv6 route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIPng, O - OSPFv3, I - IS-IS, B - BGP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv6 unicast VRF default:
+K&gt;* ::/0 [0/1024] via 3fff:172:20:20::1, eth0 (vrf default), weight 1, 01:34:57
+L * 2001:db8::1/128 is directly connected, lo (vrf default), weight 1, 01:34:56
+C&gt;* 2001:db8::1/128 is directly connected, lo (vrf default), weight 1, 01:34:56
+I&gt;* 2001:db8::2/128 [115/30] via fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:19:35
+I&gt;* 2001:db8::ffff/128 [115/20] via fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:34:25
+C&gt;* 2001:db8:1::/64 is directly connected, eth2, weight 1, 01:20:08
+L&gt;* 2001:db8:1::1/128 is directly connected, eth2, weight 1, 01:20:08
+B&gt;  2001:db8:2::/64 [200/0] via 2001:db8::2 (recursive), seg6 5f00:1:2:e001::, weight 1, 01:19:16
+  *                           via fe80::a8c1:abff:fecc:41b2, eth1, seg6 5f00:1:2:e001::, weight 1, 01:19:16
+C&gt;* 3fff:172:20:20::/64 is directly connected, eth0 (vrf default), weight 1, 01:34:57
+L&gt;* 3fff:172:20:20::3/128 is directly connected, eth0 (vrf default), weight 1, 01:34:57
+I&gt;* 5f00:1:1::/48 [115/0] is directly connected, sr0 (vrf default), seg6local uN, weight 1, 01:34:54
+C&gt;* 5f00:1:1::/64 is directly connected, lo (vrf default), weight 1, 01:34:56
+L&gt;* 5f00:1:1::1/128 is directly connected, lo (vrf default), weight 1, 01:34:56
+I&gt;* 5f00:1:1:e000::/64 [115/0] is directly connected, eth1, seg6local uA nh6 fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:34:53
+B&gt;* 5f00:1:1:e001::/128 [20/0] is directly connected, sr0, seg6local uDT4 table 254, weight 1, 01:34:48
+B&gt;* 5f00:1:1:e002::/128 [20/0] is directly connected, sr0, seg6local uDT6 table 254, weight 1, 01:34:48
+I&gt;* 5f00:1:2::/48 [115/20] via fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:19:35
+I&gt;* 5f00:1:2::1/128 [115/30] via fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:19:35
+I&gt;* 5f00:1:ffff::/48 [115/10] via fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:34:25
+I&gt;* 5f00:1:ffff::1/128 [115/20] via fe80::a8c1:abff:fecc:41b2, eth1, weight 1, 01:34:25
+C * fe80::/64 is directly connected, eth2, weight 1, 01:20:08
+C * fe80::/64 is directly connected, sr0 (vrf default), weight 1, 01:34:54
+C * fe80::/64 is directly connected, eth1 (vrf default), weight 1, 01:34:54
+C&gt;* fe80::/64 is directly connected, eth0 (vrf default), weight 1, 01:34:56
+</code></pre></div>
+<p>R2:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">r2# show ip route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv4 unicast VRF default:
+K&gt;* 0.0.0.0/0 [0/0] via 172.20.20.1, eth0, weight 1, 00:24:32
+C&gt;* 172.20.20.0/24 is directly connected, eth0, weight 1, 00:24:32
+L&gt;* 172.20.20.4/32 is directly connected, eth0, weight 1, 00:24:32
+r2# show ipv6 route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIPng, O - OSPFv3, I - IS-IS, B - BGP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv6 unicast VRF default:
+K&gt;* ::/0 [0/1024] via 3fff:172:20:20::1, eth0, weight 1, 00:24:34
+I&gt;* 2001:db8::1/128 [115/20] via fe80::a8c1:abff:fe3b:1520, eth1, weight 1, 00:24:02
+I&gt;* 2001:db8::2/128 [115/20] via fe80::a8c1:abff:fe4a:6b7b, eth2, weight 1, 00:09:12
+L * 2001:db8::ffff/128 is directly connected, lo, weight 1, 00:24:33
+C&gt;* 2001:db8::ffff/128 is directly connected, lo, weight 1, 00:24:33
+C&gt;* 3fff:172:20:20::/64 is directly connected, eth0, weight 1, 00:24:34
+L&gt;* 3fff:172:20:20::4/128 is directly connected, eth0, weight 1, 00:24:34
+I&gt;* 5f00:1:1::/48 [115/10] via fe80::a8c1:abff:fe3b:1520, eth1, weight 1, 00:24:02
+I&gt;* 5f00:1:1::/64 [115/20] via fe80::a8c1:abff:fe3b:1520, eth1, weight 1, 00:24:02
+I&gt;* 5f00:1:2::/48 [115/10] via fe80::a8c1:abff:fe4a:6b7b, eth2, weight 1, 00:09:12
+I&gt;* 5f00:1:2::1/128 [115/20] via fe80::a8c1:abff:fe4a:6b7b, eth2, weight 1, 00:09:12
+I&gt;* 5f00:1:ffff::/48 [115/0] is directly connected, sr0, seg6local uN, weight 1, 00:24:32
+L * 5f00:1:ffff::1/128 is directly connected, lo, weight 1, 00:24:33
+C&gt;* 5f00:1:ffff::1/128 is directly connected, lo, weight 1, 00:24:33
+I&gt;* 5f00:1:ffff:e000::/64 [115/0] is directly connected, eth1, seg6local uA nh6 fe80::a8c1:abff:fe3b:1520, eth1, weight 1, 00:24:30
+I&gt;* 5f00:1:ffff:e001::/64 [115/0] is directly connected, eth2, seg6local uA nh6 fe80::a8c1:abff:fe4a:6b7b, eth2, weight 1, 00:09:40
+C * fe80::/64 is directly connected, eth2, weight 1, 00:09:43
+C * fe80::/64 is directly connected, eth1, weight 1, 00:24:31
+C * fe80::/64 is directly connected, sr0, weight 1, 00:24:32
+C&gt;* fe80::/64 is directly connected, eth0, weight 1, 00:24:33
+</code></pre></div>
+<p>Since R2 don&rsquo;t run BGP, it don&rsquo;t receive BGP route goes to Client1 and Client2, only thing it forward is encapsulated SRv6 packets.</p>
+<p>R3:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">r3# show ip route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIP, O - OSPF, I - IS-IS, B - BGP, E - EIGRP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv4 unicast VRF default:
+K&gt;* 0.0.0.0/0 [0/0] via 172.20.20.1, eth0 (vrf default), weight 1, 00:02:36
+C&gt;* 172.20.20.0/24 is directly connected, eth0 (vrf default), weight 1, 00:02:36
+L&gt;* 172.20.20.2/32 is directly connected, eth0 (vrf default), weight 1, 00:02:36
+C&gt;* 192.0.2.0/24 is directly connected, eth2 (vrf default), weight 1, 00:02:34
+L&gt;* 192.0.2.1/32 is directly connected, eth2 (vrf default), weight 1, 00:02:34
+B&gt;  203.0.113.0/24 [200/0] via 2001:db8::1 (recursive), seg6 5f00:1:1:e001::, weight 1, 00:01:56
+  *                          via fe80::a8c1:abff:fe28:ddd7, eth1, seg6 5f00:1:1:e001::, weight 1, 00:01:56
+r3# show ipv6 route
+Codes: K - kernel route, C - connected, L - local, S - static,
+       R - RIPng, O - OSPFv3, I - IS-IS, B - BGP, N - NHRP,
+       T - Table, v - VNC, V - VNC-Direct, A - Babel, F - PBR,
+       f - OpenFabric, t - Table-Direct,
+       &gt; - selected route, * - FIB route, q - queued, r - rejected, b - backup
+       t - trapped, o - offload failure
+
+IPv6 unicast VRF default:
+K&gt;* ::/0 [0/1024] via 3fff:172:20:20::1, eth0 (vrf default), weight 1, 00:02:38
+I&gt;* 2001:db8::1/128 [115/30] via fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:05
+L * 2001:db8::2/128 is directly connected, lo (vrf default), weight 1, 00:02:37
+C&gt;* 2001:db8::2/128 is directly connected, lo (vrf default), weight 1, 00:02:37
+I&gt;* 2001:db8::ffff/128 [115/20] via fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:08
+B&gt;  2001:db8:1::/64 [200/0] via 2001:db8::1 (recursive), seg6 5f00:1:1:e002::, weight 1, 00:01:58
+  *                           via fe80::a8c1:abff:fe28:ddd7, eth1, seg6 5f00:1:1:e002::, weight 1, 00:01:58
+C&gt;* 2001:db8:2::/64 is directly connected, eth2 (vrf default), weight 1, 00:02:36
+L&gt;* 2001:db8:2::1/128 is directly connected, eth2 (vrf default), weight 1, 00:02:36
+C&gt;* 3fff:172:20:20::/64 is directly connected, eth0 (vrf default), weight 1, 00:02:38
+L&gt;* 3fff:172:20:20::2/128 is directly connected, eth0 (vrf default), weight 1, 00:02:38
+I&gt;* 5f00:1:1::/48 [115/20] via fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:05
+I&gt;* 5f00:1:1::/64 [115/30] via fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:05
+I&gt;* 5f00:1:2::/48 [115/0] is directly connected, sr0 (vrf default), seg6local uN, weight 1, 00:02:37
+L * 5f00:1:2::1/128 is directly connected, lo (vrf default), weight 1, 00:02:37
+C&gt;* 5f00:1:2::1/128 is directly connected, lo (vrf default), weight 1, 00:02:37
+I&gt;* 5f00:1:2:e000::/64 [115/0] is directly connected, eth1, seg6local uA nh6 fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:33
+B&gt;* 5f00:1:2:e001::/128 [20/0] is directly connected, sr0, seg6local uDT4 table 254, weight 1, 00:02:29
+B&gt;* 5f00:1:2:e002::/128 [20/0] is directly connected, sr0, seg6local uDT6 table 254, weight 1, 00:02:29
+I&gt;* 5f00:1:ffff::/48 [115/10] via fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:05
+I&gt;* 5f00:1:ffff::1/128 [115/20] via fe80::a8c1:abff:fe28:ddd7, eth1, weight 1, 00:02:08
+C * fe80::/64 is directly connected, eth2, weight 1, 00:02:35
+C * fe80::/64 is directly connected, eth1, weight 1, 00:02:35
+C * fe80::/64 is directly connected, sr0 (vrf default), weight 1, 00:02:37
+C&gt;* fe80::/64 is directly connected, eth0 (vrf default), weight 1, 00:02:38
+</code></pre></div>
+<h1 id="section-6-2-ping-from-client1-and-client2">6.2 Ping from Client1 and Client2</h1>
+<p>Client1:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ # ping -c 4 192.0.2.2
+PING 192.0.2.2 (192.0.2.2) 56(84) bytes of data.
+64 bytes from 192.0.2.2: icmp_seq=1 ttl=63 time=0.299 ms
+64 bytes from 192.0.2.2: icmp_seq=2 ttl=63 time=0.175 ms
+64 bytes from 192.0.2.2: icmp_seq=3 ttl=63 time=0.158 ms
+64 bytes from 192.0.2.2: icmp_seq=4 ttl=63 time=0.159 ms
+
+--- 192.0.2.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3087ms
+rtt min/avg/max/mdev = 0.158/0.197/0.299/0.058 ms
+/ # ping -c 4 2001:db8:2::2
+PING 2001:db8:2::2(2001:db8:2::2) 56 data bytes
+64 bytes from 2001:db8:2::2: icmp_seq=1 ttl=63 time=0.235 ms
+64 bytes from 2001:db8:2::2: icmp_seq=2 ttl=63 time=0.130 ms
+64 bytes from 2001:db8:2::2: icmp_seq=3 ttl=63 time=0.127 ms
+64 bytes from 2001:db8:2::2: icmp_seq=4 ttl=63 time=0.124 ms
+
+--- 2001:db8:2::2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3087ms
+rtt min/avg/max/mdev = 0.124/0.154/0.235/0.046 ms
+</code></pre></div>
+<p>Client2:</p>
+<div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">/ # ping -c 4 203.0.113.2
+PING 203.0.113.2 (203.0.113.2) 56(84) bytes of data.
+64 bytes from 203.0.113.2: icmp_seq=1 ttl=63 time=0.172 ms
+64 bytes from 203.0.113.2: icmp_seq=2 ttl=63 time=0.207 ms
+64 bytes from 203.0.113.2: icmp_seq=3 ttl=63 time=0.163 ms
+64 bytes from 203.0.113.2: icmp_seq=4 ttl=63 time=0.153 ms
+
+--- 203.0.113.2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3078ms
+rtt min/avg/max/mdev = 0.153/0.173/0.207/0.020 ms
+/ # ping -c 4 2001:db8:1::2
+PING 2001:db8:1::2(2001:db8:1::2) 56 data bytes
+64 bytes from 2001:db8:1::2: icmp_seq=1 ttl=63 time=0.117 ms
+64 bytes from 2001:db8:1::2: icmp_seq=2 ttl=63 time=0.180 ms
+64 bytes from 2001:db8:1::2: icmp_seq=3 ttl=63 time=0.137 ms
+64 bytes from 2001:db8:1::2: icmp_seq=4 ttl=63 time=0.173 ms
+
+--- 2001:db8:1::2 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3086ms
+rtt min/avg/max/mdev = 0.117/0.151/0.180/0.025 ms
+</code></pre></div>
+<h1 id="section-7-known-limits">7 Known Limits</h1>
+<p>This section is copied from my previous <a href="/howto/DN42-Over-SRv6-L3VPN">post</a>.</p>
+<h2 id="section-7-1-nat">7.1 NAT</h2>
+<p>When destination route has SRv6 encapsulation, the traffic won&rsquo;t trigger SNAT rule in netfilter, instead, it encapsulates into SRv6 traffic directly then send out.</p>
+<h2 id="section-7-2-router-ipv6-address-inaccessible">7.2 Router IPv6 address inaccessible</h2>
+<p>Due to unknown reason, the call path of SRv6 decapsulation is different for IPv4 and IPv6, the IPv4 return traffic can lookup destined VRF normally, while IPv6 don&rsquo;t. However, this don&rsquo;t affect transit traffic, only traffic sources or destined to the router is affected.</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>

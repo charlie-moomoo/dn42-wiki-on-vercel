@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><title>OpenBGPD - DN42 Wiki</title>
+    <meta name="description" content="This guide describes a simple configuration for OpenBGPD running on OpenBSD. The portable version should run with little to no configuration changes on other...">
+    <meta property="og:description" content="This guide describes a simple configuration for OpenBGPD running on OpenBSD. The portable version should run with little to no configuration changes on other...">
+    <meta property="og:title" content="OpenBGPD - DN42 Wiki">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="DN42 Wiki">
+    <meta property="og:locale" content="en_US">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="/assets/highlight.css">
+</head>
+
+<body data-path="/howto/OpenBGPD/" data-editable="false" data-live="false" data-base="" data-search-index="/search-index.json">
+    
+<script src="/assets/theme-switcher.js"></script>
+<script type="module" src="/assets/main.js"></script>
+
+    
+<div class="top" id="top">
+    <div class="logo-wrapper">
+        <a class="logo" href="/" aria-label="DN42 Wiki home">
+            <svg><use href="/assets/logo.svg#logo"></use></svg>
+        </a>
+        <p class="header-switches">
+            <button id="toggle-theme" class="button" type="button" aria-label="Toggle theme">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" aria-hidden="true">
+                    <path class="moon" stroke="#000" d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z" stroke-width="2" stroke-linejoin="round"></path>
+                    <path class="sun" stroke="#fff" d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5001M17.6859 17.69L18.5 18.5001M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <button id="sidebar-toggle" type="button" aria-haspopup="dialog" aria-controls="sidebar-modal" aria-label="Open sidebar menu" data-sidebar-toggle>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </button>
+            
+            <noscript>(Requires JavaScript)</noscript>
+        </p>
+    </div>
+    <div class="header-wrapper">
+        <div class="header-html"></div>
+        <h1 class="header">OpenBGPD</h1>
+    </div>
+</div>
+
+    
+<div class="utility-bar">
+    <div class="search" data-search-container>
+        <input type="search" id="search-box" placeholder="Search docs" aria-label="Search documentation" autocomplete="off">
+        <div id="search-results" class="search-results hidden" role="listbox" aria-label="Search results"></div>
+    </div>
+    <div class="toolbar" role="toolbar" aria-label="Page actions">
+        <div class="toolbar-group" role="group" aria-label="Navigation">
+            <button data-action="home" type="button">Home</button>
+            <button data-action="history" type="button">History</button>
+        </div>
+        
+    </div>
+</div>
+
+    <hr>
+    
+
+
+
+
+<div class="grid">
+    
+    <nav class="summary summary-panel" aria-label="On this page">
+        <h2>Summary</h2>
+        <ul>
+            
+            <li data-level="1"><a data-section="#example-configuration" href="#example-configuration">Example configuration</a></li>
+            
+            <li data-level="2"><a data-section="#etchostname-lo42" href="#etchostname-lo42">/etc/hostname.lo42</a></li>
+            
+            <li data-level="2"><a data-section="#etchostname-wg1234" href="#etchostname-wg1234">/etc/hostname.wg1234</a></li>
+            
+            <li data-level="2"><a data-section="#etcpf-conf" href="#etcpf-conf">/etc/pf.conf</a></li>
+            
+            <li data-level="2"><a data-section="#etcbgpd-conf" href="#etcbgpd-conf">/etc/bgpd.conf</a></li>
+            
+            <li data-level="2"><a data-section="#roa" href="#roa">ROA</a></li>
+            
+            <li data-level="3"><a data-section="#rootopenbgpd-roa-update-sh" href="#rootopenbgpd-roa-update-sh">/root/openbgpd-roa-update.sh</a></li>
+            
+            <li data-level="3"><a data-section="#varcrontabsroot" href="#varcrontabsroot">/var/cron/tabs/root</a></li>
+            
+            <li data-level="1"><a data-section="#looking-glass" href="#looking-glass">Looking glass</a></li>
+            
+        </ul>
+    </nav>
+    
+
+    <div class="content">
+        
+        <p class="path" aria-label="Breadcrumb">
+            
+                
+                <a href="/directory">All Pages</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <a href="/directory#howto">howto</a>
+                
+                <span aria-hidden="true"> &gt; </span>
+            
+                
+                <span class="current-page">OpenBGPD</span>
+                
+                
+            
+        </p>
+        
+        
+            
+<article><p>This guide describes a simple configuration for <a href="https://openbgpd.org">OpenBGPD</a> running on <a href="https://openbsd.org">OpenBSD</a>.
+The <a href="https://openbgpd.org/ftp.html">portable version</a> should run with little to no configuration changes on other operating systems as well.</p>
+<p>Other than the
+<a href="https://man.openbsd.org/bgpd.conf.5"><code>bgpd.conf(5)</code></a> and
+<a href="http://man.openbsd.org/bgpd.8"><code>bgpd(8)</code></a> man pages and the
+OpenBSD
+<a href="http://cvsweb.openbsd.org/cgi-bin/cvsweb/~checkout~/src/etc/examples/bgpd.conf?rev=HEAD&amp;content-type=text/plain&amp;only_with_tag=MAIN"><code>/etc/examples/bgpd.conf</code></a>,
+you might also find useful reference or ideas in the
+<a href="/howto/Bird2">Bird2</a> page (even if you don&rsquo;t use Bird), as
+it likely presents the most widespread dn42 router setup.</p>
+<h1 id="example-configuration">Example configuration</h1>
+<p>When copying from the below configuration, be sure to at
+least replace the various <code>&lt;PLACEHOLDER&gt;</code>s with your own
+numbers.</p>
+<p>Concrete configuration examples can also be found elsewhere,
+e.g.:</p>
+<p><a href="https://smrk.net/text/openbsd-dn42-setup.txt">https://smrk.net/text/openbsd-dn42-setup.txt</a></p>
+<p><a href="https://kaizo.org/2024/01/03/openbsd-bgpd/">https://kaizo.org/2024/01/03/openbsd-bgpd/</a></p>
+<p>Given OpenBGPD&rsquo;s limited support for multiprotocol sessions
+(no extended next hop (RFC8950)) and
+<a href="https://marc.info/?l=openbgpd-users&amp;m=159983144408845&amp;w=2">some</a>
+<a href="https://marc.info/?l=openbgpd-users&amp;m=165605427017298&amp;w=2">issues</a>
+with IPv6 link-local nexthops, we configure separate IPv4
+and IPv6 sessions for each peer, and for IPv6 we adjust
+nexthop to a &ldquo;global&rdquo; address (i.e., one from our dn42 IPv6
+allocation) assigned to each peering (Wireguard) interface
+(each interface gets its own).</p>
+<p>To avoid burning a dn42 IPv4 address for each peering, we
+put the router&rsquo;s dn42 IPv4 address on a loopback interface
+and have <code>bgpd</code> bind to that address (<code>local-address</code> in
+<code>bgpd.conf</code>) when opening IPv4 BGP sessions; each peering
+interface gets an IPv4 address from an RFC1918 subnet
+(192.168.42/24), and a static route to the corresponding
+peer via that address.</p>
+<h2 id="etchostname-lo42"><code>/etc/hostname.lo42</code></h2>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">inet</span> <span class="z-s">&lt;YOUR-ROUTER-DN42-IPv4&gt;</span>
+<span class="z-s">inet6</span> <span class="z-s">&lt;YOUR-ROUTER-DN42-IPv6&gt;</span>
+<span class="z-c1"># add a fallback route for our prefixes to discard traffic to
+</span><span class="z-c1"># targets without a more specific route
+</span><span class="z-c1"></span><span class="z-s">!route</span> <span class="z-s">-qn</span> <span class="z-s">add</span> <span class="z-s">-blackhole</span> <span class="z-s">&lt;YOUR-DN42-IPv4-PREFIX&gt;</span> <span class="z-mi">127</span><span class="z-s">.0.0.1</span>
+<span class="z-s">!route</span> <span class="z-s">-qn</span> <span class="z-s">add</span> <span class="z-s">-blackhole</span> <span class="z-s">&lt;YOUR-DN42-IPv6-PREFIX&gt;</span> <span class="z-p">::</span><span class="z-mi">1</span>
+</code></pre></div>
+<h2 id="etchostname-wg1234"><code>/etc/hostname.wg1234</code></h2>
+<p>(one example; similar for each peer)</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">inet</span> <span class="z-mi">192</span><span class="z-s">.168.42.1/32</span>
+<span class="z-s">inet6</span> <span class="z-s">fe80::1</span> <span class="z-mi">64</span> <span class="z-c1"># this is the address your peer will want to know
+</span><span class="z-c1"># (and connect to); the following address is only really needed
+</span><span class="z-c1"># to provide a non-link-local IPv6 address for the nexthop setting;
+</span><span class="z-c1"># you can pick it &#34;arbitrarily&#34; from your dn42 IPv6 allocation
+</span><span class="z-c1"></span><span class="z-s">inet6</span> <span class="z-s">&lt;YOUR-DN42-IPv6-OF-PEER1-INTERFACE&gt;</span> <span class="z-mi">64</span>
+<span class="z-s">group</span> <span class="z-s">my_dn</span>
+<span class="z-s">wgport</span> <span class="z-mi">21234</span> <span class="z-s">wgkey</span> <span class="z-s">&lt;PRIVKEY-BASE64&gt;</span>
+<span class="z-s">wgpeer</span> <span class="z-s">&lt;PEER1-PUBKEY-BASE64&gt;</span> <span class="z-s">\</span>
+  <span class="z-s">wgdescr</span> <span class="z-s">&#34;dn42</span> <span class="z-s">peer1&#34;</span> <span class="z-s">\</span>
+  <span class="z-s">wgaip</span> <span class="z-s">fe80::/64</span> <span class="z-s">wgaip</span> <span class="z-s">fd00::/8</span> <span class="z-s">wgaip</span> <span class="z-mi">10</span><span class="z-s">.0.0.0/8</span> <span class="z-s">wgaip</span> <span class="z-mi">172</span><span class="z-s">.20.0.0/14</span> <span class="z-s">\</span>
+  <span class="z-s">wgendpoint</span> <span class="z-s">&lt;PEER1-HOSTNAME-OR-IP&gt;</span> <span class="z-mi">24321</span>
+<span class="z-s">up</span>
+<span class="z-c1"># add a static IPv4 route to the peer
+</span><span class="z-c1"></span><span class="z-s">!route</span> <span class="z-s">-nq</span> <span class="z-s">add</span> <span class="z-s">&lt;PEER1-IPv4&gt;</span> <span class="z-mi">192</span><span class="z-s">.168.42.1</span>
+</code></pre></div>
+<h2 id="etcpf-conf"><code>/etc/pf.conf</code></h2>
+<p>(only the dn42-related snippet)</p>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">pass</span> <span class="z-s">in</span> <span class="z-s">quick</span> <span class="z-s">proto</span> <span class="z-p">{</span><span class="z-kn">icmp</span> <span class="z-s">icmp6</span><span class="z-err">}</span> <span class="z-s">max-pkt-rate</span> <span class="z-mi">30</span><span class="z-s">/3</span>
+<span class="z-s">dn42_self</span> <span class="z-p">=</span> <span class="z-s">&lt;YOUR-ROUTER-DN42-IPv4&gt;</span>
+<span class="z-s">table</span> <span class="z-s">&lt;dn42etc&gt;</span> <span class="z-p">{</span><span class="z-kn">172.20/14</span> <span class="z-mi">172</span><span class="z-s">.31/16</span> <span class="z-mi">10</span><span class="z-s">/8</span> <span class="z-s">fd00::/8</span><span class="z-err">}</span>
+<span class="z-s">table</span> <span class="z-s">&lt;dn42peers&gt;</span> <span class="z-p">{</span><span class="z-kn">&lt;PEER1-IPv4&gt;</span> <span class="z-s">fe80::/64</span><span class="z-err">}</span>
+<span class="z-s">pass</span> <span class="z-s">in</span> <span class="z-s">quick</span> <span class="z-no">on</span> <span class="z-s">egress</span> <span class="z-s">proto</span> <span class="z-s">udp</span> <span class="z-s">to</span> <span class="z-s">port</span> <span class="z-mi">21234</span>
+<span class="z-s">pass</span> <span class="z-s">out</span> <span class="z-s">quick</span> <span class="z-no">on</span> <span class="z-s">my_dn</span> <span class="z-s">proto</span> <span class="z-s">tcp</span> <span class="z-s">to</span> <span class="z-s">&lt;dn42peers&gt;</span> <span class="z-s">port</span> <span class="z-s">bgp</span> <span class="z-s">!received-on</span> <span class="z-s">any</span>
+<span class="z-s">pass</span> <span class="z-s">in</span> <span class="z-s">quick</span> <span class="z-no">on</span> <span class="z-s">my_dn</span> <span class="z-s">proto</span> <span class="z-s">tcp</span> <span class="z-s">from</span> <span class="z-s">&lt;dn42peers&gt;</span> <span class="z-s">\</span>
+  <span class="z-s">to</span> <span class="z-p">{</span><span class="z-kn">$dn42_self</span> <span class="z-s">(my_dn)</span><span class="z-err">}</span> <span class="z-s">port</span> <span class="z-s">bgp</span>
+<span class="z-c1"># block everything (except for ICMP above) destined to the
+</span><span class="z-c1"># router itself; only dn42 transit and BGP sessions are allowed
+</span><span class="z-c1"></span><span class="z-s">block</span> <span class="z-s">in</span> <span class="z-s">log</span> <span class="z-s">quick</span> <span class="z-no">on</span> <span class="z-s">my_dn</span> <span class="z-s">to</span> <span class="z-p">{</span><span class="z-kn">$dn42_self</span> <span class="z-s">(my_dn)</span><span class="z-err">}</span>
+<span class="z-c1"># &#39;no state&#39; as we might not see both directions of transit traffic
+</span><span class="z-c1"></span><span class="z-s">pass</span> <span class="z-no">on</span> <span class="z-s">my_dn</span> <span class="z-s">from</span> <span class="z-s">&lt;dn42etc&gt;</span> <span class="z-s">to</span> <span class="z-s">&lt;dn42etc&gt;</span> <span class="z-s">no</span> <span class="z-s">state</span>
+</code></pre></div>
+<h2 id="etcbgpd-conf"><code>/etc/bgpd.conf</code></h2>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">ASN</span> <span class="z-p">=</span> <span class="z-s">&#34;&lt;YOUR-AS-NUMBER&gt;&#34;</span>
+<span class="z-s">ID</span> <span class="z-p">=</span> <span class="z-s">&#34;&lt;YOUR-ROUTER-DN42-IPv4&gt;&#34;</span>
+
+<span class="z-s">AS</span> <span class="z-nv">$ASN</span>
+<span class="z-s">router-id</span> <span class="z-nv">$ID</span>
+
+<span class="z-c1"># list of networks that may be originated by our ASN
+</span><span class="z-c1"></span><span class="z-s">prefix-set</span> <span class="z-s">mydn42</span> <span class="z-p">{</span>
+	<span class="z-kn">&lt;YOUR-DN42-IPv4-PREFIX&gt;</span>
+	<span class="z-s">&lt;YOUR-DN42-IPv6-PREFIX&gt;</span>
+<span class="z-err">}</span>
+
+<span class="z-c1"># https://dn42.eu/howto/Bird2#example-configuration
+</span><span class="z-c1"></span><span class="z-s">prefix-set</span> <span class="z-s">dn42etc</span> <span class="z-p">{</span>
+	<span class="z-kn">172.20.0.0/14</span> <span class="z-s">prefixlen</span> <span class="z-mi">21</span> <span class="z-s">-</span> <span class="z-mi">29</span>	<span class="z-c1"># dn42
+</span><span class="z-c1"></span>	<span class="z-mi">172</span><span class="z-s">.20.0.0/24</span> <span class="z-s">prefixlen</span> <span class="z-s">&gt;=</span> <span class="z-mi">28</span>	<span class="z-c1"># dn42 Anycast
+</span><span class="z-c1"></span>	<span class="z-mi">172</span><span class="z-s">.21.0.0/24</span> <span class="z-s">prefixlen</span> <span class="z-s">&gt;=</span> <span class="z-mi">28</span>	<span class="z-c1"># dn42 Anycast
+</span><span class="z-c1"></span>	<span class="z-mi">172</span><span class="z-s">.22.0.0/24</span> <span class="z-s">prefixlen</span> <span class="z-s">&gt;=</span> <span class="z-mi">28</span>	<span class="z-c1"># dn42 Anycast
+</span><span class="z-c1"></span>	<span class="z-mi">172</span><span class="z-s">.23.0.0/24</span> <span class="z-s">prefixlen</span> <span class="z-s">&gt;=</span> <span class="z-mi">28</span>	<span class="z-c1"># dn42 Anycast
+</span><span class="z-c1"></span>	<span class="z-mi">172</span><span class="z-s">.31.0.0/16</span> <span class="z-s">or-longer</span>		<span class="z-c1"># ChaosVPN
+</span><span class="z-c1"></span>	<span class="z-mi">10</span><span class="z-s">.100.0.0/14</span> <span class="z-s">or-longer</span>		<span class="z-c1"># ChaosVPN
+</span><span class="z-c1"></span>	<span class="z-mi">10</span><span class="z-s">.127.0.0/16</span> <span class="z-s">or-longer</span>		<span class="z-c1"># neonetwork
+</span><span class="z-c1"></span>	<span class="z-mi">10</span><span class="z-s">.0.0.0/8</span>    <span class="z-s">prefixlen</span> <span class="z-mi">15</span> <span class="z-s">-</span> <span class="z-mi">24</span>	<span class="z-c1"># Freifunk.net
+</span><span class="z-c1"></span>	<span class="z-s">fd00::/8</span>      <span class="z-s">prefixlen</span> <span class="z-mi">44</span> <span class="z-s">-</span> <span class="z-mi">64</span>	<span class="z-c1"># dn42
+</span><span class="z-c1"></span><span class="z-err">}</span>
+
+<span class="z-c1"># https://dn42.burble.com/services/public/#roa-data
+</span><span class="z-c1"># https://dn42.burble.com/roa/dn42_roa_obgpd_46.conf
+</span><span class="z-c1"># see the crontab snippet and an update script further below
+</span><span class="z-c1"></span><span class="z-s">include</span> <span class="z-s">&#34;/var/db/openbgpd/dn42_roa_obgpd_46.conf&#34;</span>
+
+<span class="z-s">network</span> <span class="z-s">prefix-set</span> <span class="z-s">mydn42</span> <span class="z-s">set</span> <span class="z-p">{</span>
+	<span class="z-c1"># https://dn42.dev/howto/BGP-communities
+</span><span class="z-c1"></span>	<span class="z-c1"># e.g., for Germany this could read
+</span><span class="z-c1"></span>	<span class="z-c1"># community 64511:41
+</span><span class="z-c1"></span>	<span class="z-c1"># community 64511:1276
+</span><span class="z-c1"></span>	<span class="z-kn">community</span> <span class="z-mi">64511</span><span class="z-p">:</span><span class="z-s">&lt;READ-THE-LINK-ABOVE&gt;</span>
+	<span class="z-s">community</span> <span class="z-mi">64511</span><span class="z-p">:</span><span class="z-s">&lt;READ-THE-LINK-ABOVE&gt;</span>
+	<span class="z-s">large-community</span> <span class="z-nv">$ASN:1:1</span>
+<span class="z-err">}</span>
+
+<span class="z-s">listen</span> <span class="z-no">on</span> <span class="z-nv">$ID</span>
+<span class="z-s">listen</span> <span class="z-no">on</span> <span class="z-s">&lt;PEER1-IPv6-LOCAL&gt;</span> <span class="z-c1"># e.g. fe80::1%wg1234
+</span><span class="z-c1"></span>
+<span class="z-s">group</span> <span class="z-s">dn42peers</span> <span class="z-p">{</span>
+	<span class="z-c1"># RFC7454 sec. 8
+</span><span class="z-c1"></span>	<span class="z-kn">max-prefix</span> <span class="z-mi">2000</span> <span class="z-s">restart</span> <span class="z-mi">60</span>
+	<span class="z-s">neighbor</span> <span class="z-s">&lt;PEER1-IPv4&gt;</span> <span class="z-p">{</span>
+		<span class="z-kn">descr</span> <span class="z-s">peer1_4</span>
+		<span class="z-s">remote-as</span> <span class="z-s">&lt;PEER1-ASN&gt;</span>
+		<span class="z-s">local-address</span> <span class="z-nv">$ID</span>
+	<span class="z-err">}</span>
+	<span class="z-s">neighbor</span> <span class="z-s">&lt;PEER1-IPv6-REMOTE&gt;</span> <span class="z-p">{</span> <span class="z-c1"># e.g. fe80::2%wg1234
+</span><span class="z-c1"></span>		<span class="z-kn">descr</span> <span class="z-s">peer1_6</span>
+		<span class="z-s">remote-as</span> <span class="z-s">&lt;PEER1-ASN&gt;</span>
+		<span class="z-s">set</span> <span class="z-s">nexthop</span> <span class="z-s">&lt;YOUR-DN42-IPv6-OF-PEER1-INTERFACE&gt;</span>
+	<span class="z-err">}</span>
+<span class="z-err">}</span>
+
+<span class="z-c1"># deny EBGP UPDATEs to our own originated prefixes
+</span><span class="z-c1"></span><span class="z-s">deny</span> <span class="z-s">quick</span> <span class="z-s">from</span> <span class="z-s">ebgp</span> <span class="z-s">prefix-set</span> <span class="z-s">mydn42</span> <span class="z-s">or-longer</span>
+<span class="z-c1"># filter out overlong paths
+</span><span class="z-c1"></span><span class="z-s">deny</span> <span class="z-s">quick</span> <span class="z-s">from</span> <span class="z-s">any</span> <span class="z-s">max-as-len</span> <span class="z-mi">10</span>
+
+<span class="z-s">allow</span> <span class="z-s">from</span> <span class="z-s">group</span> <span class="z-s">dn42peers</span> <span class="z-s">prefix-set</span> <span class="z-s">dn42etc</span> <span class="z-s">ovs</span> <span class="z-s">valid</span>
+<span class="z-s">allow</span> <span class="z-s">to</span> <span class="z-s">group</span> <span class="z-s">dn42peers</span> <span class="z-s">prefix-set</span> <span class="z-s">dn42etc</span>
+
+<span class="z-c1"># scrub communities relevant to our ASN from EBGP neighbors
+</span><span class="z-c1"># (RFC7454 sec. 11)
+</span><span class="z-c1"># match from ebgp set { community delete $ASN:* }
+</span><span class="z-c1"></span><span class="z-s">match</span> <span class="z-s">from</span> <span class="z-s">ebgp</span> <span class="z-s">set</span> <span class="z-p">{</span> <span class="z-kn">large-community</span> <span class="z-s">delete</span> <span class="z-nv">$ASN:*:*</span> <span class="z-err">}</span>
+
+<span class="z-c1"># honor requests to gracefully shutdown BGP sessions (RFC8326)
+</span><span class="z-c1"></span><span class="z-s">match</span> <span class="z-s">from</span> <span class="z-s">any</span> <span class="z-s">community</span> <span class="z-s">GRACEFUL_SHUTDOWN</span> <span class="z-s">set</span> <span class="z-p">{</span> <span class="z-kn">localpref</span> <span class="z-mi">0</span> <span class="z-err">}</span>
+</code></pre></div>
+<h2 id="roa">ROA</h2>
+<p>The <code>roa-set</code> for route origin validation (<code>ovs valid</code> in
+the config above) can be generated from the dn42 registry;
+here we use
+<a href="https://dn42.burble.com/services/public/#roa-data">data</a>
+conveniently provided by BURBLE-MNT.</p>
+<p>If using the update script below, don&rsquo;t forget to create the
+<code>/var/db/openbgpd/</code> directory first.</p>
+<h3 id="rootopenbgpd-roa-update-sh"><code>/root/openbgpd-roa-update.sh</code></h3>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh"><span class="z-cp">#!/bin/sh
+</span><span class="z-cp"></span>
+die<span class="z-o">()</span> <span class="z-o">{</span>
+  &gt;<span class="z-p">&amp;</span><span class="z-m">2</span> <span class="z-nb">printf</span> <span class="z-s1">&#39;%s: %s\n&#39;</span> <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">0</span><span class="z-p">##*/</span><span class="z-si">}</span><span class="z-s2">&#34;</span> <span class="z-s2">&#34;</span><span class="z-nv">$*</span><span class="z-s2">&#34;</span>
+  <span class="z-nb">exit</span> <span class="z-m">1</span>
+<span class="z-o">}</span>
+
+<span class="z-c1"># Unfortunately, burble regenerates the ROA files (hourly?)</span>
+<span class="z-c1"># even when nothing changed, so If-Modified-Since doesn&#39;t</span>
+<span class="z-c1"># help (similar story for .meta).</span>
+
+<span class="z-nv">metafile</span><span class="z-o">=</span>/var/db/openbgpd/registry.meta
+<span class="z-nv">err</span><span class="z-o">=</span><span class="z-k">$(</span>ftp -o <span class="z-s2">&#34;</span><span class="z-nv">$metafile</span><span class="z-s2">&#34;</span> <span class="z-se">\
+</span><span class="z-se"></span>  https://explorer.burble.com/api/registry/.meta 2&gt;<span class="z-p">&amp;</span><span class="z-m">1</span> &gt;/dev/null<span class="z-k">)</span> <span class="z-o">||</span>
+  die <span class="z-s2">&#34;/api/registry/.meta download failed: </span><span class="z-nv">$err</span><span class="z-s2">&#34;</span>
+
+<span class="z-k">if</span> ! cmp -s <span class="z-s2">&#34;</span><span class="z-nv">$metafile</span><span class="z-s2">&#34;</span> <span class="z-s2">&#34;</span><span class="z-nv">$metafile</span><span class="z-s2">&#34;</span>.old &gt;/dev/null 2&gt;<span class="z-p">&amp;</span>1<span class="z-p">;</span> <span class="z-k">then</span>
+  mv <span class="z-s2">&#34;</span><span class="z-nv">$metafile</span><span class="z-s2">&#34;</span> <span class="z-s2">&#34;</span><span class="z-nv">$metafile</span><span class="z-s2">&#34;</span>.old
+  <span class="z-nv">roafile</span><span class="z-o">=</span>/var/db/openbgpd/dn42_roa_obgpd_46.conf
+  <span class="z-k">if</span> <span class="z-nv">err</span><span class="z-o">=</span><span class="z-k">$(</span>ftp -o <span class="z-s2">&#34;</span><span class="z-nv">$roafile</span><span class="z-s2">&#34;</span>.new <span class="z-se">\
+</span><span class="z-se"></span>    https://dn42.burble.com/roa/dn42_roa_obgpd_46.conf <span class="z-se">\
+</span><span class="z-se"></span>    2&gt;<span class="z-p">&amp;</span><span class="z-m">1</span> &gt;/dev/null<span class="z-k">)</span><span class="z-p">;</span> <span class="z-k">then</span>
+    mv <span class="z-s2">&#34;</span><span class="z-nv">$roafile</span><span class="z-s2">&#34;</span>.new <span class="z-s2">&#34;</span><span class="z-nv">$roafile</span><span class="z-s2">&#34;</span>
+    bgpctl reload
+  <span class="z-k">else</span>
+    die <span class="z-s2">&#34;ROA download failed: </span><span class="z-nv">$err</span><span class="z-s2">&#34;</span>
+  <span class="z-k">fi</span>
+<span class="z-k">else</span>
+  logger -cisp user.info <span class="z-s2">&#34;</span><span class="z-si">${</span><span class="z-nv">0</span><span class="z-p">##*/</span><span class="z-si">}</span><span class="z-s2">: registry unchanged, not reloading&#34;</span>
+<span class="z-k">fi</span>
+</code></pre></div>
+<h3 id="varcrontabsroot"><code>/var/cron/tabs/root</code></h3>
+<div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">~</span>       <span class="z-s">*</span>       <span class="z-s">*</span>       <span class="z-s">*</span>       <span class="z-s">*</span>       <span class="z-s">-ns</span> <span class="z-s">/root/openbgpd-roa-update.sh</span>
+</code></pre></div>
+<h1 id="looking-glass">Looking glass</h1>
+<p>This is mostly OpenBSD specific since <a href="http://man.openbsd.org/bgplg.8">bgplg(8)</a> and <a href="http://man.openbsd.org/httpd.8">httpd(8)</a> ship as part of the operating system.
+The <strong>bgplg</strong> manual contains the steps and example <a href="http://man.openbsd.org/httpd.conf.5">httpd.conf(5)</a> required to enable the looking glass.</p>
+<p>See <a href="https://lg-dn42.vinishor.xyz/bgplg">https://lg-dn42.vinishor.xyz/bgplg</a> (IPv6) for a
+running instance operating within DN42.</p>
+</article>
+
+<p class="doc-meta">
+    <span>Updated <time datetime="2026-09-19T20:18:52Z">Sep 19 20:18:52 UTC 2026</time></span>
+    <span aria-hidden="true">·</span>
+    <span>Commit <code class="doc-meta__hash" title="2cfdd3256eadc758d737afe0b1cbfbb866245da2">2cfdd3256ead</code></span>
+</p>
+
+
+        
+    </div>
+    
+    <aside class="sidebar sidebar-extra">
+        <div class="sidebar-block"><ul>
+<li>
+<p><a href="/Home">Home</a></p>
+<ul>
+<li><a href="/howto/Getting-Started">Getting Started</a></li>
+<li><a href="/howto/Registry-Authentication">Registry Authentication</a></li>
+<li><a href="/Address-Space">Address Space</a></li>
+<li><a href="/howto/BGP-communities">BGP communities</a></li>
+<li><a href="/Interconnections">Interconnections</a></li>
+<li><a href="/Policies">Policies</a></li>
+<li><a href="/FAQ">FAQ</a></li>
+<li><a href="/Links">Links</a></li>
+</ul>
+</li>
+<li>
+<p>How-To</p>
+<ul>
+<li><a href="/howto/wireguard">Wireguard</a></li>
+<li><a href="/howto/openvpn">Openvpn</a></li>
+<li><a href="/howto/networksettings">Universal Network Requirements</a></li>
+<li><a href="/howto/IPsec-with-PublicKeys">IPsec With Public Keys</a></li>
+<li><a href="/howto/tinc">Tinc</a></li>
+<li><a href="/howto/GRE-on-FreeBSD">GRE on FreeBSD</a></li>
+<li><a href="/howto/GRE-on-OpenBSD">GRE on OpenBSD</a></li>
+<li><a href="/howto/IPv6-Multicast">IPv6 Multicast (PIM-SM)</a></li>
+<li><a href="/howto/multicast">SSM Multicast</a></li>
+<li><a href="/howto/mpls">MPLS</a></li>
+<li><a href="/howto/Bird2">Bird2</a></li>
+<li><a href="/howto/frr">FRRouting</a></li>
+<li><a href="/howto/OpenBGPD">OpenBGPD</a></li>
+<li><a href="/howto/mikrotik">Mikrotik RouterOS</a></li>
+<li><a href="/howto/EdgeOS-Config">EdgeRouter</a></li>
+<li><a href="/howto/Static-routes-on-Windows">Static routes on Windows</a></li>
+<li><a href="/howto/vyos1.4.x">VyOS</a></li>
+<li><a href="/howto/nixos">NixOS</a></li>
+<li><a href="/howto/GeoFeed">GeoFeed</a></li>
+<li><a href="/howto/Telephony-Asterisk">Telephony (Asterisk)</a></li>
+</ul>
+</li>
+<li>
+<p>Services</p>
+<ul>
+<li><a href="/services/IRC">IRC</a></li>
+<li><a href="/services/Whois">Whois registry</a></li>
+<li><a href="/services/dns/Overview">DNS</a></li>
+<li><a href="/services/RPKI">ROA + RPKI</a></li>
+<li><a href="/services/exchanges/IX-Collection">IX Collection</a></li>
+<li><a href="/services/Clearnet-Domains">Public DNS</a></li>
+<li><a href="/services/Looking-Glasses">Looking Glasses</a></li>
+<li><a href="/services/Pingables">Pingables</a></li>
+<li><a href="/services/Automatic-Peering">Automatic Peering</a></li>
+<li><a href="/services/Distributed-Wiki">Distributed Wiki</a></li>
+<li><a href="/services/ca/Certificate-Authority">Certificate Authority</a></li>
+<li><a href="/services/Route-Collector">Route Collector</a></li>
+</ul>
+</li>
+<li>
+<p>Internal</p>
+<ul>
+<li><a href="/internal/Internal-Services">Internal services</a></li>
+<li><a href="/internal/APIs">APIs</a></li>
+<li><a href="/internal/ShowAndTell">Show and Tell</a></li>
+</ul>
+</li>
+<li>
+<p>External Tools</p>
+<ul>
+<li><a href="https://paste.dn42.us">Paste Board</a></li>
+<li><a href="https://git.dn42.dev">Git Repositories</a></li>
+<li><a href="https://git.dn42.dev/dn42/registry">Registry</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+</div>
+    </aside>
+    
+</div>
+
+    <hr>
+    
+<div class="footer"><p>Hosted by: <a href="mailto:dn42@burble.com">BURBLE-MNT</a>, <a href="mailto:nurtic-vibe@grmml.net">GRMML-MNT</a>, <a href="mailto:xuu@dn42.us">XUU-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:lare@lare.cc">LARE-MNT</a>, <a href="mailto:danny@saru.moe">SARU-MNT</a>, <a href="mailto:androw95220@gmail.com">ANDROW-MNT</a>, <a href="mailto:dn42@mk16.de">MARK22K-MNT</a>, <a href="https://iedon.net/post/24">IEDON-MNT</a>, <a href="mailto:janeric@ortgies.it">JAN-MNT</a>, <a href="mailto:sess@sess.dn42">SESS-MNT</a>, <a href="mailto:nedifinita@ik.me">NEDIFINITA-MNT</a> | Accessible via: <a href="https://wiki.dn42">dn42</a>, <a href="https://dn42.dev/">dn42.dev</a>, <a href="https://dn42.eu/">dn42.eu</a>, <a href="https://wiki.dn42.us/">wiki.dn42.us</a>, <a href="https://dn42.de/">dn42.de</a> (IPv6-only), <a href="https://dn42.cc/">dn42.cc</a> (wiki-ng), <a href="https://dn42.wiki/">dn42.wiki</a>, <a href="https://dn42.pp.ua/">dn42.pp.ua</a>, <a href="https://dn42.obl.ong/">dn42.obl.ong</a>, <a href="https://dn42.jp/">dn42.jp</a> (wiki-go), <a href="https://dn42.net/">dn42.net</a>, <a href="https://dn42.li/">dn42.li</a> (wiki-go), <a href="https://dn42.app/">dn42.app</a></p>
+<p>Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by <a href="https://littlecow.net.eu.org">COWGL-MNT</a> using Vercel or GitHub Pages. This wiki updates every 6 hours.</p>
+</div>
+<button type="button" class="z-back-to-top" aria-label="Top"></button>
+
+    
+<div id="modal-backdrop" class="modal-backdrop"></div>
+
+
+<div id="sidebar-modal" class="modal modal--fullscreen sidebar-modal" role="dialog" aria-modal="true" aria-labelledby="sidebar-modal-title">
+    <div class="modal-header">
+        <h2 id="sidebar-modal-title">Sidebar</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close sidebar" data-autofocus>&times;</button>
+    </div>
+    <div class="modal-body sidebar-modal__body">
+        <div class="sidebar-modal__container" data-sidebar-modal-container></div>
+    </div>
+</div>
+
+
+<div id="history-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="history-title">
+    <div class="modal-header">
+        <h2 id="history-title">Revision history</h2>
+        <div class="modal-header-actions">
+            <button type="button" class="button-secondary" id="history-load-more">Load more</button>
+            <button type="button" class="button-primary" id="history-view-diff" disabled>Show diff</button>
+            <button class="icon-button" type="button" data-close aria-label="Close history">&times;</button>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="history-list" id="history-list"></div>
+    </div>
+</div>
+
+<div id="history-diff-modal" class="modal modal--diff" role="dialog" aria-modal="true" aria-labelledby="history-diff-title">
+    <div class="modal-header">
+        <h2 id="history-diff-title">Diff preview</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close diff">&times;</button>
+    </div>
+    <div class="modal-body history-diff-body">
+        <pre id="history-diff" class="diff-view z-code" tabindex="0"><code id="history-diff-code"></code></pre>
+    </div>
+</div>
+
+<div id="path-modal" class="modal modal--narrow" role="dialog" aria-modal="true" aria-labelledby="path-modal-title">
+    <div class="modal-header">
+        <h2 id="path-modal-title">Rename Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close dialog">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="path-input">Destination path</label>
+            <input id="path-input" type="text" placeholder="section/Page" required>
+            <p class="form-hint" id="path-hint"></p>
+        </div>
+        <p class="form-hint" id="path-status"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="path-submit">Submit</button>
+        </div>
+    </div>
+</div>
+
+<div id="editor-modal" class="modal modal--fullscreen" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+    <div class="modal-header">
+        <h2 id="editor-title">Edit Page</h2>
+        <button class="icon-button" type="button" data-close aria-label="Close editor">&times;</button>
+    </div>
+    <div class="modal-body editor-body">
+        <div class="form-group" id="editor-path-group">
+            <label for="editor-path">Path</label>
+            <input id="editor-path" type="text" placeholder="section/Page">
+            <p class="form-hint" id="editor-path-hint">Paths map to wiki routes. Leave off the .md suffix.</p>
+        </div>
+        <div class="editor-tabs" role="tablist">
+            <button type="button" data-tab="edit" class="active" role="tab" aria-selected="true">Edit</button>
+            <button type="button" data-tab="preview" role="tab" aria-selected="false">Preview</button>
+        </div>
+        <div class="editor-toolbar" id="editor-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+            <button type="button" data-md="h1">H1</button>
+            <button type="button" data-md="h2">H2</button>
+            <button type="button" data-md="h3">H3</button>
+            <button type="button" data-md="bold">Bold</button>
+            <button type="button" data-md="italic">Italic</button>
+            <button type="button" data-md="code">Code</button>
+            <button type="button" data-md="quote">Quote</button>
+            <button type="button" data-md="ul">List</button>
+            <button type="button" data-md="ol">Ordered</button>
+            <button type="button" data-md="link">Link</button>
+            <button type="button" data-md="image">Image</button>
+        </div>
+        <div class="editor-workspace" id="editor-workspace">
+            <textarea id="editor-input" spellcheck="false"></textarea>
+            <div id="editor-preview" class="editor-preview hidden" aria-hidden="true"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <label for="editor-message">Commit message</label>
+            <input id="editor-message" type="text" placeholder="Summarise your edit" required>
+        </div>
+        <div class="button-group">
+            <button type="button" class="button-secondary" data-close>Cancel</button>
+            <button type="button" class="button-primary" id="editor-save" disabled>Save</button>
+        </div>
+    </div>
+    <div class="editor-status" id="editor-status"></div>
+</div>
+
+</body>
+</html>
