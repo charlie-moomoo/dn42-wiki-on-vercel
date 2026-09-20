@@ -1,21 +1,9 @@
 {
-  "redirects": [
-    {
-      "source": "/internal/:path*",
-      "destination": "/403.html",
-      "permanent": false
-    },
-    {
-      "source": "/internal*",
-      "destination": "/403.html",
-      "permanent": false
-    }
-  ],
   "routes": [
     {
-      "src": "/403.html",
-      "status": 403,
-      "dest": "/403.html"
+      "src": "/internal(.*)",
+      "dest": "/403.html",
+      "status": 403
     }
   ]
 }
