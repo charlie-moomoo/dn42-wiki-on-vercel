@@ -32,8 +32,14 @@ jobs:
         run: |
           ./dn42-wiki-go --build
 
+      - name: Clean up unwanted directory
+        run: |
+          rm -rf dist/internal
+
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
