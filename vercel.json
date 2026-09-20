@@ -1,6 +1,11 @@
 {
   "routes": [
     {
+      "src": "/Home",
+      "dest": "/",
+      "status": 301
+    },
+    {
       "src": "/internal(.*)",
       "dest": "/403.html",
       "status": 403
