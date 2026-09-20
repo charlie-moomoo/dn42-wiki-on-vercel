@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/directory",
+      "dest": "/directory.html"
+    },
+    {
       "src": "/Home",
       "dest": "/",
       "status": 301
