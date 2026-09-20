@@ -1,0 +1,39 @@
+name: Build DN42 Wiki
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+
+      - name: Clone dn42-wiki-go template
+        run: |
+          git clone --depth 1 https://github.com/iedon/dn42-wiki-go.git temp-dn42-wiki-go
+          cp -r temp-dn42-wiki-go/template ./
+          rm -rf temp-dn42-wiki-go
+
+      - name: Clone dn42 wiki content
+        run: |
+          git clone --depth 1 https://oauth2:${{ secrets.DN42_GIT_TOKEN }}@git.dn42.dev/wiki/wiki.git wiki
+
+      - name: Download dn42-wiki-go executable
+        run: |
+          curl -L -o dn42-wiki-go https://github.com/iedon/dn42-wiki-go/releases/download/v1.1.5/dn42-wiki-go_linux_amd64
+          chmod +x dn42-wiki-go
+
+      - name: Build site
+        run: |
+          ./dn42-wiki-go --build
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
