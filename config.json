@@ -1,0 +1,43 @@
+{
+  "live": false,
+  "editable": false,
+  "listen": ":8080",
+  "git": {
+    "binPath": "git",
+    "remote": "",
+    "localDirectory": "./wiki",
+    "pullIntervalSec": 3600,
+    "author": "Anonymous <anonymous@localhost>",
+    "commitMessagePrefix": "[wiki] ",
+    "commitMessageAppendRemoteAddr": " (via %s)",
+    "commandTimeoutSec": 120
+  },
+  "webhook": {
+    "enabled": false,
+    "secret": "",
+    "polling": {
+      "enabled": false,
+      "endpoint": "https://git.dn42/dn42notify/poll",
+      "callbackUrl": "https://dn42.jp/api/webhook/pull",
+      "pollingIntervalSec": 3600,
+      "skipRemoteCert": false
+    }
+  },
+  "outputDir": "./dist",
+  "templateDir": "./template",
+  "homeDoc": "Home.md",
+  "siteName": "DN42 Wiki",
+  "baseUrl": "",
+  "ignoreHeader": true,
+  "ignoreFooter": false,
+  "serverFooter": "Built with DN42 Wiki Go. You are accessing a distributed wiki node hosted by [COWGL-MNT](https://littlecow.net.eu.org) using Vercel or GitHub Pages. This wiki updates every 6 hours.",
+  "enableTLS": false,
+  "tlsCert": "./server.crt",
+  "tlsKey": "./server.key",
+  "logLevel": "info",
+  "trustedProxies": ["127.0.0.1", "::1/128", "172.16.0.0/16", "172.17.0.0/16", "172.18.0.0/16", "192.168.0.0/16"],
+  "trustedRemoteAddrLevel": 1,
+  "privatePagesPrefix": [
+    "/internal"
+  ]
+}
