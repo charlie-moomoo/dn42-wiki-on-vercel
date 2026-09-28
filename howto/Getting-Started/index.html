@@ -165,6 +165,7 @@
 <p>While filling out the objects in the DN42 registry make sure to refer to the <a href="https://explorer.dn42.dev/#/schema">schema</a> to speed up the review process.</p>
 <p>When submitting your pull request, you must squash multiple changes to a single commit, again there are instructions in the <a href="https://git.dn42.dev/dn42/registry/src/branch/master/README.md">README</a> for how to do this.</p>
 <p>Remember to add authentication to your <code>mntner</code> object, and you <strong>must</strong> <a href="/howto/Registry-Authentication">sign your commit</a></p>
+<p><em>Tip: Remember to keep a backup of your authorisation keys</em></p>
 <p>The registry includes a number of scripts to help check your request:</p>
 <ul>
 <li><code>fmt-my-stuff &lt;FOO&gt;-MNT</code>: automatically fixes minor formatting errors</li>
@@ -175,7 +176,7 @@
 </ul>
 <p>The registry maintainers run the checking scripts against each request, so please run these yourself first to check for simple errors.</p>
 <p>Do browse through the registry and look at the <a href="https://git.dn42.dev/dn42/registry/pulls">pull request queue</a> to see examples, understand how the process works and see the types of questions asked by the registry maintainers.</p>
-<p><em>You should not use the gitea web interface to edit files, doing so creates a large number of commits and prevents running of the registry scripts</em></p>
+<p><em>You cannot use the gitea web interface to edit files, doing so creates a large number of commits and prevents running of the registry scripts</em></p>
 <hr>
 <p>This example assumes that your name is <code>&lt;FOO&gt;</code>, part of an organisation called <code>&lt;ORG-FOO&gt;</code> (for instance, your hackerspace). <em>Organisation objects are not required if your are registering as an individual</em>. Obviously, these should be replaced by the appropriate values in all examples below.</p>
 <p>We will create several types of objects:</p>
@@ -197,12 +198,14 @@
 <li>PGP Key: <code>auth: pgp-fingerprint &lt;pgp-fingerprint&gt;</code></li>
 <li>SSH Key: <code>auth: ssh-{rsa,ed25519} &lt;key&gt;</code></li>
 </ul>
+<p>Losing your auth keys is a significant source of registry noise and wasted effort. We recommend configuring at least two authentication methods (a primary key and a backup key) in your mntner object. Always keep secure, separate backups of both private keys.</p>
 <p>Example: data/mntner/FOO-MNT</p>
 <div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">mntner:</span>             <span class="z-s">FOO-MNT</span>
 <span class="z-s">admin-c:</span>            <span class="z-s">FOO-DN42</span>
 <span class="z-s">tech-c:</span>             <span class="z-s">FOO-DN42</span>
 <span class="z-s">mnt-by:</span>             <span class="z-s">FOO-MNT</span>
 <span class="z-s">auth:</span>               <span class="z-s">pgp-fingerprint</span> <span class="z-s">0123456789ABCDEF0123456789ABCDEF01234567</span>
+<span class="z-s">auth:</span>               <span class="z-s">ssh-ed25519</span> <span class="z-s">AAAAC3NzaC1lZDI1NTE5AAAAIGd7P9yG3xK6uBv3m8V1p8Z0K2yJ4uL7wP9qR3sT5uV1</span> <span class="z-s">user@example.com</span>
 <span class="z-s">source:</span>             <span class="z-s">DN42</span>
 </code></pre></div>
 <h3 id="create-person-objects">Create person objects</h3>
@@ -216,7 +219,8 @@
 <li>don&rsquo;t forget to set <code>mnt-by</code> to <code>&lt;FOO&gt;-MNT</code>.</li>
 </ul>
 <p><strong>Data Privacy</strong></p>
-<p>Contact attributes are optional but DN42 is a dynamic network and being able to contact users is really important if there are changes or problems. However, please also be aware that the DN42 registry is a public resource and you must assume that any details provided will be made public and cannot be fully removed. If this is a concern for you, please do not provide bogus contact details; simply provide anonymous details that are specific for use within DN42 or leave them out entirely.</p>
+<p>Contact attributes are optional but dn42 is a dynamic network and being able to contact users is really important if there are changes or problems. Reviewers won&rsquo;t accept new registrations without any contact details and an e-mail address is also the only way to recover your mntner if you lose access to your auth keys.</p>
+<p>However, please also be aware that the dn42 registry is a public resource and you must assume that any details provided will become part of the git history, will be made public and cannot be subsequently removed. If this is a concern for you, please do not provide bogus contact details, simply provide anonymous details that are specific for use within dn42.</p>
 <p>Example: data/person/FOO-DN42</p>
 <div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">person:</span>             <span class="z-s">John</span> <span class="z-s">Doe</span>
 <span class="z-s">e-mail:</span>             <span class="z-s">john.doe@example.com</span>
@@ -487,9 +491,9 @@ source:             DN42
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-09-27T20:43:46Z">Sep 27 20:43:46 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-09-28T11:52:48Z">Sep 28 11:52:48 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="7fc031b8538ec5a80cd21bc5384de94b65e6787b">7fc031b8538e</code></span>
+    <span>Commit <code class="doc-meta__hash" title="2c523897265fac6326659a7df4e793a2055e3d44">2c523897265f</code></span>
 </p>
 
 
