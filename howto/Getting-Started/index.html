@@ -84,6 +84,8 @@
             
             <li data-level="2"><a data-section="#fill-in-the-registry" href="#fill-in-the-registry">Fill in the registry</a></li>
             
+            <li data-level="3"><a data-section="#validating-your-changes-before-submitting" href="#validating-your-changes-before-submitting">Validating your changes before submitting</a></li>
+            
             <li data-level="3"><a data-section="#create-a-maintainer-object" href="#create-a-maintainer-object">Create a maintainer object</a></li>
             
             <li data-level="3"><a data-section="#create-person-objects" href="#create-person-objects">Create person objects</a></li>
@@ -166,17 +168,33 @@
 <p>When submitting your pull request, you must squash multiple changes to a single commit, again there are instructions in the <a href="https://git.dn42.dev/dn42/registry/src/branch/master/README.md">README</a> for how to do this.</p>
 <p>Remember to add authentication to your <code>mntner</code> object, and you <strong>must</strong> <a href="/howto/Registry-Authentication">sign your commit</a></p>
 <p><em>Tip: Remember to keep a backup of your authorisation keys</em></p>
-<p>The registry includes a number of scripts to help check your request:</p>
+<p>The registry includes scripts to help you with squashing and signing:</p>
 <ul>
-<li><code>fmt-my-stuff &lt;FOO&gt;-MNT</code>: automatically fixes minor formatting errors</li>
-<li><code>check-my-stuff &lt;FOO&gt;-MNT</code>: validates your objects against the registry schema</li>
-<li><code>check-pol origin/master &lt;FOO&gt;-MNT</code>: checks for policy violations</li>
 <li><code>squash-my-commits</code>: automatically update and squash your local commits</li>
 <li><code>sign-my-commit</code>: sign your commit using a pgp key or standard SSH signing</li>
 </ul>
-<p>The registry maintainers run the checking scripts against each request, so please run these yourself first to check for simple errors.</p>
 <p>Do browse through the registry and look at the <a href="https://git.dn42.dev/dn42/registry/pulls">pull request queue</a> to see examples, understand how the process works and see the types of questions asked by the registry maintainers.</p>
-<p><em>You cannot use the gitea web interface to edit files, doing so creates a large number of commits and prevents running of the registry scripts</em></p>
+<p><em>You cannot use the gitea web interface to edit files, doing so creates a large number of commits and prevents you from checking your submission</em></p>
+<h3 id="validating-your-changes-before-submitting">Validating your changes before submitting</h3>
+<p>Before pushing your branch or opening a pull request, always format
+and validate your objects locally to catch schema errors or missing
+references early.</p>
+<p>The <code>registry</code> repository provides helper scripts for immediate validation:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">./fmt-my-stuff &lt;YOUR-MNT&gt;            <span class="z-c1"># Auto-format indentation</span>
+./check-my-stuff &lt;YOUR-MNT&gt;          <span class="z-c1"># Validate schema and references</span>
+./check-pol origin/master &lt;YOUR-MNT&gt; <span class="z-c1"># Check DN42 policy compliance</span>
+</code></pre></div>
+<p>To run the exact CI/CD test suite executed by the pipeline automation bot on
+<a href="https://git.dn42.dev">https://git.dn42.dev</a>, you can run the <a href="https://git.dn42.dev/dn42/pipeline-docker">pipeline-docker</a>
+container locally using Podman or Docker. Simply clone the repository
+and run the check.sh wrapper against your local registry:</p>
+<div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">git clone https://git.dn42.dev/dn42/pipeline-docker.git
+./pipeline-docker/check.sh /path/to/registry
+</code></pre></div>
+<p>The tool runs in safe local mode (read-only), verifying your commit
+signatures, route objects, and policy rules so you can fix any issues
+before submitting your pull request.</p>
+<p>All these scripts get run automatically on your PR, so please run these yourself first to check for simple errors.</p>
 <hr>
 <p>This example assumes that your name is <code>&lt;FOO&gt;</code>, part of an organisation called <code>&lt;ORG-FOO&gt;</code> (for instance, your hackerspace). <em>Organisation objects are not required if your are registering as an individual</em>. Obviously, these should be replaced by the appropriate values in all examples below.</p>
 <p>We will create several types of objects:</p>
@@ -491,9 +509,9 @@ source:             DN42
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-09-28T21:18:51Z">Sep 28 21:18:51 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-09-29T11:03:03Z">Sep 29 11:03:03 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="2847fbde96ab4937051822ccd54be75927382745">2847fbde96ab</code></span>
+    <span>Commit <code class="doc-meta__hash" title="eb9598b950d1f4c60d81181f860ef9111d2d81a0">eb9598b950d1</code></span>
 </p>
 
 
