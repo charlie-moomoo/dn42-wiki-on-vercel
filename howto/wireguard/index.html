@@ -92,6 +92,8 @@
             
             <li data-level="2"><a data-section="#dynamics-ip" href="#dynamics-ip">Dynamics IP</a></li>
             
+            <li data-level="2"><a data-section="#windows-client-note" href="#windows-client-note">Windows client note</a></li>
+            
         </ul>
     </nav>
     
@@ -263,12 +265,16 @@ $ ip link <span class="z-nb">set</span> &lt;interface_name&gt; up
 <p>You can add cron entries to periodically  &ldquo;re-resolve&rdquo; the DNS:</p>
 <div class="code-block" data-lang="sh"><span class="code-lang-label" aria-hidden="true">sh</span><pre tabindex="0" class="z-chroma z-code language-sh" data-lang="sh"><code class="language-sh" data-lang="sh">* * * * * /path-to-the-script/reresolve-dns.sh
 </code></pre></div>
+<h2 id="windows-client-note">Windows client note</h2>
+<p>The official WireGuard for Windows client may reject configurations where multiple tunnels have overlapping <code>AllowedIPs</code> ranges. If you need such a setup, an unofficial fork that removes this restriction is available at <a href="https://github.com/TES286-org/wireguard-windows">https://github.com/TES286-org/wireguard-windows</a>.</p>
+<p>This is <strong>not</strong> official WireGuard or DN42 software and has not been independently audited. Use it at your own risk and review the code before deployment.</p>
+<p>For DN42, ensure the client does not install routes automatically; route selection should be managed by BGP or an external routing program. Do not use overlapping <code>AllowedIPs</code> unless you understand the data-plane and routing implications.</p>
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-10-20T15:35:50Z">Oct 20 15:35:50 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-10-21T11:50:05Z">Oct 21 11:50:05 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="a7c0c6584acfeb202e976c631989cd398a696c6e">a7c0c6584acf</code></span>
+    <span>Commit <code class="doc-meta__hash" title="2ae74e2fb3a0389502428babce14531b8b349576">2ae74e2fb3a0</code></span>
 </p>
 
 
