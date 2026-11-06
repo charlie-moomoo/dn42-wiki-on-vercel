@@ -243,7 +243,7 @@ A maintainer may also ask to opt out from a cleanup operation.</p>
 <p>Using <strong>registry_wizard (written for v0.4.12)</strong>:</p>
 <ol>
 <li>Download the MRT files from the Global Route Collector (GRC):
-<code>wget -r -np -nH --cut-dirs=1 -A &quot;*.mrt.bz2&quot; --reject &quot;*:*&quot; http://collector.dn42/</code></li>
+<code>wget --no-check-certificate -r -np -nH --cut-dirs=1 -A &quot;*.mrt.bz2&quot; --reject &quot;*:*&quot; http://mrt.collector.dn42/</code></li>
 <li>Generate a list of active ASNs based on MRT data:
 <code>./registry_wizard /path/to/registry mrt_activity parse /path/to/mrt/files --cutoff-time &lt;value&gt; --list &gt; active_list.txt</code></li>
 <li>Based on the list of active ASNs and through referencing the registry git commit log, generate a list of inactive ASNs:
@@ -258,9 +258,9 @@ To identify the exact conflicts leading to the manual review requirement the fol
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-11-02T07:21:47Z">Nov 2 07:21:47 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-11-06T12:04:00Z">Nov 6 12:04:00 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="6c0dcc530f4a71d531cf5760d4afa4395acb7a8d">6c0dcc530f4a</code></span>
+    <span>Commit <code class="doc-meta__hash" title="0bde7a55bc90001a2a505c8535d97e800b638550">0bde7a55bc90</code></span>
 </p>
 
 
