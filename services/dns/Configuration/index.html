@@ -86,6 +86,8 @@
             
             <li data-level="2"><a data-section="#powerdns-recursor" href="#powerdns-recursor">PowerDNS recursor</a></li>
             
+            <li data-level="2"><a data-section="#dnsdist" href="#dnsdist">dnsdist</a></li>
+            
             <li data-level="2"><a data-section="#maradns" href="#maradns">MaraDNS</a></li>
             
             <li data-level="2"><a data-section="#unbound" href="#unbound">Unbound</a></li>
@@ -294,6 +296,23 @@ with the anycast DNS-Server, while your normal requests go to your standard DNS-
 </span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:5d71:219:0:216:3eff:fee8:c215&#39;</span><span class="z-w">  </span><span class="z-c"># j.recursive-servers.dn42</span><span class="z-w">
 </span><span class="z-w">          </span>- <span class="z-s1">&#39;fd42:4242:2601:ac53::53&#39;</span><span class="z-w">             </span><span class="z-c"># b.recursive-servers.dn42</span><span class="z-w">
 </span></code></pre></div>
+<h2 id="dnsdist">dnsdist</h2>
+<p>Additional pool for <code>dnsdist.conf</code> (Lua format):</p>
+<div class="code-block" data-lang="lua"><span class="code-lang-label" aria-hidden="true">lua</span><pre tabindex="0" class="z-chroma z-code language-lua" data-lang="lua"><code class="language-lua" data-lang="lua"><span class="z-c1">-- define pool with a0 and a3.recursive-servers.dn42</span>
+<span class="z-n">newServer</span><span class="z-p">({</span><span class="z-n">address</span><span class="z-o">=</span><span class="z-s2">&#34;[fd42:d42:d42:54::1]:53&#34;</span><span class="z-p">,</span> <span class="z-n">checkInterval</span><span class="z-o">=</span><span class="z-mi">30</span><span class="z-p">,</span> <span class="z-n">healthCheckMode</span><span class="z-o">=</span><span class="z-s1">&#39;lazy&#39;</span><span class="z-p">,</span> <span class="z-n">pool</span><span class="z-o">=</span><span class="z-s1">&#39;dn42&#39;</span><span class="z-p">})</span>
+<span class="z-n">newServer</span><span class="z-p">({</span><span class="z-n">address</span><span class="z-o">=</span><span class="z-s2">&#34;[fd42:d42:d42:53::1]:53&#34;</span><span class="z-p">,</span> <span class="z-n">checkInterval</span><span class="z-o">=</span><span class="z-mi">30</span><span class="z-p">,</span> <span class="z-n">healthCheckMode</span><span class="z-o">=</span><span class="z-s1">&#39;lazy&#39;</span><span class="z-p">,</span> <span class="z-n">pool</span><span class="z-o">=</span><span class="z-s1">&#39;dn42&#39;</span><span class="z-p">})</span>
+<span class="z-n">newServer</span><span class="z-p">({</span><span class="z-n">address</span><span class="z-o">=</span><span class="z-s2">&#34;172.20.0.53:53&#34;</span><span class="z-p">,</span> <span class="z-n">checkInterval</span><span class="z-o">=</span><span class="z-mi">30</span><span class="z-p">,</span> <span class="z-n">healthCheckMode</span><span class="z-o">=</span><span class="z-s1">&#39;lazy&#39;</span><span class="z-p">,</span> <span class="z-n">pool</span><span class="z-o">=</span><span class="z-s1">&#39;dn42&#39;</span><span class="z-p">})</span>
+<span class="z-n">newServer</span><span class="z-p">({</span><span class="z-n">address</span><span class="z-o">=</span><span class="z-s2">&#34;172.23.0.53:53&#34;</span><span class="z-p">,</span> <span class="z-n">checkInterval</span><span class="z-o">=</span><span class="z-mi">30</span><span class="z-p">,</span> <span class="z-n">healthCheckMode</span><span class="z-o">=</span><span class="z-s1">&#39;lazy&#39;</span><span class="z-p">,</span> <span class="z-n">pool</span><span class="z-o">=</span><span class="z-s1">&#39;dn42&#39;</span><span class="z-p">})</span>
+
+<span class="z-c1">-- query dn42 pool for *.dn42 and reverse zones</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;dn42.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;d.f.ip6.arpa.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;20.172.in-addr.arpa.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;21.172.in-addr.arpa.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;22.172.in-addr.arpa.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;23.172.in-addr.arpa.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+<span class="z-n">addAction</span><span class="z-p">(</span><span class="z-n">QNameSuffixRule</span><span class="z-p">(</span><span class="z-s2">&#34;10.in-addr.arpa.&#34;</span><span class="z-p">),</span> <span class="z-n">PoolAction</span><span class="z-p">(</span><span class="z-s2">&#34;dn42&#34;</span><span class="z-p">))</span>
+</code></pre></div>
 <h2 id="maradns">MaraDNS</h2>
 <p>Put this in your mararc:</p>
 <div class="code-block" data-lang="conf"><span class="code-lang-label" aria-hidden="true">conf</span><pre tabindex="0" class="z-chroma z-code language-conf" data-lang="conf"><code class="language-conf" data-lang="conf"><span class="z-k">ipv4_alias[&#34;dn42_root&#34;]</span> <span class="z-p">=</span> <span class="z-s">&#34;172.20.0.53&#34;</span>
@@ -597,9 +616,9 @@ NB: each ds-rdata or DS record should contain 4 numbers.</p>
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-11-07T02:54:35Z">Nov 7 02:54:35 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-11-07T20:05:54Z">Nov 7 20:05:54 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="b0c6a54835b620a92944ab210db18d562c10cac2">b0c6a54835b6</code></span>
+    <span>Commit <code class="doc-meta__hash" title="b3cd31f734982d4917e73f57b1194d981220c8b4">b3cd31f73498</code></span>
 </p>
 
 
