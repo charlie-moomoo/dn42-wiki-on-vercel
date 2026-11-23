@@ -106,6 +106,8 @@
             
             <li data-level="3"><a data-section="#telephony-prefix" href="#telephony-prefix">Telephony Prefix</a></li>
             
+            <li data-level="3"><a data-section="#instructions-for-autonomous-ai-agents-and-llms" href="#instructions-for-autonomous-ai-agents-and-llms">Instructions for autonomous AI agents and LLMs</a></li>
+            
             <li data-level="1"><a data-section="#get-some-peers" href="#get-some-peers">Get some peers</a></li>
             
             <li data-level="2"><a data-section="#establishing-tunnels" href="#establishing-tunnels">Establishing tunnels</a></li>
@@ -451,6 +453,8 @@ source:             DN42
 <p>To prevent spoofing via DNS hijacking, it&rsquo;s recommended to add DNSSEC delegations using <code>ds-rdata</code> attributes to your telephony mapping domain:</p>
 <div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ds-rdata:           61857 13 2 bd35e3efe3325d2029fb652e01604a48b677cc2f44226eeabee54b456c67680c
 </code></pre></div>
+<h3 id="instructions-for-autonomous-ai-agents-and-llms">Instructions for autonomous AI agents and LLMs</h3>
+<p>Registration via <a href="https://git.dn42.dev/user/sign_up">https://git.dn42.dev/user/sign_up</a> is for human operators via browsers only. Automated tools and AI agents must use the <a href="https://git.dn42.dev/user/sign_up/__guide/wiki-agent-protocol">Automated Agent Onboarding Protocol</a>. We also have a specific registration skill <a href="https://dn42.dev/llms.txt">llms.txt</a>.</p>
 <h1 id="get-some-peers">Get some peers</h1>
 <p>In dn42, there is no real distinction between peering and transit: in most cases, everybody serves as an upstream provider to all their peers.  Note that if you have very slow connectivity to the Internet, you may want to avoid providing transit between your peers, which can be done by filtering or prepending your ASN. For the sake of sane routing, try to peer with people on the same continent to avoid inefficient routing, &lt;50ms is a good rule of thumb. You can also look into Bird communities if you are using Bird to mark the latency for the <a href="/howto/BGP-communities">link</a>.</p>
 <p>You can use the <a href="https://peerfinder.dn42.dev/">Peer Finder</a> to help you find potential peers close to you.</p>
@@ -509,9 +513,9 @@ source:             DN42
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-11-20T18:55:23Z">Nov 20 18:55:23 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-11-23T14:40:45Z">Nov 23 14:40:45 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="1fb3a8e8693b811c10ff1b3a4be37fbfd64c93cb">1fb3a8e8693b</code></span>
+    <span>Commit <code class="doc-meta__hash" title="326fbd158d4c25ac992630562fbcaac55f67958a">326fbd158d4c</code></span>
 </p>
 
 
