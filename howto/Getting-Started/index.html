@@ -161,8 +161,9 @@
 <h1 id="formalities">Formalities</h1>
 <p>Don&rsquo;t worry, it&rsquo;s not as tedious as registering with a RIR ;)</p>
 <h2 id="subscribe-to-the-mailing-list">Subscribe to the mailing list</h2>
-<p>This is important, as it allows to stay up-to-date on best practices, new services, security issues&hellip;</p>
-<p>See <a href="/contact#contact_mailing-list">Contact</a> to subscribe.</p>
+<p>This is <strong>important</strong>, as it allows you to stay up-to-date on best practices, new services, security issues, downtime notices, and configuration issues affecting the network.</p>
+<p>All network operators are expected to be joined to the mailing list.</p>
+<p>See <a href="/contact#contact_mailing-list">Contact</a> to information on how to subscribe.</p>
 <h2 id="fill-in-the-registry">Fill in the registry</h2>
 <p>You must create several objects in the DN42 registry: <a href="https://git.dn42.dev/dn42/registry">https://git.dn42.dev/dn42/registry</a></p>
 <p>The registry is a git repository, objects are created by forking the main repository, making your changes and then submitting a pull request for review. There are detailed instructions in the registry <a href="https://git.dn42.dev/dn42/registry/src/branch/master/README.md">README</a> how to do this. See also the the generic git documentation <a href="https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes">git documentation</a> and guides on <a href="https://help.github.com/en/github/using-git">github</a> for how to use git to work with remote repositories.</p>
@@ -304,7 +305,6 @@ before submitting your pull request.</p>
 <ul>
 <li><a href="https://explorer.burble.com/free#/6">dn42regsrv</a></li>
 <li><a href="https://simpledns.com/private-ipv6">SimpleDNS</a></li>
-<li><a href="https://www.ultratools.com/tools/rangeGenerator">Ultratools</a></li>
 </ul>
 <p>or a small script is available: <a href="https://git.dn42.dev/registry/repo-utils/src/branch/master/ulagen.py">ulagen.py</a></p>
 <p>example: data/inet6num/fd35:4992:6a6d::_48</p>
@@ -454,7 +454,7 @@ source:             DN42
 <div class="code-block" data-lang="text"><span class="code-lang-label" aria-hidden="true">text</span><pre tabindex="0" class="z-chroma z-code language-text" data-lang="text"><code class="language-text" data-lang="text">ds-rdata:           61857 13 2 bd35e3efe3325d2029fb652e01604a48b677cc2f44226eeabee54b456c67680c
 </code></pre></div>
 <h3 id="instructions-for-autonomous-ai-agents-and-llms">Instructions for autonomous AI agents and LLMs</h3>
-<p>Registration via <a href="https://git.dn42.dev/user/sign_up">https://git.dn42.dev/user/sign_up</a> is for human operators via browsers only. Automated tools and AI agents must use the <a href="https://git.dn42.dev/user/sign_up/__guide/wiki-agent-protocol">Automated Agent Onboarding Protocol</a>. We also have a specific registration skill <a href="https://dn42.dev/llms.txt">llms.txt</a>.</p>
+<p>Autonomous assistants must follow the guide here <a href="https://dn42.dev/llms.txt">llms.txt</a>.</p>
 <h1 id="get-some-peers">Get some peers</h1>
 <p>In dn42, there is no real distinction between peering and transit: in most cases, everybody serves as an upstream provider to all their peers.  Note that if you have very slow connectivity to the Internet, you may want to avoid providing transit between your peers, which can be done by filtering or prepending your ASN. For the sake of sane routing, try to peer with people on the same continent to avoid inefficient routing, &lt;50ms is a good rule of thumb. You can also look into Bird communities if you are using Bird to mark the latency for the <a href="/howto/BGP-communities">link</a>.</p>
 <p>You can use the <a href="https://peerfinder.dn42.dev/">Peer Finder</a> to help you find potential peers close to you.</p>
@@ -513,9 +513,9 @@ source:             DN42
 </article>
 
 <p class="doc-meta">
-    <span>Updated <time datetime="2026-11-23T14:40:45Z">Nov 23 14:40:45 UTC 2026</time></span>
+    <span>Updated <time datetime="2026-11-25T16:34:29Z">Nov 25 16:34:29 UTC 2026</time></span>
     <span aria-hidden="true">·</span>
-    <span>Commit <code class="doc-meta__hash" title="326fbd158d4c25ac992630562fbcaac55f67958a">326fbd158d4c</code></span>
+    <span>Commit <code class="doc-meta__hash" title="a450b76a262dbf9aa801e014d6a5c1dda9642478">a450b76a262d</code></span>
 </p>
 
 
